@@ -35,6 +35,12 @@ analysis. It is not independent human expert adjudication, cannot establish a
 silicon-failure rate, and does not convert the author-confirmed `14/57`
 lower-bound count into a validated prevalence estimate.
 
+Two reviewer configurations share a vendor family with two of the three
+generator configurations. No reviewer model generated any candidate, and the
+cross-vendor panels agree with each other and with the calibration controls,
+which limits but does not eliminate the possibility of vendor-correlated blind
+spots. Human sample review remains the control for that residual risk.
+
 ## Reproduction boundary
 
 The schema and runner are public. Candidate mappings, raw reviewer transcripts,

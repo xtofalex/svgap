@@ -5,6 +5,8 @@ versioning once the manifest and report contracts reach public v0.1.
 
 ## Unreleased
 
+## 0.1.0-alpha.1 — 2026-07-02
+
 ### Added
 
 - Versioned TOML candidate manifest and JSON report schema.
@@ -22,3 +24,12 @@ versioning once the manifest and report contracts reach public v0.1.
   agreement analysis, explicitly separated from human expert review.
 - Deterministic, path-free public export of all 72 reset-release candidates.
 - Search-bounded prior-art and novelty positioning through June 2026.
+
+### Changed
+
+- Human adjudication blinding for the published taskpack is documented as
+  procedural now that the model-labeled candidate bundle is public.
+- Synthetic adjudication records the vendor overlap between reviewer and
+  generator configurations.
+- Citation metadata carries the release version, author affiliation, and
+  ORCID.

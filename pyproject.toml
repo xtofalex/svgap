@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "svgap"
-version = "0.1.0.dev0"
+version = "0.1.0a1"
 description = "Production-readiness evaluation for AI-generated RTL"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
-authors = [{ name = "Shraddha S", email = "shsridhar@nvidia.com" }]
+authors = [{ name = "Shraddha Sridhar", email = "shsridhar@nvidia.com" }]
 classifiers = [
   "Development Status :: 2 - Pre-Alpha",
   "License :: OSI Approved :: Apache Software License",
