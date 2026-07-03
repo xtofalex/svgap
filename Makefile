@@ -1,4 +1,4 @@
-.PHONY: doctor test examples
+.PHONY: doctor test examples verify-artifacts
 
 doctor:
 	PYTHONPATH=src python3 -m svgap doctor
@@ -8,3 +8,6 @@ test:
 
 examples:
 	PYTHONPATH=src python3 -m unittest tests.test_examples -v
+
+verify-artifacts:
+	PYTHONPATH=src python3 scripts/verify_public_artifacts.py

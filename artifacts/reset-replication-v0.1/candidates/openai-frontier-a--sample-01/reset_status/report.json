@@ -1,0 +1,44 @@
+{
+  "candidate_id": "reset_status",
+  "functional": {
+    "commands": [
+      [
+        "iverilog",
+        "-g2012",
+        "-o",
+        "${SVGAP_BUILD}/sim.vvp",
+        "design.sv",
+        "tb.sv"
+      ],
+      [
+        "vvp",
+        "${SVGAP_BUILD}/sim.vvp"
+      ]
+    ],
+    "returncodes": [
+      0,
+      0
+    ],
+    "status": "pass",
+    "stderr": "\n",
+    "stdout": "\nFUNCTIONAL_PASS reset_status\ntb.sv:14: $finish called at 89 (1s)\n",
+    "tool_versions": {
+      "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+      "vvp": "Icarus Verilog runtime version 13.0 (stable) (v13_0)"
+    }
+  },
+  "gap_member": false,
+  "generated_at": "2026-07-03T01:52:40.163679+00:00",
+  "manifest": "manifest.toml",
+  "schema_version": "1.0",
+  "structural": {
+    "backend": "reference-yosys",
+    "backend_version": "0.1",
+    "diagnostics": [],
+    "findings": [],
+    "status": "pass",
+    "tool_versions": {
+      "yosys": "Yosys 0.66 (git sha1 7f8fdfd8d7bc08c749a2a969388d3425d4f369d5, clang++ 21.0.0 -fPIC -O3)"
+    }
+  }
+}

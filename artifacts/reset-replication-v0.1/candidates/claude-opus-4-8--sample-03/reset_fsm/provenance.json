@@ -1,0 +1,16 @@
+{
+  "candidate_bundle_digest": "sha256:15efd9223206e1846c699976ee63ead188757cb436bd7ad2ba97d71df7665811",
+  "evaluator_source_digest": "sha256:74cf2615141d8f619a5abd5922a03003612e33fa5f9a63d09fbfe62ce42406fa",
+  "files": {
+    "design.sv": "3441cab5a1d4d489fb433bfc827dddddf7ceeadbf86fe9020f990bd411791f8a",
+    "generation.json": "d8bc0f292abd7656bde0baa05e73ffcce6e87e9d9981ac74a32387e5f1c65a51",
+    "manifest.toml": "240d227245c942bf04733d6588d29ac525409cc48de20f327900ac970812b6eb",
+    "prompt.md": "b2801e4313e2489113c3c6cd3276b934435590882fd9a63820b48be44ac2918d",
+    "report.json": "74d455c99f77383c77547fae77e947e218172f932b3c7d37517eb3208a188dd0",
+    "task.toml": "219e1469d76742f770b338e0cf5a87dc002695b4efc5a58ba6e93868431005d2",
+    "tb.sv": "bd6eecfb86bb76dcaa3325e35a1330584618dceaaabd23a3dde3e89945ffe90b"
+  },
+  "run_id": "claude-opus-4-8--sample-03",
+  "schema_version": "2.0",
+  "task_id": "reset_fsm"
+}

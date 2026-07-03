@@ -1,0 +1,25 @@
+schema_version = "1.0"
+candidate_id = "reset_events"
+[design]
+top = "reset_events"
+sources = ["design.sv"]
+[functional]
+commands = [
+  ["iverilog", "-g2012", "-o", "${SVGAP_BUILD}/sim.vvp", "design.sv", "tb.sv"],
+  ["vvp", "${SVGAP_BUILD}/sim.vvp"],
+]
+[structural]
+backend = "reference-yosys"
+[intent]
+asynchronous_groups = []
+[[intent.clocks]]
+name = "event"
+port = "clk"
+[[intent.resets]]
+name = "external_reset"
+port = "ext_rst_n"
+active = "low"
+assertion = "async"
+deassertion = "sync"
+[output]
+report = "report.json"

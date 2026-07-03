@@ -1,0 +1,16 @@
+{
+  "candidate_bundle_digest": "sha256:a7a49add56257d4e0e3db0206682422d3ab5f7963e6f0c73149edc0b3c9c1e04",
+  "evaluator_source_digest": "sha256:74cf2615141d8f619a5abd5922a03003612e33fa5f9a63d09fbfe62ce42406fa",
+  "files": {
+    "design.sv": "07df99d13208bf0d96d1d6f99fd594376e043d97432873271db6e810363c7957",
+    "generation.json": "ff1b938ea5a38a44a7319575574fcb85a20aea33f0972f5676552ad093e226f2",
+    "manifest.toml": "f5a0d2508d16fad9891a2995fd6979b9ac1186942e06633a1a66da246d965d2d",
+    "prompt.md": "b7bab8178653276d5ca60adba17e77b62662d786968df7ddb99082ee74011a6a",
+    "report.json": "ed4e5766288823f2287630b8a32893937bdf42cd064c2c40bcb2e069ab2a5c79",
+    "task.toml": "1f9b59f882bd04b571719032b476f32eb29c3a9f8e9df083460717204836d9bd",
+    "tb.sv": "10e07a4a66060c961dbf56d1e791f68e6e2afb43f965f9ef270d7cb2492c00ec"
+  },
+  "run_id": "claude-opus-4-8--sample-01",
+  "schema_version": "2.0",
+  "task_id": "reset_config"
+}

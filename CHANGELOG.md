@@ -10,7 +10,7 @@ versioning once the manifest and report contracts reach public v0.1.
 - Versioned TOML candidate manifest and JSON report schema.
 - Functional command runner with explicit failure states.
 - Yosys-backed reference structural oracle.
-- Four paired CDC/RDC observability witnesses.
+- Four paired CDC/RDC structural-validity witnesses.
 - Gap aggregation command.
 - Research protocol, limitations, architecture, and contributor guidance.
 - Frozen-task generation and reset-release replication harnesses.
@@ -18,3 +18,7 @@ versioning once the manifest and report contracts reach public v0.1.
 - Secret-keyed blinded adjudication packets.
 - Explicit `compile_error` functional status.
 - Adversarial oracle validation for clock intent, reset waivers, and synchronizer stages.
+- Blinded four-configuration synthetic adjudication with repeat-stability and
+  agreement analysis, explicitly separated from human expert review.
+- Deterministic, path-free public export of all 72 reset-release candidates.
+- Search-bounded prior-art and novelty positioning through June 2026.

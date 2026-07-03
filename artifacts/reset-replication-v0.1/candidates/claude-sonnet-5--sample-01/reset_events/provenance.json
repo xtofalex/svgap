@@ -1,0 +1,16 @@
+{
+  "candidate_bundle_digest": "sha256:a7eee2f303369688d4f8ed9510f6dafbd8267ce6d93ab6c34d0915f421f39322",
+  "evaluator_source_digest": "sha256:74cf2615141d8f619a5abd5922a03003612e33fa5f9a63d09fbfe62ce42406fa",
+  "files": {
+    "design.sv": "4aa1cad36d5039b6d768c97d9e912e989b73d9c62ddbb57b57fea0ec1e4cec8d",
+    "generation.json": "058427c87ca263fd23827dbf8248e63286a3496a1a55805876c0f0fb80e0548f",
+    "manifest.toml": "bc8f23f1eb378d7be1ce37da80562139c299efc7af62a6b6ab787c758a2948a7",
+    "prompt.md": "47fc81393c509f0d3e12599459c91c0bfad31d1cdda13b7921fe1d134bbd3fea",
+    "report.json": "d03c49b1db17f21628096f9c08af3e2676e5fec3ecaac123a0e3c2c5aba13171",
+    "task.toml": "14f59b34514638466106922f9d18a3c5bc032962f02c69ba8bd14ec2770c2a8f",
+    "tb.sv": "55c9e9cd29a6bf56165abc095c409bc3d8b126c647fbea5e0f8de787c200491e"
+  },
+  "run_id": "claude-sonnet-5--sample-01",
+  "schema_version": "2.0",
+  "task_id": "reset_events"
+}

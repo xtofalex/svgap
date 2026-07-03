@@ -1,0 +1,10 @@
+{
+  "configuration_label": "claude-opus-4-8",
+  "generated_at": "2026-07-03T00:32:24.933136+00:00",
+  "interface_version": "Claude Code 2.1.198",
+  "provider": "claude",
+  "requested_model": "claude-opus-4-8",
+  "sample": 3,
+  "schema_version": "1.0",
+  "task": "reset_config"
+}

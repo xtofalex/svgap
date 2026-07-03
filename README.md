@@ -1,5 +1,8 @@
 # SV-Gap
 
+[![CI](https://github.com/shsridhar-beep/svgap/actions/workflows/ci.yml/badge.svg)](https://github.com/shsridhar-beep/svgap/actions/workflows/ci.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
+
 **Production-readiness evaluation for AI-generated RTL.**
 
 Functional tests answer whether sampled behavior looked correct. They do not
@@ -69,12 +72,22 @@ release requirement. Full-case independent review is pending, so `14/57` is a
 lower-bound detection count, not a validated 24.6% defect rate. See the
 [replication result](docs/reset-replication-result.md).
 
+A blinded synthetic robustness panel used four reviewer configurations with two
+isolated repeats each. Conservative consensus reproduced all 15 reference-oracle
+positives (14 among the 57 functional passes), with nominal Krippendorff alpha
+`0.989` and no unresolved target cases. This is not human expert validation; see
+the [synthetic adjudication result](docs/synthetic-adjudication-result.md).
+
 ## What v0.1 includes
 
 - A versioned intent manifest and normalized report contract.
 - A Yosys-backed reference oracle for a small set of high-confidence patterns.
 - Paired safe/unsafe examples with identical functional expectations.
 - A six-task generation pack with response normalization and provenance hashes.
+- A frozen eight-task reset-release replication with 72 portable generated-RTL
+  candidates and content-addressed evidence.
+- Blinded synthetic-review tooling with calibration, repeat stability, and
+  agreement analysis, explicitly separated from human expert adjudication.
 - Terminal and JSON reports with raw evidence and explicit inconclusive states.
 - A backend interface intended for open and commercial checker adapters.
 
@@ -89,8 +102,14 @@ See [methodology](docs/methodology.md), [architecture](docs/architecture.md),
 [limitations](docs/limitations.md), and [contributing](CONTRIBUTING.md) before
 interpreting or extending results.
 
-Public-release status and the remaining identity/ownership decisions are tracked
-in [release readiness](docs/release-readiness.md).
+The frozen 72-candidate artifact is published under
+[`artifacts/reset-replication-v0.1`](artifacts/reset-replication-v0.1) with
+portable manifests, exact prompts, testbenches, reports, and content hashes.
+The [synthetic adjudication protocol](docs/synthetic-adjudication.md) describes
+the blinded robustness panel and why it is not human expert validation.
+
+Public-release decisions and the remaining research-evidence boundary are
+tracked in [release readiness](docs/release-readiness.md).
 The skeptical [OpenAI Frontier A reanalysis](docs/skeptical-reanalysis.md) records why the
 quantitative claims were narrowed and which release blockers remain.
 

@@ -7,39 +7,50 @@ Audit date: 2026-07-02
 - Apache-2.0 license, notice, and third-party inventory are present.
 - The quickstart, limitations, security warning, contribution guide, and conduct
   policy are present.
-- Twenty-three tests pass with Yosys 0.66 and Icarus Verilog 13.0, including
+- Twenty-eight tests pass with Yosys 0.66 and Icarus Verilog 13.0, including
   adversarial oracle and JSON Schema checks.
 - A wheel builds and installs successfully in a clean temporary environment.
 - The controlled witnesses, 508-task benchmark audit, exploratory pilot, and
   72-candidate reset replication have tracked summaries and interpretation
   boundaries.
-- Generated candidates, provider responses, private adjudication mapping, and
-  blinded review packets are excluded from Git by default.
+- Raw provider responses, private adjudication mappings, and blinded review
+  packets are excluded from Git. The normalized public candidate artifact is
+  intentionally versioned.
 - A secret-keyed 72-case v0.3 blinded adjudication packet has been generated locally and verified
   not to contain model names or automated outcomes.
-- A portable 72-candidate r3 release bundle is staged locally with manifest
-  SHA-256 `bfb53f39280c3c35a417cfe827f90cb310e9239a6fba90c5c2b30d4b3ac56a00`;
-  publication is held until blinded labels are locked.
-- Four starter-issue drafts are ready in [starter-issues.md](starter-issues.md).
+- The locked eight-panel synthetic review reached nominal alpha `0.989`, exact
+  15-yes/57-no consensus across all targets, and zero unresolved cases. It is
+  reported as synthetic robustness evidence, not human validation.
+- A deterministic 72-candidate bundle is versioned at
+  `artifacts/reset-replication-v0.1`; manifest SHA-256 is
+  `6a5205559bbe1640784236e3d5fcf412dc4b3899a5c7f90dc6e1abf486fbe6d7`.
+- Four scoped starter issues are open; see [starter-issues.md](starter-issues.md).
+- The public repository is `https://github.com/shsridhar-beep/svgap`; the first
+  source snapshot targets its untagged `main` branch.
+- Author identity and contact are recorded in `CITATION.cff`. No ORCID was
+  supplied for this snapshot.
+- Publication of normalized generated RTL is authorized by the project author.
+  Raw provider transcripts remain excluded.
 
-## Decisions required before making the repository public
+## Decisions closed for the first public snapshot
 
-1. Add ORCID and affiliation to `CITATION.cff` if desired.
-2. Document release authority for the model-account context, particularly if
-   employer credentials or resources were used. Publication of normalized RTL
-   is authorized by the project author; raw provider transcripts remain excluded.
-3. Lock two independent full-case reviews before publishing model-labeled RTL.
-4. Choose whether the first public tag is `v0.1.0-alpha.1` or an untagged
-   development branch. The package currently reports `0.1.0.dev0`.
+1. Use the supplied name and email without an ORCID or affiliation claim.
+2. Publish normalized generated RTL under the scoped artifact license; exclude
+   raw provider transcripts and credentials.
+3. Lock the two-repeat, four-configuration synthetic robustness panel before
+   publishing model-labeled RTL. Do not call it human expert adjudication.
+4. Use an untagged development branch. The package reports `0.1.0.dev0`; a
+   release tag will follow only after public CI and installation feedback.
 
 ## Research blocker, not repository blocker
 
-Independent full-case expert adjudication is required before `14/57` is described
-as a validated defect rate. Until then it is an author-confirmed lower-bound
-detection count.
+Independent full-case human expert adjudication is required before `14/57` is
+described as a validated defect rate. Until then it is an author-confirmed
+lower-bound detection count. The blinded synthetic panel is a robustness check,
+not a substitute; see [synthetic adjudication](synthetic-adjudication.md).
 
 Current blinded packet: `review_packets/reset-replication-v0.3.zip`, SHA-256
 `942bcfc09d3aeafc834f64bdae69c07f08243351c332e36018d10077762655b9`.
 
-The local `origin` points to `https://github.com/shsridhar-beep/svgap.git`. No
-commit, tag, push, or public release has been created.
+The first public snapshot is intentionally untagged. No GitHub Release or
+package-registry publication is part of this milestone.

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SV-Gap synthetic reset adjudication",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decision",
+    "confidence",
+    "raw_reset_signal",
+    "operational_state",
+    "reset_synchronizer_state",
+    "evidence_lines",
+    "reasoning_summary"
+  ],
+  "properties": {
+    "decision": {"enum": ["yes", "no", "uncertain"]},
+    "confidence": {"enum": ["high", "medium", "low"]},
+    "raw_reset_signal": {"type": "string"},
+    "operational_state": {"type": "array", "items": {"type": "string"}},
+    "reset_synchronizer_state": {"type": "array", "items": {"type": "string"}},
+    "evidence_lines": {
+      "type": "array",
+      "items": {"type": "integer", "minimum": 1}
+    },
+    "reasoning_summary": {"type": "string", "minLength": 1, "maxLength": 1200}
+  }
+}

@@ -65,6 +65,18 @@ def main() -> int:
         )
         if completed.returncode not in (0, 1, 2, 3) or not (target / "report.json").is_file():
             raise SystemExit(f"replay failed for {run_id}/{task_id}: {completed.stderr}")
+        report_path = target / "report.json"
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        source_report = json.loads(
+            (source_dir / "report.json").read_text(encoding="utf-8")
+        )
+        report = make_portable_report(report, source_report)
+        report_path.write_text(
+            json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+        # The replay build directory contains disposable simulator binaries and
+        # intermediate netlists. The report retains the normalized evidence.
+        shutil.rmtree(target / "build", ignore_errors=True)
         generation = json.loads((source_dir / "generation.json").read_text(encoding="utf-8"))
         generation.pop("command", None)
         generation["interface_version"] = (
@@ -117,6 +129,40 @@ identify generation provenance and do not imply provider endorsement.
 """,
         encoding="utf-8",
     )
+    (output / "README.md").write_text(
+        """# Reset-release replication artifacts v0.1
+
+This directory contains 72 publicly redistributable generated-RTL candidates:
+eight frozen tasks, three generation configurations, and three independent
+calls per configuration. Each candidate bundle includes the exact prompt,
+normalized RTL, portable manifest, testbench, evaluation report, generation
+metadata, and content hashes. Raw provider transcripts and private blinded-case
+mappings are intentionally excluded.
+
+The reports record 57 functional passes. The reference structural oracle flags
+14 of those 57 for direct raw asynchronous reset on operational state. Treat
+that value as an author-confirmed lower-bound detection count, not a validated
+defect rate, model ranking, or silicon-failure estimate. Synthetic reviewer
+analysis is reported separately and is not a substitute for independent human
+CDC/RDC adjudication.
+
+From the repository root, replay any candidate with:
+
+```bash
+svgap check artifacts/reset-replication-v0.1/candidates/<run>/<task>/manifest.toml
+```
+
+Verify all published hashes and indexed outcomes with:
+
+```bash
+.venv/bin/python scripts/verify_public_artifacts.py
+```
+
+Generated RTL is covered by `LICENSE.generated-rtl` to the extent stated there;
+the evaluator itself is Apache-2.0.
+""",
+        encoding="utf-8",
+    )
     (output / "manifest.json").write_text(
         json.dumps(
             {
@@ -139,6 +185,15 @@ identify generation provenance and do not imply provider endorsement.
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def make_portable_report(
+    report: dict[str, object], source_report: dict[str, object]
+) -> dict[str, object]:
+    portable = dict(report)
+    portable["generated_at"] = source_report["generated_at"]
+    portable["manifest"] = "manifest.toml"
+    return portable
 
 
 if __name__ == "__main__":

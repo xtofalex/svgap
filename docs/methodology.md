@@ -11,8 +11,10 @@ often conflate:
    safety rules under explicit clock and reset intent?
 
 Two candidates can be observationally equivalent under a functional testbench
-while differing in structural validity. We call properties that the supplied
-benchmark cannot distinguish its **structural observability gap**.
+while differing in structural validity. We call the resulting measurement
+failure the **structural validity gap**: the benchmark's supplied contract and
+oracle do not identify whether the candidate satisfies the declared structural
+property. This term is distinct from control-theoretic structural observability.
 
 ## Primary metric
 

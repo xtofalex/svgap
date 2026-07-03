@@ -12,6 +12,23 @@ Good first contributions include:
 - a reproduced model run with immutable generation metadata;
 - an expert adjudication that explains a false positive or false negative.
 
+## Development setup
+
+Install Python 3.11+, Yosys, and Icarus Verilog, then:
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -e ".[dev]"
+.venv/bin/python -m svgap doctor
+.venv/bin/python -m unittest discover -s tests -v
+```
+
+Pull requests run the same suite on GitHub Actions. Keep generated reports,
+provider transcripts, blinded mappings, and credentials out of commits; the
+repository `.gitignore` excludes the standard local locations.
+
+## Evaluation changes
+
 Every new rule or backend must document its evidence, limitations, version, and
 failure behavior. Inconclusive analysis must return `unknown`, never `pass`.
 

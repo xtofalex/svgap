@@ -18,6 +18,11 @@ SV-Gap v0.1 intentionally favors auditable conclusions over broad coverage.
   set/reset cells, mux hazards, and broader protocols remain incomplete.
 - Benchmark interface/scoring detection is heuristic. Reported negative counts
   are not a validated census until negative samples are manually reviewed.
+- The core evaluator and shipped EDA dependencies are open source, but the
+  generation study and synthetic robustness panel used proprietary model
+  endpoints. Their prompts, normalized artifacts, schemas, and analysis code
+  are public; exact model replay is not an open-tool-only workflow and is not a
+  runtime dependency of SV-Gap.
 
 The absence of a mature, broadly accessible open-source CDC/RDC signoff tool is
 itself an ecosystem limitation. SV-Gap therefore keeps checker execution behind

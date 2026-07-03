@@ -1,0 +1,16 @@
+{
+  "candidate_bundle_digest": "sha256:68ff1ce77445adc9687aa33eaa225fe7c7fa259f384c7c9662011187c6e26765",
+  "evaluator_source_digest": "sha256:74cf2615141d8f619a5abd5922a03003612e33fa5f9a63d09fbfe62ce42406fa",
+  "files": {
+    "design.sv": "d927c00480a933263da8982095505656d1cea5345e96bcb64adca23b5c8a16ff",
+    "generation.json": "be051414a4298eda7538182a7a97a32ba4a58a7d56638550ec939033ba28f4d2",
+    "manifest.toml": "90cc7b3970a73031e02bc32dc8799b174f8c688641f637becea5923f30063f78",
+    "prompt.md": "d42bcb31f0303f68e397d40e1bf40da059f575506ebedc8dde862e0ec37a0d35",
+    "report.json": "4ac1685ca49f55758a63cbccb36016b5a709aca63b36bd1f19a647fa445c6082",
+    "task.toml": "e35cdc07ac99b9b3e0d9b7fbe377bc743311bd18cfbf31b8be76bfad0ed78cc7",
+    "tb.sv": "1daf2f1f9f11bd8337975cae740f2fc89354113ac8dfc1b96175eccc08c05256"
+  },
+  "run_id": "claude-sonnet-5--sample-03",
+  "schema_version": "2.0",
+  "task_id": "reset_watchdog"
+}

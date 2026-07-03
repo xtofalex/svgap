@@ -6,10 +6,11 @@
 
 ## Draft abstract
 
-Benchmarks for AI-generated register-transfer level designs primarily score
-compilation and sampled functional behavior. Those outcomes do not establish
-that a design is safe across asynchronous clock and reset boundaries. We define
-the structural observability gap: production-relevant structural properties
+Benchmarks for AI-generated register-transfer level designs score combinations
+of compilation, simulation, formal equivalence, lint, synthesis quality, and
+security policy. Those outcomes do not establish that a design is safe across
+asynchronous clock and reset boundaries. We define the structural validity gap:
+production-relevant structural properties
 that cannot be distinguished using a benchmark's supplied specification,
 metadata, and oracle. Four controlled witnesses pair RTL implementations that
 receive the same coarse functional pass verdict while differing in clock- or
@@ -28,9 +29,15 @@ schema, and reference implementation to support reproducible measurement.
 
 A follow-on frozen reset-release replication generated 72 candidates over eight
 tasks and three model configurations. Functional simulation accepted 57; 14 of
-at least 14 of those 57 contain an author-confirmed raw asynchronous reset path
+those 57 contain an author-confirmed raw asynchronous reset path
 to operational state. These taskpack-conditional detections remain provisional
 until full-case independent adjudication.
+
+A blinded synthetic robustness panel (four reviewer configurations, two
+isolated repeats) reaches nominal Krippendorff alpha `0.989` and conservative
+consensus identical to the reference-oracle split (15/72 overall, 14/57 among
+functional passes, zero unresolved). This is supporting reproducibility
+evidence, not a replacement for human CDC/RDC expert adjudication.
 
 ## Results sequence
 

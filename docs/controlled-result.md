@@ -1,4 +1,4 @@
-# Controlled observability result
+# Controlled structural-validity result
 
 Run date: 2026-07-02
 

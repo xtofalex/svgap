@@ -31,6 +31,23 @@ structural failure belongs to a candidate that did not elaborate under Icarus.
 This first review is recorded, but independent expert adjudication remains
 required before submission.
 
+## Blinded synthetic robustness check
+
+Four reviewer configurations not used for candidate generation independently
+labeled all 72 cases twice under secret-keyed identifiers, alongside 12 hidden
+calibration controls per repeat. Seven repeat panels scored 12/12 calibration;
+one scored 11/12. Exact within-configuration target agreement was 72/72 for
+three configurations and 71/72 for the fourth. Nominal Krippendorff alpha over
+all eight repeat panels was `0.989`.
+
+Under the prespecified conservative consensus rule, the panel labeled 15/72
+targets `yes` and 57/72 `no`, with zero unresolved. Among the 57 functional
+passes, consensus was 14 `yes` and 43 `no`. This matches the reference oracle on
+all 72 cases. It is a strong reproducibility check on the structural distinction,
+but synthetic reviewers are not independent human CDC/RDC experts and cannot
+establish false-negative recall outside this frozen taskpack. See the full
+[synthetic result](synthetic-adjudication-result.md).
+
 ## Task replication
 
 Detected cases appeared in five of eight hand-authored tasks:

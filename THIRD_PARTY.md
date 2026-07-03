@@ -25,3 +25,9 @@ Generated RTL artifacts identify the model provider and exact requested model as
 provenance. They do not include provider software, weights, or raw transcripts.
 The project applies Apache-2.0 only to rights owned or controlled by the artifact
 releaser; provider names do not imply endorsement.
+
+The optional synthetic-adjudication study likewise invokes authenticated model
+clients that are not open-source EDA dependencies. The public runner is
+provider-adapter code; users can replace those adapters, but an exact replay of
+the locked panel requires access to the named model endpoints. Core `svgap`
+installation and evaluation do not require either client.

@@ -1,0 +1,10 @@
+{
+  "configuration_label": "claude-sonnet-5",
+  "generated_at": "2026-07-03T00:32:04.921216+00:00",
+  "interface_version": "Claude Code 2.1.198",
+  "provider": "claude",
+  "requested_model": "claude-sonnet-5",
+  "sample": 3,
+  "schema_version": "1.0",
+  "task": "reset_timer"
+}

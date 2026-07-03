@@ -20,3 +20,9 @@ Build the release candidate locally with:
 
 The staging directory is excluded from Git until review lock and a final secret,
 personal-path, and license scan are complete.
+
+For the first public snapshot, "review lock" means completion of the blinded
+four-configuration, two-repeat synthetic panel before generation identities are
+published. That sequencing protects the recorded synthetic labels from identity
+leakage; it does not satisfy the separate requirement for independent human
+CDC/RDC expert adjudication of a claim-bearing defect rate.

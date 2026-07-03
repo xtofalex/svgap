@@ -1,0 +1,10 @@
+{
+  "configuration_label": "openai-frontier-a",
+  "generated_at": "2026-07-03T00:31:37.292070+00:00",
+  "interface_version": "codex-cli 0.143.0-alpha.31",
+  "provider": "codex",
+  "requested_model": "openai-frontier-a",
+  "sample": 3,
+  "schema_version": "1.0",
+  "task": "reset_credits"
+}
