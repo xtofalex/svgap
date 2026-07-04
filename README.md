@@ -53,6 +53,14 @@ python3 -m venv .venv
 .venv/bin/svgap check examples/level_crossing/safe/manifest.toml
 ```
 
+Or use the checksum-pinned open-tool container:
+
+```bash
+docker run --rm -v "$PWD:/work" \
+  ghcr.io/shsridhar-beep/svgap:v0.2.0-alpha.1 \
+  check examples/level_crossing/unsafe/manifest.toml
+```
+
 The unsafe example is expected to pass its functional test and fail the
 structural oracle. The safe example is expected to pass both.
 

@@ -24,7 +24,9 @@ Audit date: 2026-07-02
 - A deterministic 72-candidate bundle is versioned at
   `artifacts/reset-replication-v0.1`; manifest SHA-256 is
   `6a5205559bbe1640784236e3d5fcf412dc4b3899a5c7f90dc6e1abf486fbe6d7`.
-- Four scoped starter issues are open; see [starter-issues.md](starter-issues.md).
+- Seven scoped issues exist; the SARIF/HTML and reset-v0.2 issues were delivered
+  in v0.2, while five contributor-facing issues remain open under the v0.3
+  community-adoption milestone. See [starter-issues.md](starter-issues.md).
 - The public repository is `https://github.com/shsridhar-beep/svgap`. Release
   `v0.1.0-alpha.1` is tagged, published on GitHub, and archived at Zenodo
   (`doi:10.5281/zenodo.21152349`).
@@ -63,7 +65,7 @@ Current blinded packet: `review_packets/reset-replication-v0.3.zip`, SHA-256
 No package-registry publication is part of this milestone; installation is
 from source or the tagged archive.
 
-## v0.2 alpha candidate
+## v0.2 alpha released
 
 - The research scope is explicitly existential and no longer treats population
   estimation or human adjudication as a release gate.
@@ -78,6 +80,9 @@ from source or the tagged archive.
 - Release automation builds wheels, source distributions, schemas, taskpack and
   result archives, checksums, and a multi-architecture GHCR image.
 
-The v0.2 tag, GitHub prerelease, branch protection, and Zenodo ingestion are
-repository-state steps performed only after the expanded CI passes on public
-`main`.
+Tag `v0.2.0-alpha.1` and its GitHub prerelease were published from tested commit
+`6839263`. The release carries a wheel, source distribution, schemas, v0.1
+result archive, v0.2 taskpack archive, and SHA-256 manifest. Public `main`
+requires the Python 3.11–3.13, package, and container checks; force pushes and
+branch deletion are disabled. Zenodo ingestion occurs after the GitHub release,
+so its version DOI is recorded only after Zenodo assigns it.
