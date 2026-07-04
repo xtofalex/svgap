@@ -1,7 +1,7 @@
 # SV-Gap
 
 [![CI](https://github.com/shsridhar-beep/svgap/actions/workflows/ci.yml/badge.svg)](https://github.com/shsridhar-beep/svgap/actions/workflows/ci.yml)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21152348.svg)](https://doi.org/10.5281/zenodo.21152348)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21198938.svg)](https://doi.org/10.5281/zenodo.21198938)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 
 **Production-readiness evaluation for AI-generated RTL.**
@@ -216,8 +216,10 @@ quantitative claims were narrowed and which release blockers remain.
 ## Citing
 
 Cite the exact archived version used. The
-[concept DOI](https://doi.org/10.5281/zenodo.21152348) resolves to the latest
-Zenodo version; machine-readable metadata is in [CITATION.cff](CITATION.cff).
+[v0.2.0-alpha.1 DOI](https://doi.org/10.5281/zenodo.21198939) identifies that
+release, while the [concept DOI](https://doi.org/10.5281/zenodo.21198938)
+resolves to the latest GitHub-integrated version. Machine-readable metadata is
+in [CITATION.cff](CITATION.cff).
 
 ## License
 

@@ -13,7 +13,10 @@ authors:
     orcid: "https://orcid.org/0009-0009-8522-5033"
 identifiers:
   - type: doi
-    value: 10.5281/zenodo.21152348
-    description: "Zenodo concept DOI for all SV-Gap versions; cite the exact version DOI when available"
+    value: 10.5281/zenodo.21198939
+    description: "Zenodo DOI for SV-Gap v0.2.0-alpha.1"
+  - type: doi
+    value: 10.5281/zenodo.21198938
+    description: "Canonical Zenodo concept DOI for GitHub-integrated SV-Gap releases"
 repository-code: "https://github.com/shsridhar-beep/svgap"
 url: "https://github.com/shsridhar-beep/svgap"
