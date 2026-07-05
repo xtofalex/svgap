@@ -3,6 +3,18 @@
 SV-Gap is aimed at applied AI researchers, RTL engineers, and verification
 engineers moving generated hardware from demonstrations toward products.
 
+## AI-assisted contributions
+
+AI-assisted contributions are welcome. The submitting contributor must review
+the change, disclose substantial automation, verify tests and licensing, and
+take responsibility for the result. Unreviewed bulk-generated submissions,
+fabricated evidence, and contributions containing confidential material may be
+closed.
+
+Contribution method is not a substitute for technical review. The same
+evidence, reproducibility, scope, and claim-boundary requirements apply to
+human-written and AI-assisted changes.
+
 Good first contributions include:
 
 - a paired safe/unsafe fixture for an existing rule;
