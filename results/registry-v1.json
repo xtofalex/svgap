@@ -1,0 +1,269 @@
+{
+  "claim_boundary": "Profiles describe submitted digital RTL evidence under configured open-source checks. They are not silicon signoff, population estimates, or model rankings.",
+  "diagnosis": [
+    {
+      "model": "gpt-5.4",
+      "overall": "fail",
+      "profile": [
+        {
+          "check": "functional-oracle:status",
+          "evidence": "expected=answered actual=answered",
+          "pass": true
+        },
+        {
+          "check": "functional-oracle:evidence",
+          "evidence": "present",
+          "pass": true
+        },
+        {
+          "check": "functional-oracle:resolution",
+          "evidence": "present or not required",
+          "pass": true
+        },
+        {
+          "check": "configured-structural-rule:status",
+          "evidence": "expected=failed actual=failed",
+          "pass": true
+        },
+        {
+          "check": "configured-structural-rule:evidence",
+          "evidence": "present",
+          "pass": true
+        },
+        {
+          "check": "configured-structural-rule:resolution",
+          "evidence": "present or not required",
+          "pass": true
+        },
+        {
+          "check": "production-safety:status",
+          "evidence": "expected=unanswered actual=failed",
+          "pass": false
+        },
+        {
+          "check": "production-safety:evidence",
+          "evidence": "present",
+          "pass": true
+        },
+        {
+          "check": "production-safety:resolution",
+          "evidence": "present or not required",
+          "pass": true
+        }
+      ],
+      "provenance": "results/baselines/v0.1/diagnosis/gpt-5.4/provenance.json",
+      "provider": "OpenAI",
+      "result": "results/baselines/v0.1/diagnosis/gpt-5.4/result.json",
+      "run_id": "2026-07-05-xhigh-01",
+      "submission": "results/baselines/v0.1/diagnosis/gpt-5.4/submission.json"
+    },
+    {
+      "model": "openai-frontier-a",
+      "overall": "pass",
+      "profile": [
+        {
+          "check": "functional-oracle:status",
+          "evidence": "expected=answered actual=answered",
+          "pass": true
+        },
+        {
+          "check": "functional-oracle:evidence",
+          "evidence": "present",
+          "pass": true
+        },
+        {
+          "check": "functional-oracle:resolution",
+          "evidence": "present or not required",
+          "pass": true
+        },
+        {
+          "check": "configured-structural-rule:status",
+          "evidence": "expected=failed actual=failed",
+          "pass": true
+        },
+        {
+          "check": "configured-structural-rule:evidence",
+          "evidence": "present",
+          "pass": true
+        },
+        {
+          "check": "configured-structural-rule:resolution",
+          "evidence": "present or not required",
+          "pass": true
+        },
+        {
+          "check": "production-safety:status",
+          "evidence": "expected=unanswered actual=unanswered",
+          "pass": true
+        },
+        {
+          "check": "production-safety:evidence",
+          "evidence": "present",
+          "pass": true
+        },
+        {
+          "check": "production-safety:resolution",
+          "evidence": "present or not required",
+          "pass": true
+        }
+      ],
+      "provenance": "results/baselines/v0.1/diagnosis/openai-frontier-a/provenance.json",
+      "provider": "OpenAI",
+      "result": "results/baselines/v0.1/diagnosis/openai-frontier-a/result.json",
+      "run_id": "2026-07-05-xhigh-01",
+      "submission": "results/baselines/v0.1/diagnosis/openai-frontier-a/submission.json"
+    }
+  ],
+  "generated_from": "checked-in immutable reports; regenerate with scripts/build_adoption_baseline.py",
+  "generation": [
+    {
+      "candidate_reports": 24,
+      "finding_counts": {
+        "REF-RDC-001": 1
+      },
+      "functional_pass_structural_fail": 1,
+      "functional_statuses": {
+        "compile_error": 3,
+        "fail": 4,
+        "pass": 17
+      },
+      "model": "claude-opus-4-8",
+      "source": "artifacts/reset-replication-v0.1/candidates",
+      "structural_statuses": {
+        "fail": 1,
+        "pass": 23
+      }
+    },
+    {
+      "candidate_reports": 24,
+      "finding_counts": {
+        "REF-RDC-001": 9
+      },
+      "functional_pass_structural_fail": 7,
+      "functional_statuses": {
+        "compile_error": 3,
+        "fail": 2,
+        "pass": 19
+      },
+      "model": "claude-sonnet-5",
+      "source": "artifacts/reset-replication-v0.1/candidates",
+      "structural_statuses": {
+        "fail": 8,
+        "pass": 16
+      }
+    },
+    {
+      "candidate_reports": 24,
+      "finding_counts": {
+        "REF-RDC-001": 7
+      },
+      "functional_pass_structural_fail": 6,
+      "functional_statuses": {
+        "fail": 3,
+        "pass": 21
+      },
+      "model": "openai-frontier-a",
+      "source": "artifacts/reset-replication-v0.1/candidates",
+      "structural_statuses": {
+        "fail": 6,
+        "pass": 18
+      }
+    }
+  ],
+  "registry_id": "svgap-public-results-v0.1",
+  "repair": [
+    {
+      "model": "gpt-5.4",
+      "overall": "pass",
+      "profile": [
+        {
+          "check": "same_candidate_id",
+          "evidence": "before=repair-reset-release after=repair-reset-release",
+          "pass": true
+        },
+        {
+          "check": "same_structural_backend",
+          "evidence": "before=reference-yosys after=reference-yosys",
+          "pass": true
+        },
+        {
+          "check": "target_present_before",
+          "evidence": "REF-RDC-001",
+          "pass": true
+        },
+        {
+          "check": "target_removed_after",
+          "evidence": "none",
+          "pass": true
+        },
+        {
+          "check": "functional_pass_after",
+          "evidence": "pass",
+          "pass": true
+        },
+        {
+          "check": "structural_pass_after",
+          "evidence": "pass",
+          "pass": true
+        },
+        {
+          "check": "no_new_rule_regression",
+          "evidence": "none",
+          "pass": true
+        }
+      ],
+      "provenance": "results/baselines/v0.1/repair/gpt-5.4/provenance.json",
+      "provider": "OpenAI",
+      "result": "results/baselines/v0.1/repair/gpt-5.4/result.json",
+      "run_id": "2026-07-05-xhigh-01",
+      "submission": "results/baselines/v0.1/repair/gpt-5.4/submission.json"
+    },
+    {
+      "model": "openai-frontier-a",
+      "overall": "fail",
+      "profile": [
+        {
+          "check": "same_candidate_id",
+          "evidence": "before=repair-reset-release after=repair-reset-release",
+          "pass": true
+        },
+        {
+          "check": "same_structural_backend",
+          "evidence": "before=reference-yosys after=reference-yosys",
+          "pass": true
+        },
+        {
+          "check": "target_present_before",
+          "evidence": "REF-RDC-001",
+          "pass": true
+        },
+        {
+          "check": "target_removed_after",
+          "evidence": "REF-RDC-001",
+          "pass": false
+        },
+        {
+          "check": "functional_pass_after",
+          "evidence": "pass",
+          "pass": true
+        },
+        {
+          "check": "structural_pass_after",
+          "evidence": "fail",
+          "pass": false
+        },
+        {
+          "check": "no_new_rule_regression",
+          "evidence": "none",
+          "pass": true
+        }
+      ],
+      "provenance": "results/baselines/v0.1/repair/openai-frontier-a/provenance.json",
+      "provider": "OpenAI",
+      "result": "results/baselines/v0.1/repair/openai-frontier-a/result.json",
+      "run_id": "2026-07-05-xhigh-01",
+      "submission": "results/baselines/v0.1/repair/openai-frontier-a/submission.json"
+    }
+  ],
+  "schema_version": "1.0"
+}

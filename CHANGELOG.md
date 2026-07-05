@@ -5,6 +5,8 @@ versioning once the manifest and report contracts reach public v0.1.
 
 ## Unreleased
 
+## 0.3.0-alpha.1 — 2026-07-04
+
 ### Added
 
 - Intent-preserving `init` and `validate` onboarding commands and an `explain`
@@ -13,6 +15,11 @@ versioning once the manifest and report contracts reach public v0.1.
   prerecorded mock calibration suite.
 - Frontier-model generation, diagnosis, and repair challenge contracts and a
   multidimensional `challenge-score` workflow.
+- A one-command `svgap demo`, bring-your-own-RTL tutorial, and MkDocs site.
+- A schema-validated public result registry with reproducible generation,
+  diagnosis, and repair profiles.
+- A first exploratory diagnosis/repair baseline that exposes distinct
+  epistemic and structural-repair failure modes without ranking models.
 
 ### Safety boundary
 

@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import redirect_stdout
 from dataclasses import asdict
+import io
 import json
 import shutil
 import subprocess
 import sys
 import tomllib
+from tempfile import TemporaryDirectory
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -26,6 +29,14 @@ from svgap.adjudication import (
     trace_from_csv,
 )
 from svgap.functional import run_functional
+from svgap.demo import (
+    DemoError,
+    build_demo_summary,
+    materialize_demo,
+    render_demo_summary,
+    require_demo_tools,
+    write_demo_summary,
+)
 from svgap.legibility import explain_payload, render_explanation
 from svgap.manifest import ManifestError, load_manifest
 from svgap.model import EvaluationReport, FunctionalResult
@@ -43,6 +54,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
     subparsers.add_parser("doctor", help="check local open-source tool prerequisites")
+    demo = subparsers.add_parser(
+        "demo", help="run the controlled functional-pass/structural-gap demonstration"
+    )
+    demo.add_argument("--output", type=Path, help="preserve demo sources, reports, and summary")
+    demo.add_argument("--json", action="store_true", help="print the demo summary as JSON")
     initialize = subparsers.add_parser(
         "init", help="create a manifest draft without inferring design intent"
     )
@@ -139,6 +155,8 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     if args.command == "doctor":
         return doctor()
+    if args.command == "demo":
+        return run_demo_command(args.output, args.json)
     if args.command == "init":
         output = args.output.resolve()
         source = args.source.resolve()
@@ -405,6 +423,43 @@ def doctor() -> int:
         print(f"plugin     {name}: {error}")
         missing.append(f"backend:{name}")
     return 1 if missing else 0
+
+
+def run_demo_command(output: Path | None, print_json: bool) -> int:
+    try:
+        require_demo_tools()
+        if output is None:
+            with TemporaryDirectory(prefix="svgap-demo-") as directory:
+                return _execute_demo(Path(directory), None, print_json)
+        root = materialize_demo(output)
+        return _execute_demo(root, root, print_json)
+    except (DemoError, OSError, json.JSONDecodeError, ReportValidationError) as exc:
+        print(f"demo failed: {exc}", file=sys.stderr)
+        return 2
+
+
+def _execute_demo(root: Path, preserved_output: Path | None, print_json: bool) -> int:
+    if preserved_output is None:
+        materialize_demo(root)
+    with redirect_stdout(io.StringIO()):
+        safe_code = check(root / "safe/manifest.toml", False, False)
+        unsafe_code = check(root / "unsafe/manifest.toml", False, False)
+    safe_report = validate_report_payload(
+        json.loads((root / "safe/build/report.json").read_text(encoding="utf-8"))
+    )
+    unsafe_report = validate_report_payload(
+        json.loads((root / "unsafe/build/report.json").read_text(encoding="utf-8"))
+    )
+    summary = build_demo_summary(safe_report, unsafe_report)
+    if safe_code != 0 or unsafe_code != 1:
+        summary["status"] = "fail"
+    if preserved_output is not None:
+        write_demo_summary(summary, root)
+    if print_json:
+        print(json.dumps(summary, indent=2, sort_keys=True))
+    else:
+        print(render_demo_summary(summary, preserved_output), end="")
+    return 0 if summary["status"] == "pass" else 1
 
 
 def check(manifest_path: Path, skip_functional: bool, print_json: bool) -> int:

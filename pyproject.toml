@@ -4,25 +4,26 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "svgap"
-version = "0.2.0a1"
+version = "0.3.0a1"
 description = "Production-readiness evaluation for AI-generated RTL"
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Apache-2.0" }
+license = "Apache-2.0"
 authors = [{ name = "Shraddha Sridhar", email = "shsridhar@nvidia.com" }]
 classifiers = [
   "Development Status :: 2 - Pre-Alpha",
-  "License :: OSI Approved :: Apache Software License",
   "Programming Language :: Python :: 3",
   "Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)",
 ]
 
 [project.urls]
 Repository = "https://github.com/shsridhar-beep/svgap"
+Documentation = "https://shsridhar-beep.github.io/svgap/"
 Issues = "https://github.com/shsridhar-beep/svgap/issues"
 
 [project.optional-dependencies]
 dev = ["jsonschema>=4.23,<5"]
+docs = ["mkdocs-material>=9.6,<10"]
 
 [project.scripts]
 svgap = "svgap.cli:main"
@@ -32,6 +33,9 @@ reference-yosys = "svgap.backends.reference_yosys:ReferenceYosysBackend"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+svgap = ["demo_assets/**/*.sv", "demo_assets/**/*.toml"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

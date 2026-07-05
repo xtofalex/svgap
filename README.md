@@ -1,226 +1,243 @@
 # SV-Gap
 
 [![CI](https://github.com/shsridhar-beep/svgap/actions/workflows/ci.yml/badge.svg)](https://github.com/shsridhar-beep/svgap/actions/workflows/ci.yml)
+[![Documentation](https://github.com/shsridhar-beep/svgap/actions/workflows/docs.yml/badge.svg)](https://shsridhar-beep.github.io/svgap/)
+[![PyPI](https://img.shields.io/pypi/v/svgap.svg)](https://pypi.org/project/svgap/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21198938.svg)](https://doi.org/10.5281/zenodo.21198938)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 
-**Production-readiness evaluation for AI-generated RTL.**
+**Make the gap between “passes the benchmark” and “reviewable by a chip-design
+team” explicit.**
 
-Functional tests answer whether sampled behavior looked correct. They do not
-answer whether the RTL is structurally safe to deploy in silicon. SV-Gap makes
-that missing evaluation layer explicit, starting with clock-domain crossing
-(CDC) and reset-domain crossing (RDC) risks.
+SV-Gap is an open evaluation layer for AI-generated digital RTL. It preserves
+the functional result produced by a research workflow, adds declared clock and
+reset intent plus structural evidence, and reports which configured production
+questions are answered, failed, or still unknown.
 
-The primary research contribution is existential and diagnostic: functional
-success can be non-identifying for a declared production property, and a
-benchmark can omit the intent needed to evaluate that property at all. SV-Gap
-makes the mismatch explicit; it does not require a population-level defect-rate
-claim. See the [v0.2 research scope](docs/research-scope-v0.2.md) and
-[compact research note](docs/compact-research-note.md).
+> Supply RTL and evaluation evidence. SV-Gap tells you what that evidence
+> establishes, what it contradicts, what remains unresolved, and what evidence
+> would reduce the uncertainty.
 
-SV-Gap's executable scope is digital RTL and digital verification. Analog and
-mixed-signal design, modeling, and capability claims are explicitly excluded;
-see the [scope boundary](docs/scope-boundary.md).
+SV-Gap begins with clock-domain crossing (CDC) and reset-domain crossing (RDC).
+It is early research software, not a replacement for commercial signoff.
 
-> **Early reference implementation.** SV-Gap v0.2 alpha is research software, not a
-> replacement for commercial CDC/RDC signoff. Its built-in reference oracle is
-> deliberately narrow, transparent, and validated only on the shipped fixtures.
+![SV-Gap turns an offline pass into an evidence profile](docs/assets/svgap-demo.svg)
 
-## The gap it measures
+## Who this is for
+
+| You are… | Use SV-Gap to… | Opportunities to build |
+|---|---|---|
+| A frontier-model researcher | Test whether models produce evidence-complete RTL, diagnose missing evidence, and repair structural findings without regression | Model baselines, agent policies, diagnosis methods, repair methods |
+| An RTL benchmark maintainer | Learn whether tasks carry enough clock/reset intent to evaluate production-oriented properties | Benchmark adapters, intent-bearing contracts, result submissions |
+| A chip-design AI builder | Add a structural evidence gate after generation and functional testing | Pipeline integrations, CI adapters, evidence dashboards |
+| An RTL or verification engineer | Make the reason a functionally passing candidate is blocked explicit | Minimal counterexamples, disputed findings, independent evidence |
+| An EDA researcher or tool author | Compare structural backends under a shared evidence contract | Open checker backends, differential studies, digital RTL taskpacks |
+| An evaluation researcher | Study when offline success does not identify deployment validity | Abstention semantics, construct-validity studies, cross-domain methods |
+
+## See the gap in two minutes
+
+Install Python 3.11+, Yosys, and Icarus Verilog. On macOS:
+
+```bash
+brew install yosys icarus-verilog
+python3 -m venv .venv
+.venv/bin/python -m pip install svgap==0.3.0a1
+.venv/bin/svgap demo
+```
+
+The demo produces one functional result and two different structural outcomes:
 
 ```text
-generated RTL + design intent + functional result
-                       |
-                       v
-               structural checks
-                       |
-                       v
-        pass | fail | unknown | tool_error
+candidate  functional  structural  findings
+safe       pass        pass        none
+unsafe     pass        fail        REF-RDC-001
 ```
 
-The **detected** structural-validity gap is the fraction of functionally passing,
-structurally determinate candidates that trigger at least one configured
-structural rule. Until full-case expert adjudication establishes false negatives,
-it is a detection fraction—not a validated defect rate.
+Both implementations satisfy the supplied functional test. Declared
+reset-release intent separates them structurally. Preserve the complete
+reproducer with `svgap demo --output demo-output`.
 
-## Thirty-second tour
-
-Prerequisites are Python 3.11+, Yosys, and Icarus Verilog. On macOS, install
-the RTL tools with `brew install yosys icarus-verilog`. From the repository
-root:
+The same workflow is available in the open-tool container after the v0.3
+release:
 
 ```bash
-python3 -m venv .venv
-.venv/bin/python -m pip install -e .
-.venv/bin/svgap doctor
-.venv/bin/svgap check examples/level_crossing/unsafe/manifest.toml
-.venv/bin/svgap check examples/level_crossing/safe/manifest.toml
-.venv/bin/svgap explain examples/level_crossing/unsafe/build/report.json
+docker run --rm ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.1 demo
 ```
 
-Or use the checksum-pinned open-tool container:
+## Use SV-Gap on your own RTL
 
 ```bash
-docker run --rm -v "$PWD:/work" \
-  ghcr.io/shsridhar-beep/svgap:v0.2.0-alpha.1 \
-  check examples/level_crossing/unsafe/manifest.toml
-```
-
-The unsafe example is expected to pass its functional test and fail the
-structural oracle. The safe example is expected to pass both.
-
-The four controlled witness pairs reproduce this distinction end to end; see
-the [controlled result](docs/controlled-result.md). Its deliberately balanced
-`0.500` gap validates the harness and must not be interpreted as defect
-prevalence.
-
-## What you can do here
-
-**Gate your own generation pipeline.** Write a manifest declaring your
-design's clocks, resets, and asynchronous groups, then run `svgap check`
-after your functional tests. Your evaluation gains a structural dimension
-with explicit `unknown` and `tool_error` states instead of silent passes.
-The [architecture](docs/architecture.md) doc describes the manifest contract;
-`examples/` holds working templates.
-
-Start from existing RTL without allowing the tool to guess intent:
-
-```bash
-svgap init path/to/design.sv --top top --candidate-id candidate-001 \
+svgap init path/to/design.sv \
+  --top top \
+  --candidate-id experiment-001 \
   --output path/to/manifest.toml
+
 svgap validate path/to/manifest.toml
 svgap check path/to/manifest.toml
 svgap explain path/to/build/report.json
 ```
 
-`validate` identifies unanswered evidence questions before execution. `explain`
-turns a report into answered, failed, and unanswered production questions plus
-the evidence needed next.
+`init` deliberately does not guess intent. `validate` exposes missing functional,
+clock, reset, and relationship evidence before execution. `explain` translates
+the resulting report into answered, failed, and unanswered questions.
 
-**Layer onto an existing benchmark.** Import its normalized functional verdict
-with a digest binding it to the exact RTL, then add production intent and a
-structural backend. The [integration recipe](docs/integrating-existing-benchmarks.md)
-and [`examples/imported_result`](examples/imported_result) show the complete
-flow without rerunning an upstream test suite.
+Follow the complete [bring-your-own-RTL tutorial](docs/bring-your-own-rtl.md),
+including an executable manifest and imported-result path.
 
-**Rerun the reset study on your model.** The
-[reset-release taskpack](taskpacks/reset-replication-v0.1/) ships the frozen
-prompts, testbenches, and harness behind the `14/57` result. Generate your
-own samples, score them with the same oracle, and you have a comparable
-detection count for your model in an afternoon — see the
-[research protocol](docs/research-protocol.md) before interpreting it.
+## Research with SV-Gap
 
-**Audit a benchmark for structural intent.** `svgap audit` censuses a task
-set for multi-clock interfaces, declared clock/reset intent, and native
-CDC/RDC scoring — the same tooling behind the
-[benchmark audit](docs/benchmark-audit.md). Point it at your own benchmark to
-learn whether structural safety is even scorable from your task metadata.
+### Generation
 
-**Extend the oracle.** The backend boundary is one function:
-`check(manifest) -> CheckResult`. Wrap a commercial checker, write an
-independent second implementation, or contribute a witness pair or task pack
-— the [open issues](https://github.com/shsridhar-beep/svgap/issues) are
-scoped entry points, and two designed-but-unbuilt v0.2 components
-([project-specific perturbation adjudication](docs/perturbation-adjudication.md),
-[X-optimism and metastability rules](docs/category-expansion-xprop-metastability.md))
-are documented and waiting.
-Third-party checker packages can now register through the
-[`svgap.backends` entry-point SDK](docs/backend-sdk.md).
+Ask whether a model can produce RTL with passing and determinate functional and
+structural evidence—not merely code that passes a testbench.
 
-**Study frontier-model handoff capability.** The
-[`challenges/v0.1`](challenges/v0.1/) contract separates generation, diagnosis,
-and repair. It produces a legible score profile rather than a blended scalar;
-see [frontier-model research workflows](docs/frontier-model-research.md).
+### Diagnosis
 
-An automated inventory of 508 public RTL-generation tasks — from
-[VerilogEval](https://github.com/NVlabs/verilog-eval),
-[RTLLM](https://github.com/hkust-zhiyao/RTLLM), and
-[CVDP](https://github.com/NVlabs/cvdp_benchmark) — detected 12
-multi-clock tasks (2.4%) and no recognizable native CDC/RDC scoring artifacts.
-These are heuristic detector counts, not a validated census; see the
-[benchmark audit](docs/benchmark-audit.md) for definitions, revisions, and
-interpretation limits.
+Ask whether a model distinguishes evidence that establishes a property,
+evidence that contradicts it, and a question that remains unresolved.
 
-In a first 18-candidate generation pilot, all 18 candidates passed their
-functional tests; 3 of 16 structurally determinate candidates failed the reset
-release rule, while 2 were held out as Yosys frontend tool errors. This is an
-exploratory case-study result, not a prevalence estimate or model ranking. See
-the [generation pilot](docs/pilot-result.md).
+### Repair
 
-In a locally frozen 72-call reset-release taskpack, 57 outputs passed the supplied
-Icarus tests. At least 14 of those 57 contain an author-confirmed direct raw
-asynchronous-reset connection to operational state despite a synchronized-
-release requirement. Full-case independent review is pending, so `14/57` is a
-lower-bound detection count, not a validated 24.6% defect rate. See the
-[replication result](docs/reset-replication-result.md).
+Ask whether a model removes a structural finding while preserving functional
+acceptance, checker coverage, candidate identity, and freedom from new rule
+regressions.
 
-A blinded synthetic robustness panel used four reviewer configurations with two
-isolated repeats each. Conservative consensus reproduced all 15 reference-oracle
-positives (14 among the 57 functional passes), with nominal Krippendorff alpha
-`0.989` and no unresolved target cases. This is not human expert validation; see
-the [synthetic adjudication result](docs/synthetic-adjudication-result.md).
+The public [`challenges/v0.1`](challenges/v0.1/) contract defines all three
+tracks. Profiles remain multidimensional rather than hiding failure modes in a
+single score. See the [baseline registry](results/README.md) to reproduce or
+submit a result.
 
-## What the current alpha includes
+## Current evidence
 
-- A versioned intent manifest and normalized report contract.
-- A Yosys-backed reference oracle for a small set of high-confidence patterns.
-- Paired safe/unsafe examples with identical functional expectations.
-- A six-task generation pack with response normalization and provenance hashes.
-- A frozen eight-task reset-release replication with 72 portable generated-RTL
-  candidates and content-addressed evidence.
-- Blinded synthetic-review tooling with calibration, repeat stability, and
-  agreement analysis, explicitly separated from human expert adjudication.
-- Terminal and JSON reports with raw evidence and explicit inconclusive states.
-- A backend interface intended for open and commercial checker adapters.
-- Content-bound imports for functional results produced by existing benchmark
-  or verification pipelines.
-- Discoverable third-party checker backends, SARIF/HTML export, a reusable
-  GitHub Action, and a pinned open-tool container.
-- Reset taskpack v0.2 with corrected timer intent and calibrated safe/unsafe
-  references for all eight tasks.
-- Intent-preserving onboarding and report explanation commands.
-- A generic prerecorded digital-trace adjudication scaffold with calibration;
-  the real perturbation instrumenter remains blocked and unimplemented.
-- Frontier-model generation, diagnosis, and repair challenge contracts with
-  multidimensional score profiles.
+- Four controlled safe/unsafe CDC/RDC witness pairs pass the same functional
+  tests and are separated by declared structural rules.
+- A frozen 72-call reset-release study contains 57 functional passes; at least
+  14 contain the declared raw-reset pattern.
+- A heuristic inventory covers 508 public RTL-generation tasks across
+  VerilogEval, RTLLM, and CVDP.
+- A small exploratory frontier-model baseline exposes a crossed failure mode:
+  one configuration preserves epistemic uncertainty but misses the repair;
+  another repairs the configured finding but overstates what the diagnosis
+  evidence establishes.
 
-## What the current alpha does not claim
+These are an executable existence result, a taskpack-conditional demonstration,
+and a heuristic inventory. They are not a population defect estimate or a model
+ranking.
 
-- Silicon signoff, exhaustive CDC/RDC coverage, or formal proof.
-- General X-propagation or metastability modeling.
-- Correctness without accurate clocks, resets, and asynchronous relationships.
-- That every warning corresponds to a realizable field failure.
+[Controlled result](docs/controlled-result.md) ·
+[Reset result](docs/reset-replication-result.md) ·
+[Benchmark audit](docs/benchmark-audit.md) ·
+[Compact research note](docs/compact-research-note.md)
 
-See [methodology](docs/methodology.md), [architecture](docs/architecture.md),
-[limitations](docs/limitations.md), and [contributing](CONTRIBUTING.md) before
-interpreting or extending results.
+## Build with us
 
-The frozen 72-candidate artifact is published under
-[`artifacts/reset-replication-v0.1`](artifacts/reset-replication-v0.1) with
-portable manifests, exact prompts, testbenches, reports, and content hashes.
-The [synthetic adjudication protocol](docs/synthetic-adjudication.md) describes
-the blinded robustness panel and why it is not human expert validation.
+SV-Gap is shared research infrastructure. You do not need to agree with the
+reference checker to contribute.
 
-Public-release decisions and the remaining research-evidence boundary are
-tracked in [release readiness](docs/release-readiness.md).
-The skeptical [OpenAI Frontier A reanalysis](docs/skeptical-reanalysis.md) records why the
-quantitative claims were narrowed and which release blockers remain.
+### Add a taskpack
 
-## Contribution paths
+Create public digital RTL tasks with explicit clock/reset intent, executable
+functional evidence, and calibrated references.
 
-1. Add a structural-risk task pack.
-2. Add a checker backend.
-3. Add a benchmark or functional-result adapter.
-4. Contribute reproduced model outputs and expert-adjudicated evidence.
+### Add a checker backend
 
-## Citing
+Implement one operation:
+
+```python
+check(manifest) -> CheckResult
+```
+
+Backends preserve `pass`, `fail`, `unknown`, and `tool_error`. Missing intent or
+unsupported syntax must never become a pass. See the
+[backend SDK](docs/backend-sdk.md).
+
+### Add a benchmark adapter
+
+Import an existing benchmark’s functional result while binding it
+cryptographically to the evaluated RTL.
+
+### Contribute model evidence
+
+Submit generation, diagnosis, or repair results using the public registry
+contract. Negative results, abstentions, and disagreements are welcome.
+
+### Challenge the oracle
+
+Contribute a minimal false positive, false negative, competing backend result,
+or expert adjudication. Disagreement is evidence, not a project failure.
+
+[Good first issues](https://github.com/shsridhar-beep/svgap/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) ·
+[Contribution guide](CONTRIBUTING.md) ·
+[Discussions](https://github.com/shsridhar-beep/svgap/discussions) ·
+[Roadmap](ROADMAP.md)
+
+## High-value open research problems
+
+1. Which production-oriented properties are absent from current RTL benchmarks?
+2. Can models recognize missing intent instead of inventing it?
+3. Does structural feedback improve repair without creating functional regressions?
+4. How stable are results across independent open checker backends?
+5. What evidence package makes generated RTL reviewable downstream?
+6. How should multidimensional evidence be compared without hiding unknown states?
+
+## Scope and limitations
+
+SV-Gap covers digital RTL and digital verification. See the explicit
+[scope boundary](docs/scope-boundary.md).
+
+The built-in Yosys backend is deliberately narrow and is not signoff-grade. A
+structural pass means only that the configured backend emitted no failing
+finding within its declared coverage. It is not proof of silicon safety.
+
+The generic trace-adjudication scaffold uses prerecorded fixtures. The real
+reset-release perturbation instrumenter remains unimplemented pending patent
+and employer review.
+
+See [methodology](docs/methodology.md), [architecture](docs/architecture.md), and
+[limitations](docs/limitations.md) before interpreting claim-bearing results.
+
+## Install and integrate
+
+### From PyPI
+
+```bash
+python3 -m pip install svgap==0.3.0a1
+svgap doctor
+```
+
+### From source
+
+```bash
+git clone https://github.com/shsridhar-beep/svgap
+cd svgap
+python3 -m venv .venv
+.venv/bin/python -m pip install -e .
+.venv/bin/svgap doctor
+```
+
+### GitHub Actions
+
+Use the reusable action in [`.github/actions/svgap`](.github/actions/svgap) to
+attach normalized structural evidence to an existing RTL pipeline.
+
+### Requirements
+
+- Python 3.11–3.13
+- Yosys and Icarus Verilog for the built-in backend
+- Only open-source tools are assumed by default
+
+## Community and citation
+
+Ask integration questions and propose research directions in
+[GitHub Discussions](https://github.com/shsridhar-beep/svgap/discussions). Use
+the issue templates for reproducible bugs, taskpacks, backends, and false
+results. See [GOVERNANCE.md](GOVERNANCE.md), [SECURITY.md](SECURITY.md), and
+[SUPPORT.md](SUPPORT.md).
 
 Cite the exact archived version used. The
-[v0.2.0-alpha.1 DOI](https://doi.org/10.5281/zenodo.21198939) identifies that
-release, while the [concept DOI](https://doi.org/10.5281/zenodo.21198938)
-resolves to the latest GitHub-integrated version. Machine-readable metadata is
-in [CITATION.cff](CITATION.cff).
-
-## License
+[v0.2.0-alpha.1 DOI](https://doi.org/10.5281/zenodo.21198939) identifies the
+current archived research release; the
+[concept DOI](https://doi.org/10.5281/zenodo.21198938) resolves to the latest
+GitHub-integrated version.
 
 Apache-2.0. External tools and imported datasets retain their own licenses.

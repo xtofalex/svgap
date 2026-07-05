@@ -1,0 +1,45 @@
+site_name: SV-Gap
+site_description: Production-evidence evaluation for AI-generated digital RTL
+site_url: https://shsridhar-beep.github.io/svgap/
+repo_url: https://github.com/shsridhar-beep/svgap
+repo_name: shsridhar-beep/svgap
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: teal
+
+nav:
+  - Home: index.md
+  - Get started:
+      - Bring your own RTL: bring-your-own-rtl.md
+      - Existing benchmarks: integrating-existing-benchmarks.md
+      - CI and container: ci-and-container.md
+  - Research:
+      - Compact research note: compact-research-note.md
+      - Frontier-model workflows: frontier-model-research.md
+      - Controlled result: controlled-result.md
+      - Reset-release result: reset-replication-result.md
+      - Benchmark audit: benchmark-audit.md
+      - Methodology: methodology.md
+      - Limitations: limitations.md
+  - Extend:
+      - Architecture: architecture.md
+      - Backend SDK: backend-sdk.md
+      - Adjudication scaffold: adjudication-scaffold.md
+      - Scope boundary: scope-boundary.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - pymdownx.details
+  - pymdownx.superfences
+
+strict: true

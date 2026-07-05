@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "challenge_id": "frontier-model-handoff-v0.1",
+  "task_id": "diagnose-production-evidence",
+  "model": "gpt-5.4",
+  "run_id": "2026-07-05-xhigh-01",
+  "responses": [
+    {
+      "question_id": "functional-oracle",
+      "status": "answered",
+      "evidence": "The supplied functional oracle reports pass and records executed Icarus commands, so the oracle accepted the candidate.",
+      "next_evidence": ""
+    },
+    {
+      "question_id": "configured-structural-rule",
+      "status": "failed",
+      "evidence": "The configured reference-yosys structural backend reports fail with REF-RDC-001, meaning the candidate did not satisfy the configured reset-domain rule requiring synchronized reset deassertion.",
+      "next_evidence": ""
+    },
+    {
+      "question_id": "production-safety",
+      "status": "failed",
+      "evidence": "The supplied evidence explicitly covers only declared checks and is not silicon signoff, so it does not prove the candidate safe for every production context.",
+      "next_evidence": ""
+    }
+  ]
+}

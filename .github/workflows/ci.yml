@@ -29,6 +29,10 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Verify public artifacts
         run: python scripts/verify_public_artifacts.py
+      - name: Verify public result registry
+        run: |
+          python scripts/build_adoption_baseline.py --check
+          python scripts/verify_result_registry.py
 
   package:
     runs-on: ubuntu-latest

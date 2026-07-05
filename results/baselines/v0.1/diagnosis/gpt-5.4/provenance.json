@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "provider": "OpenAI",
+  "model": "gpt-5.4",
+  "interface": "Codex CLI 0.143.0-alpha.31",
+  "reasoning_effort": "xhigh",
+  "tools": "disabled",
+  "run_date": "2026-07-05",
+  "raw_transcript_published": false
+}

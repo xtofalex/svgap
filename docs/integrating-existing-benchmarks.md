@@ -27,7 +27,7 @@ svgap digest path/to/manifest.toml
 ```
 
 Create `functional-result.json` using
-[`schemas/functional-result-v1.json`](../schemas/functional-result-v1.json):
+[`schemas/functional-result-v1.json`](https://github.com/shsridhar-beep/svgap/blob/main/schemas/functional-result-v1.json):
 
 ```json
 {

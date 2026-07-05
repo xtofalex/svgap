@@ -1,0 +1,47 @@
+{
+  "challenge_id": "frontier-model-handoff-v0.1",
+  "claim_boundary": "This profile describes submitted digital RTL evidence under the configured functional and structural checks; it is not silicon signoff.",
+  "model": "gpt-5.4",
+  "overall": "pass",
+  "profile": [
+    {
+      "check": "same_candidate_id",
+      "evidence": "before=repair-reset-release after=repair-reset-release",
+      "pass": true
+    },
+    {
+      "check": "same_structural_backend",
+      "evidence": "before=reference-yosys after=reference-yosys",
+      "pass": true
+    },
+    {
+      "check": "target_present_before",
+      "evidence": "REF-RDC-001",
+      "pass": true
+    },
+    {
+      "check": "target_removed_after",
+      "evidence": "none",
+      "pass": true
+    },
+    {
+      "check": "functional_pass_after",
+      "evidence": "pass",
+      "pass": true
+    },
+    {
+      "check": "structural_pass_after",
+      "evidence": "pass",
+      "pass": true
+    },
+    {
+      "check": "no_new_rule_regression",
+      "evidence": "none",
+      "pass": true
+    }
+  ],
+  "run_id": "2026-07-05-xhigh-01",
+  "schema_version": "1.0",
+  "task_id": "repair-reset-domain-finding",
+  "track": "repair"
+}

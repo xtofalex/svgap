@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "challenge_id": "frontier-model-handoff-v0.1",
+  "task_id": "diagnose-production-evidence",
+  "model": "openai-frontier-a",
+  "run_id": "2026-07-05-xhigh-01",
+  "responses": [
+    {
+      "question_id": "functional-oracle",
+      "status": "answered",
+      "evidence": "The supplied functional oracle reports pass and records executed Icarus commands.",
+      "next_evidence": ""
+    },
+    {
+      "question_id": "configured-structural-rule",
+      "status": "failed",
+      "evidence": "The configured reference-yosys structural backend reports fail with REF-RDC-001: raw asynchronous reset reaches an operational state element although synchronized deassertion is required.",
+      "next_evidence": ""
+    },
+    {
+      "question_id": "production-safety",
+      "status": "unanswered",
+      "evidence": "The configured checks cover only declared rules and are explicitly not silicon signoff, so the supplied evidence does not prove safety for every production context.",
+      "next_evidence": "Provide production-context signoff evidence, including complete reset-domain and CDC analysis, timing and physical implementation checks, technology-specific verification, and validation against intended operating conditions."
+    }
+  ]
+}

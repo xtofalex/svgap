@@ -1,0 +1,57 @@
+{
+  "challenge_id": "frontier-model-handoff-v0.1",
+  "claim_boundary": "This profile describes submitted digital RTL evidence under the configured functional and structural checks; it is not silicon signoff.",
+  "model": "gpt-5.4",
+  "overall": "fail",
+  "profile": [
+    {
+      "check": "functional-oracle:status",
+      "evidence": "expected=answered actual=answered",
+      "pass": true
+    },
+    {
+      "check": "functional-oracle:evidence",
+      "evidence": "present",
+      "pass": true
+    },
+    {
+      "check": "functional-oracle:resolution",
+      "evidence": "present or not required",
+      "pass": true
+    },
+    {
+      "check": "configured-structural-rule:status",
+      "evidence": "expected=failed actual=failed",
+      "pass": true
+    },
+    {
+      "check": "configured-structural-rule:evidence",
+      "evidence": "present",
+      "pass": true
+    },
+    {
+      "check": "configured-structural-rule:resolution",
+      "evidence": "present or not required",
+      "pass": true
+    },
+    {
+      "check": "production-safety:status",
+      "evidence": "expected=unanswered actual=failed",
+      "pass": false
+    },
+    {
+      "check": "production-safety:evidence",
+      "evidence": "present",
+      "pass": true
+    },
+    {
+      "check": "production-safety:resolution",
+      "evidence": "present or not required",
+      "pass": true
+    }
+  ],
+  "run_id": "2026-07-05-xhigh-01",
+  "schema_version": "1.0",
+  "task_id": "diagnose-production-evidence",
+  "track": "diagnosis"
+}
