@@ -5,6 +5,14 @@ versioning once the manifest and report contracts reach public v0.1.
 
 ## Unreleased
 
+### Added
+
+- Public Python API: `svgap.evaluate(manifest)` returns the layered
+  `EvaluationReport`; `materialize_candidate`, `summarize_reports`, core
+  types, and exceptions are exported from the top-level package, and the CLI
+  `check` command now shares the same evaluation path. Documented in
+  [docs/python-api.md](docs/python-api.md) with an Inspect-AI adapter sketch.
+
 ## 0.3.0-alpha.3 — 2026-07-05
 
 ### Added

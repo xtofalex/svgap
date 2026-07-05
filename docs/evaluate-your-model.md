@@ -131,6 +131,13 @@ svgap pilot taskpacks/reset-replication-v0.2/tasks/reset_counter \
 declared intent, runs the functional testbench and the structural oracle, and
 writes a schema-validated `report.json`.
 
+## Path C: stay in Python
+
+Eval harnesses that live in Python (Inspect AI, custom loops) can skip the
+shell entirely: `svgap.materialize_candidate` plus `svgap.evaluate` are the
+library form of the same pipeline, and the [Python API](python-api.md) page
+includes an Inspect-AI adapter sketch.
+
 ## Aggregate and read the result
 
 ```bash

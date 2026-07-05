@@ -10,7 +10,6 @@ import subprocess
 import sys
 import tomllib
 from tempfile import TemporaryDirectory
-from datetime import datetime, timezone
 from pathlib import Path
 
 from svgap.backends.registry import BackendError, discover_backends, load_backend
@@ -28,7 +27,7 @@ from svgap.adjudication import (
     trace_digest,
     trace_from_csv,
 )
-from svgap.functional import run_functional
+from svgap.api import evaluate
 from svgap.demo import (
     DemoError,
     build_demo_summary,
@@ -39,7 +38,7 @@ from svgap.demo import (
 )
 from svgap.legibility import explain_payload, render_explanation
 from svgap.manifest import ManifestError, load_manifest
-from svgap.model import EvaluationReport, FunctionalResult
+from svgap.model import EvaluationReport
 from svgap.onboarding import manifest_readiness, render_manifest_draft
 from svgap.pilot import materialize_candidate
 from svgap.provenance import canonical_file_set_digest
@@ -588,34 +587,21 @@ def check(
         print(f"manifest error: {exc}", file=sys.stderr)
         return 2
 
-    functional = (
-        FunctionalResult(status="not_run") if skip_functional else run_functional(manifest)
-    )
     try:
-        backend = load_backend(manifest.backend)
+        report = evaluate(
+            manifest,
+            skip_functional=skip_functional,
+            manifest_label=portable_path(manifest.path),
+        )
     except (BackendError, ImportError, AttributeError) as exc:
         print(str(exc), file=sys.stderr)
         return 2
-    structural = backend.check(manifest)
-    report = EvaluationReport(
-        schema_version="1.0",
-        candidate_id=manifest.candidate_id,
-        manifest=portable_path(manifest.path),
-        functional=functional,
-        structural=structural,
-        gap_member=functional.status == "pass" and structural.status == "fail",
-        generated_at=datetime.now(timezone.utc).isoformat(),
-    )
-    manifest.report_path.parent.mkdir(parents=True, exist_ok=True)
-    payload = json.dumps(report.to_dict(), indent=2, sort_keys=True)
-    temporary_report = manifest.report_path.with_suffix(manifest.report_path.suffix + ".tmp")
-    temporary_report.write_text(payload + "\n", encoding="utf-8")
-    temporary_report.replace(manifest.report_path)
     if print_json:
-        print(payload)
+        print(json.dumps(report.to_dict(), indent=2, sort_keys=True))
     else:
         print_summary(report, manifest.report_path)
 
+    functional, structural = report.functional, report.structural
     if fail_on == "report-only":
         return 0
     if functional.status == "tool_error" or structural.status == "tool_error":

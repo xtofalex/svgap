@@ -37,6 +37,7 @@ nav:
       - Limitations: limitations.md
   - Extend:
       - Architecture: architecture.md
+      - Python API: python-api.md
       - Backend SDK: backend-sdk.md
       - Adjudication scaffold: adjudication-scaffold.md
       - Scope boundary: scope-boundary.md

@@ -108,6 +108,10 @@ the resulting report into answered, failed, and unanswered questions.
 Follow the complete [bring-your-own-RTL tutorial](docs/bring-your-own-rtl.md),
 including an executable manifest and imported-result path.
 
+The same evaluation is available as a library — `svgap.evaluate(manifest)`
+returns the layered report for Python harnesses and pipelines; see the
+[Python API](docs/python-api.md), including an Inspect-AI adapter sketch.
+
 ## Research with SV-Gap
 
 ### Generation
