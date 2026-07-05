@@ -78,10 +78,30 @@ def build_parser() -> argparse.ArgumentParser:
     explain.add_argument("--json", action="store_true")
     digest = subparsers.add_parser("digest", help="print the canonical source digest for a manifest")
     digest.add_argument("manifest", type=Path)
-    check = subparsers.add_parser("check", help="evaluate one RTL candidate")
+    check = subparsers.add_parser(
+        "check",
+        help="evaluate one RTL candidate",
+        epilog=(
+            "exit codes: 0 pass, 1 functional or structural fail, "
+            "2 tool or manifest error, 3 unknown (insufficient intent or coverage). "
+            "--fail-on narrows which outcomes gate the exit code; the report always "
+            "records the full result."
+        ),
+    )
     check.add_argument("manifest", type=Path)
     check.add_argument("--skip-functional", action="store_true")
     check.add_argument("--json", action="store_true", help="print the full report to stdout")
+    check.add_argument(
+        "--fail-on",
+        choices=("any", "gap", "report-only"),
+        default="any",
+        help=(
+            "any (default): nonzero on fail, unknown, or tool error; "
+            "gap: nonzero only for functional-pass/structural-fail candidates "
+            "(tool errors still exit 2); report-only: always exit 0 once a "
+            "report is written"
+        ),
+    )
     gap = subparsers.add_parser("gap", help="aggregate existing evaluation reports")
     gap.add_argument("reports", nargs="+", type=Path)
     audit = subparsers.add_parser("audit", help="audit a public benchmark's structural coverage")
@@ -216,7 +236,7 @@ def main(argv: list[str] | None = None) -> int:
         print(canonical_file_set_digest(manifest.path.parent, manifest.sources))
         return 0
     if args.command == "check":
-        return check(args.manifest, args.skip_functional, args.json)
+        return check(args.manifest, args.skip_functional, args.json, args.fail_on)
     if args.command == "gap":
         return gap(args.reports)
     if args.command == "audit":
@@ -462,7 +482,12 @@ def _execute_demo(root: Path, preserved_output: Path | None, print_json: bool) -
     return 0 if summary["status"] == "pass" else 1
 
 
-def check(manifest_path: Path, skip_functional: bool, print_json: bool) -> int:
+def check(
+    manifest_path: Path,
+    skip_functional: bool,
+    print_json: bool,
+    fail_on: str = "any",
+) -> int:
     try:
         manifest = load_manifest(manifest_path)
     except ManifestError as exc:
@@ -497,8 +522,12 @@ def check(manifest_path: Path, skip_functional: bool, print_json: bool) -> int:
     else:
         print_summary(report, manifest.report_path)
 
+    if fail_on == "report-only":
+        return 0
     if functional.status == "tool_error" or structural.status == "tool_error":
         return 2
+    if fail_on == "gap":
+        return 1 if report.gap_member else 0
     if functional.status == "unknown" or structural.status == "unknown":
         return 3
     return 1 if functional.status in ("fail", "compile_error") or structural.status == "fail" else 0

@@ -25,6 +25,7 @@ nav:
   - Research:
       - Compact research note: compact-research-note.md
       - Frontier-model workflows: frontier-model-research.md
+      - Evaluate your model: evaluate-your-model.md
       - Controlled result: controlled-result.md
       - Reset-release result: reset-replication-result.md
       - Benchmark audit: benchmark-audit.md

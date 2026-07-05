@@ -131,6 +131,11 @@ tracks. Profiles remain multidimensional rather than hiding failure modes in a
 single score. See the [baseline registry](results/README.md) to reproduce or
 submit a result.
 
+To run any model you control — an internal checkpoint, an API endpoint, or a
+local runtime — through a full taskpack with no provider CLI, follow
+[evaluate your model](docs/evaluate-your-model.md): your generator reads a
+prompt on stdin and prints a response; the harness does the rest.
+
 ## Current evidence
 
 - Four controlled safe/unsafe CDC/RDC witness pairs pass the same functional

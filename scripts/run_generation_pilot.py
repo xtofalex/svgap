@@ -32,9 +32,21 @@ DEFAULT_TASKS = (
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("provider", choices=("codex", "claude"))
+    parser.add_argument("provider", choices=("codex", "claude", "command"))
     parser.add_argument("--model", help="provider model name; omit for provider default")
     parser.add_argument("--label", required=True, help="stable configuration label")
+    parser.add_argument(
+        "--command",
+        help=(
+            "generation command for the 'command' provider; receives the task "
+            "prompt on stdin and must print the model response to stdout"
+        ),
+    )
+    parser.add_argument(
+        "--interface-label",
+        default="custom-command",
+        help="interface identifier recorded in provenance for the 'command' provider",
+    )
     parser.add_argument("--task-root", type=Path, default=DEFAULT_TASK_ROOT)
     parser.add_argument("--tasks", nargs="+", default=list(DEFAULT_TASKS))
     parser.add_argument("--samples", type=int, default=1)
@@ -46,7 +58,14 @@ def main() -> int:
     if args.samples < 1:
         parser.error("--samples must be positive")
     task_root = args.task_root.resolve()
-    interface_version = provider_version(args.provider)
+    if args.provider == "command":
+        if not args.command:
+            parser.error("the 'command' provider requires --command")
+        interface_version = args.interface_label
+    else:
+        if args.command:
+            parser.error("--command is only valid with the 'command' provider")
+        interface_version = provider_version(args.provider)
     failures = 0
     with tempfile.TemporaryDirectory(prefix="svgap-model-") as sandbox:
         for sample in range(1, args.samples + 1):
@@ -58,7 +77,7 @@ def main() -> int:
                 prompt = (task_dir / "prompt.md").read_text(encoding="utf-8")
                 try:
                     response, command = generate(
-                        args.provider, args.model, prompt, Path(sandbox)
+                        args.provider, args.model, prompt, Path(sandbox), args.command
                     )
                 except (OSError, subprocess.SubprocessError) as exc:
                     print(
@@ -114,8 +133,32 @@ def main() -> int:
 
 
 def generate(
-    provider: str, model: str | None, prompt: str, sandbox: Path
+    provider: str,
+    model: str | None,
+    prompt: str,
+    sandbox: Path,
+    command_line: str | None = None,
 ) -> tuple[str, list[str]]:
+    if provider == "command":
+        if not command_line:
+            raise OSError("the 'command' provider requires a generation command")
+        completed = subprocess.run(
+            command_line,
+            shell=True,
+            input=prompt,
+            cwd=sandbox,
+            env=os.environ.copy(),
+            capture_output=True,
+            text=True,
+            timeout=600,
+            check=False,
+        )
+        if completed.returncode:
+            raise subprocess.SubprocessError(completed.stderr[-4000:])
+        if not completed.stdout.strip():
+            raise subprocess.SubprocessError("generation command produced empty stdout")
+        return completed.stdout, [command_line]
+
     if provider == "codex":
         binary = require_executable("codex")
         output = sandbox / "last-message.txt"

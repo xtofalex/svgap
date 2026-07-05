@@ -5,6 +5,18 @@ versioning once the manifest and report contracts reach public v0.1.
 
 ## Unreleased
 
+### Added
+
+- Provider-agnostic `command` generation adapter: any executable that reads a
+  task prompt on stdin and prints the response on stdout can run a full
+  taskpack, with the command string and a declared interface label recorded in
+  provenance.
+- [Evaluate your model](docs/evaluate-your-model.md): the end-to-end recipe
+  for scoring an internal checkpoint or API endpoint against a taskpack
+  without any provider CLI.
+- `svgap check --fail-on {any,gap,report-only}` selects which outcomes gate
+  the exit code; exit codes are now documented in the command help.
+
 ## 0.3.0-alpha.2 — 2026-07-05
 
 ### Changed

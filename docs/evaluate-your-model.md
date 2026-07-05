@@ -1,0 +1,129 @@
+# Evaluate your model
+
+This is the end-to-end recipe for running your own model — an internal
+checkpoint, an API endpoint, or any local runtime — through an SV-Gap
+taskpack and producing the same layered result the published studies use.
+No provider CLI is required.
+
+Read the [research protocol](research-protocol.md) and
+[research scope](research-scope-v0.2.md) before interpreting numbers. The
+output is a taskpack-conditional detection count with explicit `unknown`
+states, not a defect rate or a leaderboard entry.
+
+## What the harness needs from you
+
+One thing: a way to turn a task prompt into a model response. The contract is
+deliberately minimal —
+
+- the prompt arrives on **stdin**;
+- the response (containing the RTL, fenced or bare) goes to **stdout**;
+- a nonzero exit means generation failed for that task.
+
+Everything else — response normalization, manifest construction, functional
+simulation, structural checking, provenance hashes — is the harness's job.
+
+## Path A: one command over a whole taskpack
+
+Wrap your model in any executable. For an OpenAI-compatible endpoint:
+
+```python
+#!/usr/bin/env python3
+# my_generate.py — stdin: prompt, stdout: response
+import os, sys
+from openai import OpenAI
+
+client = OpenAI(base_url=os.environ.get("MY_BASE_URL"))
+response = client.chat.completions.create(
+    model=os.environ["MY_MODEL"],
+    messages=[{"role": "user", "content": sys.stdin.read()}],
+)
+print(response.choices[0].message.content)
+```
+
+Then run the reset-release taskpack (eight tasks, three samples each):
+
+```bash
+.venv/bin/python scripts/run_generation_pilot.py command \
+  --command "python3 my_generate.py" \
+  --label my-model-a \
+  --interface-label "my-lab-harness 1.0" \
+  --task-root taskpacks/reset-replication-v0.2/tasks \
+  --tasks reset_config reset_counter reset_credits reset_events \
+          reset_fsm reset_status reset_timer reset_watchdog \
+  --samples 3 \
+  --output reports/generated/my-model-study
+```
+
+Environment variables (API keys, endpoints) pass through to your command.
+The prompt is never placed on the command line, and the recorded provenance
+contains your command string and interface label — not your credentials.
+
+## Path B: bring pre-generated responses
+
+If generation already happened elsewhere, score each saved response directly:
+
+```bash
+svgap pilot taskpacks/reset-replication-v0.2/tasks/reset_counter \
+  response.txt --model my-model-a --run-id my-model-a--sample-01 \
+  --output reports/generated/my-model-study
+```
+
+`pilot` normalizes the response, materializes the candidate with the task's
+declared intent, runs the functional testbench and the structural oracle, and
+writes a schema-validated `report.json`.
+
+## Aggregate and read the result
+
+```bash
+svgap summarize reports/generated/my-model-study
+svgap gap reports/generated/my-model-study/*/*/report.json
+svgap export reports/generated/my-model-study/*/*/report.json \
+  --html my-model-study.html
+svgap explain reports/generated/my-model-study/<run>/<task>/report.json
+```
+
+`summarize` is deterministic over the report set. `gap` prints the detected
+structural-validity gap over functionally passing, structurally determinate
+candidates. `explain` translates one report into answered, failed, and
+unanswered production questions.
+
+## Interpretation rules
+
+- Repeated calls to one configuration are generation events, not independent
+  samples; report per-task groupings, not just totals.
+- Exact duplicate normalized outputs are disclosed by the summary; do not
+  count them as independent evidence.
+- `unknown` and `tool_error` are never structural passes. Report them.
+- The number you get is conditional on this taskpack and the configured
+  rules. It does not rank models or estimate population prevalence.
+
+## Withheld model identifiers
+
+If your lab cannot name a checkpoint, use a stable configuration alias as the
+`--label` and record the true identifier privately. The published studies use
+this pattern themselves (`openai-frontier-a` is such an alias); the report
+schema treats labels as opaque configuration names.
+
+## Gate a generation pipeline in CI
+
+`svgap check` exits nonzero on failing, unknown, or tool-error outcomes by
+default. To gate only on the headline condition — functionally accepted but
+structurally failing RTL:
+
+```bash
+svgap check candidate/manifest.toml --fail-on gap
+```
+
+`--fail-on report-only` writes the report and never gates. Exit codes:
+`0` pass, `1` fail, `2` tool or manifest error, `3` unknown.
+
+## Share what you found
+
+- Post the profile and harness friction in
+  [Discussions](https://github.com/shsridhar-beep/svgap/discussions);
+  friction reports directly shape the roadmap.
+- The [challenges contract](frontier-model-research.md) adds diagnosis and
+  repair tracks beyond generation.
+- Contributed results enter the public registry as score profiles with
+  claim boundaries, not leaderboard rows; open an issue to begin a
+  result-contribution review.
