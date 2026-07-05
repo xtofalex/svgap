@@ -266,5 +266,232 @@
     }
   ],
   "schema_version": "1.0",
-  "submissions": []
+  "submissions": [
+    {
+      "claim_boundary": "This profile describes submitted digital RTL evidence under configured functional and structural checks. It is not silicon signoff, a population estimate, or a general model ranking.",
+      "configuration": {
+        "comparative_eligible": true,
+        "label": "deepseek-coder-v2-16b",
+        "model_id": "deepseek-coder-v2:16b",
+        "provenance_level": "public",
+        "provider": "ollama"
+      },
+      "contributor": "Shraddha Sridhar",
+      "created_at": "2026-07-05T07:41:30.081697+00:00",
+      "source": "results/submissions/openweights-deepseek-coder-v2-16b-reset-v02",
+      "submission_id": "openweights-deepseek-coder-v2-16b-reset-v02",
+      "summary": {
+        "by_model": {
+          "openweights-deepseek-coder-v2-16b-reset-v02": {
+            "candidates": 22,
+            "functional_pass": 11,
+            "gap_members": 9
+          }
+        },
+        "by_task": {
+          "reset_config": {
+            "candidates": 3,
+            "functional_pass": 1,
+            "gap_members": 1
+          },
+          "reset_counter": {
+            "candidates": 3,
+            "functional_pass": 2,
+            "gap_members": 1
+          },
+          "reset_credits": {
+            "candidates": 3,
+            "functional_pass": 3,
+            "gap_members": 3
+          },
+          "reset_events": {
+            "candidates": 3,
+            "functional_pass": 0,
+            "gap_members": 0
+          },
+          "reset_fsm": {
+            "candidates": 3,
+            "functional_pass": 1,
+            "gap_members": 0
+          },
+          "reset_status": {
+            "candidates": 3,
+            "functional_pass": 3,
+            "gap_members": 3
+          },
+          "reset_timer": {
+            "candidates": 3,
+            "functional_pass": 0,
+            "gap_members": 0
+          },
+          "reset_watchdog": {
+            "candidates": 1,
+            "functional_pass": 1,
+            "gap_members": 1
+          }
+        },
+        "detected_gap_fraction": 1.0,
+        "functional_pass": 11,
+        "gap_members": 9,
+        "kind": "generation_reports",
+        "outcomes": [
+          {
+            "count": 6,
+            "functional": "compile_error",
+            "gap_member": false,
+            "structural": "fail"
+          },
+          {
+            "count": 4,
+            "functional": "fail",
+            "gap_member": false,
+            "structural": "fail"
+          },
+          {
+            "count": 1,
+            "functional": "fail",
+            "gap_member": false,
+            "structural": "pass"
+          },
+          {
+            "count": 9,
+            "functional": "pass",
+            "gap_member": true,
+            "structural": "fail"
+          },
+          {
+            "count": 2,
+            "functional": "pass",
+            "gap_member": false,
+            "structural": "tool_error"
+          }
+        ],
+        "report_count": 22,
+        "rules": {
+          "REF-RDC-001": 20
+        },
+        "schema_version": "1.0",
+        "structurally_determinate_functional_pass": 9
+      },
+      "taskpack": {
+        "id": "reset-replication",
+        "version": "0.2"
+      },
+      "title": "DeepSeek-Coder-V2-16B open-weights reset-release generation profile",
+      "track": "generation"
+    },
+    {
+      "claim_boundary": "This profile describes submitted digital RTL evidence under configured functional and structural checks. It is not silicon signoff, a population estimate, or a general model ranking.",
+      "configuration": {
+        "comparative_eligible": true,
+        "label": "qwen2.5-coder-7b",
+        "model_id": "qwen2.5-coder:7b",
+        "provenance_level": "public",
+        "provider": "ollama"
+      },
+      "contributor": "Shraddha Sridhar",
+      "created_at": "2026-07-05T07:41:29.887544+00:00",
+      "source": "results/submissions/openweights-qwen25-coder-7b-reset-v02",
+      "submission_id": "openweights-qwen25-coder-7b-reset-v02",
+      "summary": {
+        "by_model": {
+          "openweights-qwen25-coder-7b-reset-v02": {
+            "candidates": 22,
+            "functional_pass": 8,
+            "gap_members": 8
+          }
+        },
+        "by_task": {
+          "reset_config": {
+            "candidates": 2,
+            "functional_pass": 0,
+            "gap_members": 0
+          },
+          "reset_counter": {
+            "candidates": 3,
+            "functional_pass": 1,
+            "gap_members": 1
+          },
+          "reset_credits": {
+            "candidates": 3,
+            "functional_pass": 2,
+            "gap_members": 2
+          },
+          "reset_events": {
+            "candidates": 3,
+            "functional_pass": 1,
+            "gap_members": 1
+          },
+          "reset_fsm": {
+            "candidates": 3,
+            "functional_pass": 0,
+            "gap_members": 0
+          },
+          "reset_status": {
+            "candidates": 2,
+            "functional_pass": 2,
+            "gap_members": 2
+          },
+          "reset_timer": {
+            "candidates": 3,
+            "functional_pass": 0,
+            "gap_members": 0
+          },
+          "reset_watchdog": {
+            "candidates": 3,
+            "functional_pass": 2,
+            "gap_members": 2
+          }
+        },
+        "detected_gap_fraction": 1.0,
+        "functional_pass": 8,
+        "gap_members": 8,
+        "kind": "generation_reports",
+        "outcomes": [
+          {
+            "count": 2,
+            "functional": "compile_error",
+            "gap_member": false,
+            "structural": "fail"
+          },
+          {
+            "count": 2,
+            "functional": "compile_error",
+            "gap_member": false,
+            "structural": "tool_error"
+          },
+          {
+            "count": 7,
+            "functional": "fail",
+            "gap_member": false,
+            "structural": "fail"
+          },
+          {
+            "count": 3,
+            "functional": "fail",
+            "gap_member": false,
+            "structural": "tool_error"
+          },
+          {
+            "count": 8,
+            "functional": "pass",
+            "gap_member": true,
+            "structural": "fail"
+          }
+        ],
+        "report_count": 22,
+        "rules": {
+          "REF-RDC-001": 26
+        },
+        "schema_version": "1.0",
+        "structurally_determinate_functional_pass": 8
+      },
+      "taskpack": {
+        "id": "reset-replication",
+        "version": "0.2"
+      },
+      "title": "Qwen2.5-Coder-7B open-weights reset-release generation profile",
+      "track": "generation"
+    }
+  ]
 }
