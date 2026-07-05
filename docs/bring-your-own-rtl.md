@@ -38,7 +38,8 @@ commands = [
 ### Or import an upstream result
 
 If the benchmark already ran, normalize its result and bind it to the exact RTL
-source digest. See [`examples/imported_result`](../examples/imported_result/)
+source digest. See
+[`examples/imported_result`](https://github.com/shsridhar-beep/svgap/tree/main/examples/imported_result)
 and the [existing-benchmark integration recipe](integrating-existing-benchmarks.md).
 
 ## 3. Declare only known intent

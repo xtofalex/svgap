@@ -8,6 +8,8 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
+from svgap.submission import validate_submission
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -23,6 +25,11 @@ def main() -> int:
                 path = ROOT / entry[field]
                 if not path.is_file():
                     raise SystemExit(f"missing {field}: {path}")
+    for entry in registry["submissions"]:
+        directory = ROOT / entry["source"]
+        manifest, _ = validate_submission(directory)
+        if manifest["submission_id"] != entry["submission_id"]:
+            raise SystemExit(f"submission id mismatch: {directory}")
     print(f"valid: {registry_path}")
     return 0
 

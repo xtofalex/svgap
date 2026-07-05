@@ -5,6 +5,8 @@ versioning once the manifest and report contracts reach public v0.1.
 
 ## Unreleased
 
+## 0.3.0-alpha.3 — 2026-07-05
+
 ### Added
 
 - Provider-agnostic `command` generation adapter: any executable that reads a
@@ -16,6 +18,14 @@ versioning once the manifest and report contracts reach public v0.1.
   without any provider CLI.
 - `svgap check --fail-on {any,gap,report-only}` selects which outcomes gate
   the exit code; exit codes are now documented in the command help.
+- A generic, immutable result-submission contract with public, attested-alias,
+  and anonymous-case-study provenance levels, deterministic bundles, private
+  publication denylists, and static citable evidence profiles.
+- Runnable model-neutral diagnosis and repair starters plus a two-stage
+  generation/evaluation workflow that keeps untrusted RTL out of the model
+  credential environment.
+- A frontier RTL handoff collaboration RFC with explicit response, credit, and
+  authorship expectations.
 
 ## 0.3.0-alpha.2 — 2026-07-05
 

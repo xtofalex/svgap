@@ -21,6 +21,7 @@ class ResultRegistryTests(TestCase):
         first = module.build_registry()
         second = module.build_registry()
         self.assertEqual(first, second)
+        self.assertIn("submissions", first)
         self.assertEqual(
             sum(item["candidate_reports"] for item in first["generation"]), 72
         )

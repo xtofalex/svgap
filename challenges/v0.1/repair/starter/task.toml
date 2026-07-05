@@ -1,0 +1,15 @@
+id = "repair-reset-release"
+top = "reset_release"
+testbench = "tb.sv"
+asynchronous_groups = []
+
+[[clocks]]
+name = "core"
+port = "clk"
+
+[[resets]]
+name = "power_on_reset"
+port = "arst_n"
+active = "low"
+assertion = "async"
+deassertion = "sync"

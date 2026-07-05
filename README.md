@@ -41,7 +41,7 @@ Install Python 3.11+, Yosys, and Icarus Verilog. On macOS:
 ```bash
 brew install yosys icarus-verilog
 python3 -m venv .venv
-.venv/bin/python -m pip install svgap==0.3.0a2
+.venv/bin/python -m pip install svgap==0.3.0a3
 .venv/bin/svgap demo
 ```
 
@@ -85,7 +85,7 @@ defect-rate estimate or silicon signoff.
 The same workflow is available in the open-tool container:
 
 ```bash
-docker run --rm ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.2 demo
+docker run --rm ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.3 demo
 ```
 
 ## Use SV-Gap on your own RTL
@@ -128,8 +128,9 @@ regressions.
 
 The public [`challenges/v0.1`](challenges/v0.1/) contract defines all three
 tracks. Profiles remain multidimensional rather than hiding failure modes in a
-single score. See the [baseline registry](results/README.md) to reproduce or
-submit a result.
+single score. Browse the [evidence profiles](docs/results.md), follow the
+[submission contract](docs/submitting-results.md), or join the
+[frontier RTL handoff study](docs/collaboration-rfc.md).
 
 To run any model you control — an internal checkpoint, an API endpoint, or a
 local runtime — through a full taskpack with no provider CLI, follow
@@ -230,7 +231,7 @@ See [methodology](docs/methodology.md), [architecture](docs/architecture.md), an
 ### From PyPI
 
 ```bash
-python3 -m pip install svgap==0.3.0a2
+python3 -m pip install svgap==0.3.0a3
 svgap doctor
 ```
 
@@ -263,8 +264,17 @@ the issue templates for reproducible bugs, taskpacks, backends, and false
 results. See [GOVERNANCE.md](GOVERNANCE.md), [SECURITY.md](SECURITY.md), and
 [SUPPORT.md](SUPPORT.md).
 
+The fastest research collaboration path is the
+[frontier RTL handoff study](docs/collaboration-rfc.md): bring one model run,
+one disputed oracle result, one intent-bearing task, or one reproducible
+research-to-production handoff problem. Scoped research proposals and result
+submissions receive an acknowledgement within two working days.
+
+SV-Gap is an independent open-source research project. It is not an NVIDIA
+product or an official statement by NVIDIA.
+
 Cite the exact GitHub release used. The independently fetched and scanned
-archive for `v0.3.0-alpha.2` is available at
+archive for the prior `v0.3.0-alpha.2` release is available at
 [doi:10.5281/zenodo.21199886](https://doi.org/10.5281/zenodo.21199886).
 
 Apache-2.0. External tools and imported datasets retain their own licenses.

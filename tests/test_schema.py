@@ -55,6 +55,10 @@ class SchemaTests(TestCase):
 
 
 class ContractSchemaTests(TestCase):
+    def test_public_submission_contract_validates_initialized_submission(self) -> None:
+        schema = json.loads((ROOT / "schemas/submission-v1.json").read_text())
+        Draft202012Validator.check_schema(schema)
+
     def test_adjudication_fixture_contracts_validate(self) -> None:
         trace_schema = json.loads((ROOT / "schemas/trace-v1.json").read_text())
         trace_validator = Draft202012Validator(trace_schema)

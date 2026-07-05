@@ -7,7 +7,7 @@ Audit date: 2026-07-05
 - Apache-2.0 license, notice, and third-party inventory are present.
 - The quickstart, limitations, security warning, contribution guide, and conduct
   policy are present.
-- Sixty-five tests pass with Yosys 0.66 and Icarus Verilog 13.0, including
+- Eighty-one tests pass with Yosys 0.66 and Icarus Verilog 13.0, including
   adversarial oracle and JSON Schema checks.
 - A wheel builds and installs successfully in a clean temporary environment.
 - The controlled witnesses, 508-task benchmark audit, exploratory pilot, and
@@ -113,3 +113,26 @@ The container manifest digest is
 `sha256:9f99695059014de7055ab57448456e3cc9ac3c3910da4668ba65f8aef345a4b3`.
 PyPI `0.3.0a2` and Zenodo DOI `10.5281/zenodo.21199886` carry the sanitized
 release. Superseded pre-redaction package and archival versions were deleted.
+
+## v0.3.0-alpha.3 release candidate
+
+- Any model harness can generate through a stdin/stdout command contract.
+- Credentialed generation can be separated from network-disabled, disposable
+  RTL evaluation; generated RTL remains explicitly treated as untrusted input.
+- Generation, diagnosis, and repair evidence can enter one immutable,
+  track-aware submission contract with public, attested-alias, or anonymous
+  provenance.
+- Publication gates verify artifact hashes, recompute deterministic summaries,
+  reject common credential/internal-path patterns, and support a private
+  submitter-held regex denylist.
+- Accepted submissions generate citable static evidence profiles without a
+  scalar leaderboard or hosted-service dependency.
+- Runnable diagnosis and repair starters, a collaboration RFC, contribution
+  credit rules, and a two-working-day acknowledgement target provide a concrete
+  frontier-research participation path.
+
+The complete 81-test suite, registry verification, documentation link checker,
+strict MkDocs build, deterministic-bundle regression, diagnosis/repair smoke
+runs, and clean wheel install pass locally. GitHub, PyPI, GHCR, Pages, and
+Zenodo publication remain to be verified after the release tag is pushed. The
+version-specific Zenodo DOI must be recorded only after ingestion.

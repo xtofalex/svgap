@@ -51,6 +51,11 @@ def main() -> int:
     parser.add_argument("--tasks", nargs="+", default=list(DEFAULT_TASKS))
     parser.add_argument("--samples", type=int, default=1)
     parser.add_argument(
+        "--generate-only",
+        action="store_true",
+        help="write responses and generation metadata without evaluating RTL",
+    )
+    parser.add_argument(
         "--output", type=Path, default=ROOT / "reports/generated/pilot-v0.1"
     )
     args = parser.parse_args()
@@ -103,6 +108,9 @@ def main() -> int:
                 response_path.with_suffix(".generation.json").write_text(
                     metadata_payload, encoding="utf-8"
                 )
+                if args.generate_only:
+                    print(f"response    {response_path}")
+                    continue
                 evaluated = subprocess.run(
                     [
                         sys.executable,

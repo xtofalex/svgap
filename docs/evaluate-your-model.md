@@ -1,5 +1,12 @@
 # Evaluate your model
 
+!!! danger "Generated RTL is untrusted code"
+    The local evaluator is not a security sandbox. A generated candidate is
+    processed by external EDA tools and may contain simulator system tasks.
+    Do not evaluate untrusted RTL on a workstation containing credentials or
+    sensitive source trees. Use the isolated two-stage container path below for
+    model or contributor outputs you have not inspected.
+
 This is the end-to-end recipe for running your own model — an internal
 checkpoint, an API endpoint, or any local runtime — through an SV-Gap
 taskpack and producing the same layered result the published studies use.
@@ -57,6 +64,58 @@ Then run the reset-release taskpack (eight tasks, three samples each):
 Environment variables (API keys, endpoints) pass through to your command.
 The prompt is never placed on the command line, and the recorded provenance
 contains your command string and interface label — not your credentials.
+
+Do not place credentials directly in `--command`: the command string is
+retained as provenance. Prefer environment variables supplied to the generator.
+
+## Recommended: separate generation from isolated evaluation
+
+Generate responses in the credentialed host environment without invoking any
+EDA tool:
+
+```bash
+.venv/bin/python scripts/run_generation_pilot.py command \
+  --command "python3 my_generate.py" \
+  --label my-model-a \
+  --interface-label "my-lab-harness 1.0" \
+  --task-root taskpacks/reset-replication-v0.2/tasks \
+  --tasks reset_config reset_counter reset_credits reset_events \
+          reset_fsm reset_status reset_timer reset_watchdog \
+  --samples 3 \
+  --generate-only \
+  --output reports/generated/my-model-study
+```
+
+Then evaluate only the saved responses in a disposable, network-disabled
+container. The evaluation container receives no model credentials and cannot
+read the rest of the repository:
+
+```bash
+mkdir -p reports/evaluated/my-model-study
+
+docker run --rm \
+  --network none \
+  --read-only \
+  --cap-drop ALL \
+  --security-opt no-new-privileges \
+  --pids-limit 256 \
+  --memory 4g \
+  --cpus 2 \
+  --tmpfs /tmp:rw,nosuid,size=512m \
+  -v "$PWD/reports/generated/my-model-study/_responses:/responses:ro" \
+  -v "$PWD/taskpacks/reset-replication-v0.2/tasks:/tasks:ro" \
+  -v "$PWD/reports/evaluated/my-model-study:/output:rw" \
+  --entrypoint python \
+  ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.3 \
+  /opt/svgap/scripts/evaluate_saved_responses.py \
+  --responses /responses \
+  --task-root /tasks \
+  --output /output
+```
+
+Resource limits reduce accidental damage and denial-of-service risk; they do
+not turn the reference evaluator into a formally verified sandbox. Apply your
+organization's approved isolation controls for hostile-input evaluation.
 
 ## Path B: bring pre-generated responses
 
@@ -124,6 +183,7 @@ svgap check candidate/manifest.toml --fail-on gap
   friction reports directly shape the roadmap.
 - The [challenges contract](frontier-model-research.md) adds diagnosis and
   repair tracks beyond generation.
-- Contributed results enter the public registry as score profiles with
-  claim boundaries, not leaderboard rows; open an issue to begin a
-  result-contribution review.
+- Create a contribution-ready directory with `svgap submission init`, validate
+  it with a private denylist using `svgap submission validate`, and open a pull
+  request beneath `results/submissions/`. See
+  [Submit a result](submitting-results.md).

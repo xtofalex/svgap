@@ -33,6 +33,9 @@ jobs:
         run: |
           python scripts/build_adoption_baseline.py --check
           python scripts/verify_result_registry.py
+          python scripts/build_result_pages.py --check
+      - name: Check documentation links
+        run: python scripts/check_docs_links.py
 
   package:
     runs-on: ubuntu-latest

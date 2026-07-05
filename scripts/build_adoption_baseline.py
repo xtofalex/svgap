@@ -9,10 +9,13 @@ import json
 from pathlib import Path
 from typing import Any
 
+from svgap.submission import SubmissionError, registry_entry
+
 
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACT = ROOT / "artifacts" / "reset-replication-v0.1" / "candidates"
 BASELINE = ROOT / "results" / "baselines" / "v0.1"
+SUBMISSIONS = ROOT / "results" / "submissions"
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -76,7 +79,27 @@ def build_registry() -> dict[str, Any]:
         "generation": [generation_profile(model) for model in models],
         "diagnosis": [challenge_profile("diagnosis", model) for model in challenge_models],
         "repair": [challenge_profile("repair", model) for model in challenge_models],
+        "submissions": discover_submissions(),
     }
+
+
+def discover_submissions() -> list[dict[str, Any]]:
+    if not SUBMISSIONS.is_dir():
+        return []
+    entries: list[dict[str, Any]] = []
+    identifiers: set[str] = set()
+    for directory in sorted(path.parent for path in SUBMISSIONS.glob("*/submission.json")):
+        try:
+            entry = registry_entry(directory)
+        except SubmissionError as exc:
+            raise ValueError(f"invalid result submission {directory}: {exc}") from exc
+        identifier = entry["submission_id"]
+        if identifier in identifiers:
+            raise ValueError(f"duplicate result submission id: {identifier}")
+        identifiers.add(identifier)
+        entry["source"] = directory.relative_to(ROOT).as_posix()
+        entries.append(entry)
+    return entries
 
 
 def main() -> int:

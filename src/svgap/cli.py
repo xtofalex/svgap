@@ -45,6 +45,12 @@ from svgap.pilot import materialize_candidate
 from svgap.provenance import canonical_file_set_digest
 from svgap.reporting import build_html, dumps_sarif
 from svgap.study import summarize_reports
+from svgap.submission import (
+    SubmissionError,
+    bundle_submission,
+    initialize_submission,
+    validate_submission,
+)
 from svgap.validation import ReportValidationError, validate_report_payload
 
 
@@ -168,6 +174,55 @@ def build_parser() -> argparse.ArgumentParser:
     challenge.add_argument("submission", type=Path)
     challenge.add_argument("--output", type=Path)
     challenge.add_argument("--json", action="store_true")
+    submission = subparsers.add_parser(
+        "submission", help="create, validate, and bundle a public result submission"
+    )
+    submission_commands = submission.add_subparsers(
+        dest="submission_command", required=True
+    )
+    submission_init = submission_commands.add_parser(
+        "init", help="create a submission directory from track-specific evidence"
+    )
+    submission_init.add_argument(
+        "evidence",
+        nargs="+",
+        type=Path,
+        help="generation report.json files or diagnosis/repair result.json files",
+    )
+    submission_init.add_argument("--id", required=True, dest="submission_id")
+    submission_init.add_argument("--title", required=True)
+    submission_init.add_argument(
+        "--track", required=True, choices=("generation", "diagnosis", "repair")
+    )
+    submission_init.add_argument("--configuration-label", required=True)
+    submission_init.add_argument(
+        "--provenance-level",
+        required=True,
+        choices=("public", "attested_alias", "anonymous_case_study"),
+    )
+    submission_init.add_argument("--provider")
+    submission_init.add_argument("--model-id")
+    submission_init.add_argument("--attestor")
+    submission_init.add_argument("--attestation")
+    submission_init.add_argument("--taskpack-id", required=True)
+    submission_init.add_argument("--taskpack-version", required=True)
+    submission_init.add_argument("--contributor", required=True)
+    submission_init.add_argument("--output", required=True, type=Path)
+    submission_validate = submission_commands.add_parser(
+        "validate", help="validate hashes, profiles, provenance, and publication safety"
+    )
+    submission_validate.add_argument("directory", type=Path)
+    submission_validate.add_argument(
+        "--denylist",
+        type=Path,
+        help="private file containing one case-insensitive regex per line",
+    )
+    submission_bundle = submission_commands.add_parser(
+        "bundle", help="create a deterministic publication bundle"
+    )
+    submission_bundle.add_argument("directory", type=Path)
+    submission_bundle.add_argument("--output", required=True, type=Path)
+    submission_bundle.add_argument("--denylist", type=Path)
     return parser
 
 
@@ -422,6 +477,45 @@ def main(argv: list[str] | None = None) -> int:
         if args.json or not args.output:
             print(payload, end="")
         return 0 if result["overall"] == "pass" else 1
+    if args.command == "submission":
+        try:
+            if args.submission_command == "init":
+                manifest = initialize_submission(
+                    args.evidence,
+                    args.output,
+                    submission_id=args.submission_id,
+                    title=args.title,
+                    track=args.track,
+                    configuration_label=args.configuration_label,
+                    provenance_level=args.provenance_level,
+                    taskpack_id=args.taskpack_id,
+                    taskpack_version=args.taskpack_version,
+                    contributor=args.contributor,
+                    provider=args.provider,
+                    model_id=args.model_id,
+                    attestor=args.attestor,
+                    attestation=args.attestation,
+                )
+                print(f"submission  {args.output.resolve()}")
+                print(f"id          {manifest['submission_id']}")
+                return 0
+            if args.submission_command == "validate":
+                manifest, artifacts = validate_submission(
+                    args.directory, denylist=args.denylist
+                )
+                print(f"valid       {manifest['submission_id']}")
+                print(f"artifacts   {len(artifacts)}")
+                return 0
+            if args.submission_command == "bundle":
+                digest = bundle_submission(
+                    args.directory, args.output, denylist=args.denylist
+                )
+                print(f"bundle      {args.output.resolve()}")
+                print(f"sha256      {digest}")
+                return 0
+        except SubmissionError as exc:
+            print(f"submission failed: {exc}", file=sys.stderr)
+            return 2
     return 2
 
 

@@ -15,6 +15,19 @@ Contribution method is not a substitute for technical review. The same
 evidence, reproducibility, scope, and claim-boundary requirements apply to
 human-written and AI-assisted changes.
 
+## Response and credit
+
+The maintainer aims to acknowledge scoped research proposals, result
+submissions, and reproducible oracle disputes within two working days. If a
+decision needs more evidence, the thread should name the missing evidence and
+next decision point.
+
+Accepted code and artifact contributions receive repository credit and retain
+their recorded authorship. Paper authorship is a separate decision based on
+substantive intellectual contribution, analysis, drafting, and accountability
+under the target venue's policy; opening a pull request does not by itself
+promise co-authorship.
+
 Good first contributions include:
 
 - a paired safe/unsafe fixture for an existing rule;

@@ -5,7 +5,9 @@ a model emits RTL that passes a supplied testbench. The central object is the
 handoff evidence: which production questions are answered, failed, or still
 unanswered, and what evidence would resolve the uncertainty.
 
-The public [`challenges/v0.1`](../challenges/v0.1/) contract defines three
+The public
+[`challenges/v0.1`](https://github.com/shsridhar-beep/svgap/tree/main/challenges/v0.1)
+contract defines three
 incremental tracks.
 
 ## Generation
@@ -52,3 +54,7 @@ This is a collaboration surface, not a claim that the example submissions are
 model results. The example reports are synthetic contract fixtures. All current
 workflows are limited to digital RTL and configured open-source evidence, and a
 passing profile is not silicon signoff.
+
+Run the public diagnosis and repair starters through any stdin/stdout model
+harness with `scripts/run_challenge_command.py`; see the
+[challenge README](https://github.com/shsridhar-beep/svgap/tree/main/challenges/v0.1).

@@ -1,5 +1,11 @@
 # Governance
 
+SV-Gap is an independent open-source research project maintained by Shraddha S.
+It is not an NVIDIA product, benchmark, or official company position. Employer
+affiliations provide conflict-of-interest context and do not imply endorsement.
+Contributors are responsible for obtaining any employer or institutional
+approval required for their contributions.
+
 SV-Gap is currently a maintainer-led early-stage project. Shraddha S is the
 release maintainer and final arbiter for repository changes. Technical claims,
 checker behavior, and research interpretations remain challengeable through

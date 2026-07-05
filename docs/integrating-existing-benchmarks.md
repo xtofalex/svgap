@@ -62,7 +62,8 @@ svgap export path/to/build/report.json \
   --html build/svgap.html
 ```
 
-The working example under [`examples/imported_result`](../examples/imported_result)
+The working example under
+[`examples/imported_result`](https://github.com/shsridhar-beep/svgap/tree/main/examples/imported_result)
 uses this flow without executing a functional command.
 
 ## Adapter policy

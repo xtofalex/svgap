@@ -265,5 +265,6 @@
       "submission": "results/baselines/v0.1/repair/openai-frontier-a/submission.json"
     }
   ],
-  "schema_version": "1.0"
+  "schema_version": "1.0",
+  "submissions": []
 }

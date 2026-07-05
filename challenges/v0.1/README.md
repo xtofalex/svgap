@@ -25,3 +25,28 @@ svgap challenge-score challenges/v0.1/repair/task.json \
 
 All tracks are limited to digital RTL and the configured open-source evaluation
 evidence. A passing profile is not silicon signoff.
+
+## Run diagnosis and repair with any model harness
+
+Commands receive the frozen prompt on stdin and return the response on stdout:
+
+```bash
+python scripts/run_challenge_command.py diagnosis \
+  --command "python3 my_generate.py" \
+  --label my-model-a \
+  --run-id diagnosis-01 \
+  --output reports/generated/diagnosis-01
+
+python scripts/run_challenge_command.py repair \
+  --command "python3 my_generate.py" \
+  --label my-model-a \
+  --run-id repair-01 \
+  --output reports/generated/repair-01
+```
+
+The diagnosis runner normalizes JSON responses and scores exact question
+coverage, evidence, and uncertainty resolution. The repair runner evaluates the
+unsafe input and returned RTL, then scores target removal, functional
+preservation, backend consistency, and new-rule regressions. Free-form
+diagnosis prose is mechanically checked for presence, not semantic truth; a
+stronger claim requires independent adjudication.
