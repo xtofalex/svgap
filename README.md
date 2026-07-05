@@ -202,6 +202,7 @@ or expert adjudication. Disagreement is evidence, not a project failure.
 
 [Good first issues](https://github.com/shsridhar-beep/svgap/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) ·
 [Contribution guide](CONTRIBUTING.md) ·
+[Contributors and AI assistance](CONTRIBUTORS.md) ·
 [Discussions](https://github.com/shsridhar-beep/svgap/discussions) ·
 [Roadmap](ROADMAP.md)
 

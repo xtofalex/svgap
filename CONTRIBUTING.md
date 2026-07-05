@@ -28,6 +28,12 @@ substantive intellectual contribution, analysis, drafting, and accountability
 under the target venue's policy; opening a pull request does not by itself
 promise co-authorship.
 
+Repository credit identifies the account recorded in the accepted commit
+history; it is not a claim that the project independently verified the account
+holder's legal identity, affiliation, or human-versus-automated operating mode.
+Material AI assistance is disclosed separately in
+[CONTRIBUTORS.md](CONTRIBUTORS.md).
+
 Good first contributions include:
 
 - a paired safe/unsafe fixture for an existing rule;
