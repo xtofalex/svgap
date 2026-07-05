@@ -27,3 +27,8 @@ review.
 
 See `docs/evaluate-your-model.md`, `docs/submitting-results.md`, and
 `docs/collaboration-rfc.md` for the supported paths.
+
+## Archive and citation
+
+The independently verified Zenodo archive for this release is
+[doi:10.5281/zenodo.21201211](https://doi.org/10.5281/zenodo.21201211).
