@@ -3,6 +3,7 @@
 [![CI](https://github.com/shsridhar-beep/svgap/actions/workflows/ci.yml/badge.svg)](https://github.com/shsridhar-beep/svgap/actions/workflows/ci.yml)
 [![Documentation](https://github.com/shsridhar-beep/svgap/actions/workflows/docs.yml/badge.svg)](https://shsridhar-beep.github.io/svgap/)
 [![PyPI](https://img.shields.io/pypi/v/svgap.svg)](https://pypi.org/project/svgap/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21199886.svg)](https://doi.org/10.5281/zenodo.21199886)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 
 **Make the gap between “passes the benchmark” and “reviewable by a chip-design
@@ -232,8 +233,8 @@ the issue templates for reproducible bugs, taskpacks, backends, and false
 results. See [GOVERNANCE.md](GOVERNANCE.md), [SECURITY.md](SECURITY.md), and
 [SUPPORT.md](SUPPORT.md).
 
-Cite the exact GitHub release used. Archival DOI metadata is being replaced
-after a provenance-label redaction; a new DOI will be recorded only after the
-sanitized archive is publicly verified.
+Cite the exact GitHub release used. The independently fetched and scanned
+archive for `v0.3.0-alpha.2` is available at
+[doi:10.5281/zenodo.21199886](https://doi.org/10.5281/zenodo.21199886).
 
 Apache-2.0. External tools and imported datasets retain their own licenses.

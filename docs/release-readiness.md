@@ -27,11 +27,14 @@ Audit date: 2026-07-05
 - Ten scoped issues are open, including five bounded `good first issue` entry
   points for demo, registry, documentation, and oracle-review contributions.
 - The public repository is `https://github.com/shsridhar-beep/svgap`. Releases
-  `v0.1.0-alpha.1` through `v0.3.0-alpha.1` were rebuilt from rewritten,
+  `v0.1.0-alpha.1` through `v0.3.0-alpha.2` were rebuilt from rewritten,
   identifier-sanitized tags.
-- Pre-redaction Zenodo deposits are under withdrawal and are not advertised.
-  A replacement DOI will be recorded only after the sanitized archive is
-  independently fetched and scanned.
+- The pre-redaction Zenodo version deposits were deleted. The replacement
+  `v0.3.0-alpha.2` archive is published at DOI
+  `10.5281/zenodo.21199886`; an independently fetched copy had zero matches for
+  the redacted identifier patterns.
+- PyPI `0.3.0a1` was deleted. PyPI `0.3.0a2`, its wheel, source distribution,
+  and GHCR image were independently checked after publication.
 - Author identity, affiliation, ORCID, and contact are recorded in
   `CITATION.cff`.
 - Publication of normalized generated RTL is authorized by the project author.
@@ -79,12 +82,12 @@ PyPI publication uses GitHub OIDC trusted publishing through the protected
 - Release automation builds wheels, source distributions, schemas, taskpack and
   result archives, checksums, and a multi-architecture GHCR image.
 
-Tag `v0.2.0-alpha.1` and its GitHub prerelease were published from tested commit
-`6839263`. The release carries a wheel, source distribution, schemas, v0.1
-result archive, v0.2 taskpack archive, and SHA-256 manifest. Public `main`
-requires the Python 3.11–3.13, package, and container checks; force pushes and
-branch deletion are disabled. The original archival deposit was subsequently
-submitted for withdrawal as part of the provider-label history redaction.
+Tag `v0.2.0-alpha.1` and its GitHub prerelease were republished from rewritten,
+tested commit `42794d6`. The release carries a wheel, source distribution,
+schemas, v0.1 result archive, v0.2 taskpack archive, and SHA-256 manifest.
+Public `main` requires the Python 3.11–3.13, package, and container checks;
+force pushes and branch deletion are disabled. Its superseded archival deposit
+was deleted as part of the provider-label history redaction.
 
 ## v0.3 adoption alpha released
 
@@ -103,10 +106,10 @@ submitted for withdrawal as part of the provider-label history redaction.
 - PyPI trusted publishing, GitHub release assets, the multi-architecture GHCR
   image, Pages deployment, and Zenodo ingestion all completed successfully.
 
-Tag `v0.3.0-alpha.1` was published from tested commit `d52ac85`. The GitHub
-release carries the wheel, source distribution, schemas, v0.1 generation
-artifact, v0.2 taskpack, public baseline registry and evidence archive, and
-SHA-256 manifest. The container manifest digest is
-`sha256:632bb0a1a4bbeb7a4f1ac1917bf8edd24f4b9937ea5d2ee4977b0a50d8952d28`.
-The original archival deposit was subsequently submitted for withdrawal as
-part of the provider-label history redaction. A replacement DOI is pending.
+Tag `v0.3.0-alpha.2` was published from tested commit `249a5a2`. The GitHub
+release carries the wheel, source distribution, v0.1 generation artifact, v0.2
+taskpack, public baseline registry and evidence archive, and SHA-256 manifest.
+The container manifest digest is
+`sha256:9f99695059014de7055ab57448456e3cc9ac3c3910da4668ba65f8aef345a4b3`.
+PyPI `0.3.0a2` and Zenodo DOI `10.5281/zenodo.21199886` carry the sanitized
+release. Superseded pre-redaction package and archival versions were deleted.

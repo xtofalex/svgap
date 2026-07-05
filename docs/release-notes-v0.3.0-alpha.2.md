@@ -17,3 +17,10 @@ The release retains the v0.3 adoption features:
 - open-source package, container, CI, and documentation paths.
 
 The built-in backend remains a narrow research reference, not silicon signoff.
+
+## Archive
+
+The version archive is published at
+[doi:10.5281/zenodo.21199886](https://doi.org/10.5281/zenodo.21199886).
+After publication, the archive was fetched independently from Zenodo and
+scanned for the redacted identifier patterns.
