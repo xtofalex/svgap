@@ -268,7 +268,8 @@ The fastest research collaboration path is the
 [frontier RTL handoff study](docs/collaboration-rfc.md): bring one model run,
 one disputed oracle result, one intent-bearing task, or one reproducible
 research-to-production handoff problem. Scoped research proposals and result
-submissions receive an acknowledgement within two working days.
+submissions receive an acknowledgement within two working days. Introduce the
+work in the [replication and co-design call](https://github.com/shsridhar-beep/svgap/discussions/18).
 
 SV-Gap is an independent open-source research project. It is not an NVIDIA
 product or an official statement by NVIDIA.

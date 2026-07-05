@@ -43,6 +43,7 @@ proposal, or reproducible oracle dispute within two working days. Acknowledging
 a proposal is not the same as accepting its claim. If review will take longer,
 the thread will state the missing evidence and next decision point.
 
-Start in the project Discussion titled **Frontier RTL handoff study: replication
-and co-design call**. Do not post proprietary RTL, credentials, confidential
-constraints, private checkpoint mappings, or unapproved tool output.
+Start in the
+[Frontier RTL handoff study: replication and co-design call](https://github.com/shsridhar-beep/svgap/discussions/18).
+Do not post proprietary RTL, credentials, confidential constraints, private
+checkpoint mappings, or unapproved tool output.
