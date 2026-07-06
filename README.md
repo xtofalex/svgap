@@ -181,8 +181,9 @@ development assistance is disclosed in [CONTRIBUTORS.md](https://github.com/shsr
 
 SV-Gap is an independent open-source research project. It is not an NVIDIA
 product or an official statement by NVIDIA. Cite the exact release used. The
-version-specific alpha.5 archival DOI will be recorded after Zenodo ingests the
-tag; the all-versions DOI is
-[doi:10.5281/zenodo.21198938](https://doi.org/10.5281/zenodo.21198938).
+independently fetched and scanned alpha.5 archive is
+[doi:10.5281/zenodo.21226232](https://doi.org/10.5281/zenodo.21226232). The
+[all-versions DOI](https://doi.org/10.5281/zenodo.21198938) always resolves to
+the latest archived release.
 
 Apache-2.0. External tools and imported datasets retain their own licenses.

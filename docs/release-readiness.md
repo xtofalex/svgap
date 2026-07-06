@@ -184,7 +184,7 @@ the PyPI wheel, discovered the frozen taskpack at canonical digest
 and completed the one-task smoke study with functional pass and no structural
 gap member for the calibrated safe reference.
 
-## v0.3.0-alpha.5 release candidate
+## v0.3.0-alpha.5 released
 
 - The README is a proof-first landing page shared safely by GitHub and PyPI,
   with canonical links, a zero-install result, one-command container demo,
@@ -198,7 +198,24 @@ gap member for the calibrated safe reference.
 - Package metadata describes evidence profiles rather than implying production
   readiness or certification.
 
-The candidate must pass the complete test suite, strict documentation build,
-link check, package build, clean-wheel missing-tool test, GitHub matrix, and
-container quickstart before tagging. GitHub, PyPI, GHCR, and Zenodo artifacts
-must then be independently verified before the release is called complete.
+Tag `v0.3.0-alpha.5` was published from tested commit `8c15abe`. The complete
+98-test suite, strict documentation build, link and result-registry checks,
+package build, clean-wheel missing-tool test, GitHub matrix, and container
+quickstart pass.
+
+GitHub Release, PyPI `0.3.0a5`, the multi-architecture GHCR image, Pages, and
+Zenodo ingestion completed successfully. GitHub and PyPI advertise the same
+wheel digest:
+`sha256:5ec66f3e5327ebdf563fe7c0b1008b9ba8b657c62bad2622bb6342bb5c435722`.
+The container manifest digest is
+`sha256:fc12d0600737cf374877fbf3778ca6ee41d22f72f51260ec3fed077c37cf5b6d`.
+
+Zenodo ingested the tag as DOI `10.5281/zenodo.21226232`. An independently
+downloaded archive matched the published MD5
+`c0f47206474600378f79bb8b59fe11a5` and had zero matches for the withheld exact
+identifier patterns or instantiated local user home paths. The sole `/home/`
+match was a negative assertion in the portability test. A fresh environment
+installed the public wheel, discovered the packaged taskpack at canonical digest
+`sha256:b63acd8845b555ebb0b2ddd5085b70737befdee295b6e68789749494cf3e20e8`,
+and received actionable native, container, and documentation remediation when
+the EDA tools were intentionally hidden.
