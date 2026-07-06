@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/shsridhar-beep/svgap/actions/workflows/ci.yml/badge.svg)](https://github.com/shsridhar-beep/svgap/actions/workflows/ci.yml)
 [![Documentation](https://github.com/shsridhar-beep/svgap/actions/workflows/docs.yml/badge.svg)](https://shsridhar-beep.github.io/svgap/)
-[![PyPI](https://img.shields.io/pypi/v/svgap.svg)](https://pypi.org/project/svgap/)
+[![PyPI](https://img.shields.io/pypi/v/svgap.svg?cacheSeconds=300)](https://pypi.org/project/svgap/)
 [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.21198938-blue.svg)](https://doi.org/10.5281/zenodo.21198938)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](https://github.com/shsridhar-beep/svgap/blob/main/LICENSE)
 
