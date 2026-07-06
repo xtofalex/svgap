@@ -9,7 +9,7 @@
    "task_id": "reset_config"
   },
   {
-   "bundle_digest": "sha256:fdc211537c517fd127b493207b0900aa7b52a087e5c3b199e14281929f601bb6",
+   "bundle_digest": "sha256:b0dfc8a0b35626f4306a196f8ed389ee0b5f5837b538e24258aff778831da7a2",
    "functional": "pass",
    "run_id": "claude-opus-4-8--sample-01",
    "structural": "fail",
@@ -65,7 +65,7 @@
    "task_id": "reset_config"
   },
   {
-   "bundle_digest": "sha256:e722ca4abe56f450936b6b5a7a59148e19c1908bf15cde43fda77492caec4ca7",
+   "bundle_digest": "sha256:ff39b07405cc34e9bb52ee66cf85e54b44d4e9137adae6d8b0146645900768bf",
    "functional": "pass",
    "run_id": "claude-opus-4-8--sample-02",
    "structural": "pass",
@@ -121,7 +121,7 @@
    "task_id": "reset_config"
   },
   {
-   "bundle_digest": "sha256:b4827320309ed5afae74815fb75fd42c5ecc38e8cb6604a53b296f0d86fc2742",
+   "bundle_digest": "sha256:01955a48b5b19b7600438e177774bb248a03ab305109d35aafa5ee82150fcde0",
    "functional": "pass",
    "run_id": "claude-opus-4-8--sample-03",
    "structural": "pass",
@@ -177,7 +177,7 @@
    "task_id": "reset_config"
   },
   {
-   "bundle_digest": "sha256:4bd172f51ea44b016f1f480f5d4dd09d84a80673f262721f01076513d80ec428",
+   "bundle_digest": "sha256:0b8165e8de0dd2ff559783cc92135abb8ed30cd30e8a14fd03a40e1938461573",
    "functional": "pass",
    "run_id": "claude-sonnet-5--sample-01",
    "structural": "fail",
@@ -233,7 +233,7 @@
    "task_id": "reset_config"
   },
   {
-   "bundle_digest": "sha256:245108fa54421d75130ee42f08158f1527881b0fb18429d99d992c6b0c833f45",
+   "bundle_digest": "sha256:15076128e38c3440cb66e5eb8e744177af58173491d8f5c62afd0204930200da",
    "functional": "pass",
    "run_id": "claude-sonnet-5--sample-02",
    "structural": "fail",
@@ -289,7 +289,7 @@
    "task_id": "reset_config"
   },
   {
-   "bundle_digest": "sha256:fde741178dd5bf610987b8e94997ad927a769a6f17a51f048d63a35df6107a72",
+   "bundle_digest": "sha256:093ab00790e5fbd24483fc2f737496db9fb8eae093fe711086aed4f557ffcfde",
    "functional": "pass",
    "run_id": "claude-sonnet-5--sample-03",
    "structural": "pass",
@@ -345,7 +345,7 @@
    "task_id": "reset_config"
   },
   {
-   "bundle_digest": "sha256:21f520804d30b82ded29bae86c895eeac5be667a42c6f9f42f8fb48717cf5f57",
+   "bundle_digest": "sha256:cf823a8535c582766238765a77bc09ef9ce6256e6e171d3f82f65c9594dfaea6",
    "functional": "pass",
    "run_id": "openai-frontier-a--sample-01",
    "structural": "fail",
@@ -401,7 +401,7 @@
    "task_id": "reset_config"
   },
   {
-   "bundle_digest": "sha256:95890090256b6d82cfcf41225d8420a92bca3df8aea6b823f01f0c6edbaba928",
+   "bundle_digest": "sha256:923dc7cf952cf39897c8a2d6b5c6860dfc6bfddc1941692cee99f9140c791213",
    "functional": "pass",
    "run_id": "openai-frontier-a--sample-02",
    "structural": "fail",
@@ -457,7 +457,7 @@
    "task_id": "reset_config"
   },
   {
-   "bundle_digest": "sha256:53fed8345fa1878d7260cf913c9c5e09294d854344f951c2f8cb6274e265ab9b",
+   "bundle_digest": "sha256:9cd71b12fff1313e3174526b2f8d0d646fcafd344eb256794936b4ef39f43606",
    "functional": "pass",
    "run_id": "openai-frontier-a--sample-03",
    "structural": "fail",
