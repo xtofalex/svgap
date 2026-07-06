@@ -82,8 +82,9 @@ For a model or capability researcher:
 > Thanks for connecting. I am testing a narrow question: when generated RTL
 > passes its functional test, which production-review questions are still
 > unanswered? If you have a model harness, the smallest replication is one
-> packaged task and produces a shareable evidence profile. Would a 15-minute
-> smoke run or a short scoping conversation be more useful?
+> packaged task and produces a shareable evidence profile. Would a 30-minute
+> research scoping call be useful? I will turn it into a one-page experiment
+> contract before asking you to run or contribute anything.
 
 For an RTL or verification practitioner:
 
@@ -106,6 +107,23 @@ knows exactly why opening it is worth their time.
 Track conversions as: substantive reply, intake opened, smoke profile produced,
 and follow-on experiment agreed. Connections, page views, stars, and clones are
 attention signals rather than conversions.
+
+## Research-call agenda
+
+1. **0–5 minutes:** What capability or handoff decision matters to the
+   researcher?
+2. **5–15 minutes:** What does the existing functional evaluation establish,
+   and what production question remains unanswered?
+3. **15–22 minutes:** Can a public or synthetic artifact represent the problem,
+   and which SV-Gap track fits?
+4. **22–27 minutes:** Agree on the smallest publishable evidence unit and its
+   claim boundary.
+5. **27–30 minutes:** Assign one next action each and choose go, revise, or stop.
+
+Send a draft
+[experiment contract](experiment-contract-template.md) within two working days.
+Do not ask for a broad integration, public endorsement, or contributor listing
+at the end of the first call.
 
 ## Maintainer demo commands
 

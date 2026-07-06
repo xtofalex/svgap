@@ -44,6 +44,7 @@ nav:
   - Community:
       - Collaborate: collaboration-rfc.md
       - Design-partner workflow: design-partner-workflow.md
+      - Experiment contract: experiment-contract-template.md
 
 markdown_extensions:
   - admonition

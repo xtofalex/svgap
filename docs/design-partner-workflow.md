@@ -58,7 +58,10 @@ optional.
 Record the research question, task or input, evidence sources, success and
 abstention conditions, provenance, claim boundary, expected public artifact,
 and owner for each next action. Freeze claim-bearing choices before running the
-experiment.
+experiment. Use the
+[experiment-contract template](experiment-contract-template.md) so protocol
+design can become an attributable contribution rather than disappearing into
+meeting notes.
 
 ### 3. Minimal reproducible run
 

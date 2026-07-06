@@ -24,6 +24,20 @@ whether the account is operated manually or through automation. Credit follows
 accepted work; technical and licensing responsibility remains governed by
 [CONTRIBUTING.md](CONTRIBUTING.md).
 
+## Research contributor path
+
+A research scoping call or design-partner affiliation does not by itself create
+contributor status. A researcher is added after an attributable contribution is
+accepted, such as a frozen protocol, redistributable model result, task design,
+analysis, independent validation, documentation, or code. The contribution
+record should link to the relevant pull request, evidence profile, artifact, or
+public study note and state what the contributor actually did.
+
+Use the [design-partner workflow](docs/design-partner-workflow.md) and
+[one-page experiment contract](docs/experiment-contract-template.md) to turn an
+initial call into a reviewable contribution. Paper authorship remains a separate
+venue-governed decision.
+
 ## AI-assisted development
 
 - **OpenAI Codex** — implementation, tests, documentation, repository review,
