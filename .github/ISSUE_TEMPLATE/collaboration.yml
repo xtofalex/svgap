@@ -1,0 +1,92 @@
+name: Research call and collaboration intake
+description: Request a research scoping call; no code or internal RTL required.
+title: "research call: "
+labels: ["collaboration", "research"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to request a 30-minute research scoping call and find the smallest useful SV-Gap experiment or design-partner path. Put only a public, sanitized question in the issue; scheduling can be coordinated separately. Do not include proprietary RTL, confidential constraints, credentials, private checkpoint mappings, or unapproved tool output.
+
+  - type: dropdown
+    id: role
+    attributes:
+      label: Your perspective
+      options:
+        - Frontier-model or capability researcher
+        - Chip-design AI builder
+        - RTL or verification practitioner
+        - Benchmark or evaluation researcher
+        - EDA or checker developer
+        - Other research-to-production role
+    validations:
+      required: true
+
+  - type: dropdown
+    id: path
+    attributes:
+      label: Best first outcome
+      description: This is a starting point, not a commitment to build anything.
+      options:
+        - Request a research scoping call
+        - Explore a design-partner workflow
+        - Map one production question to required evidence
+        - Evaluate one model or agent configuration
+        - Adapt an existing benchmark or workflow
+        - Challenge or compare a checker result
+        - Co-design a task, study, or integration
+        - I am not sure yet
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: What does the current functional evaluation leave unanswered?
+      description: One or two sentences are enough. Describe the question, not confidential implementation details.
+      placeholder: A passing testbench does not tell us whether...
+    validations:
+      required: true
+
+  - type: textarea
+    id: research_value
+    attributes:
+      label: Why is this question useful to researchers or builders?
+      description: State the capability, adoption decision, or research-to-production handoff this could make more legible.
+
+  - type: checkboxes
+    id: shareable
+    attributes:
+      label: Public material available
+      description: Select every option that could be shared under an appropriate public license.
+      options:
+        - label: A public or synthetic RTL example
+        - label: A sanitized model output or evidence report
+        - label: A public benchmark task or result
+        - label: Only the research question for now
+        - label: Unsure; I need help identifying a safe artifact
+
+  - type: textarea
+    id: success
+    attributes:
+      label: What would make a first collaboration useful?
+      description: For example, an evidence profile, a scoped experiment, a disputed-case analysis, or an integration decision.
+
+  - type: dropdown
+    id: timing
+    attributes:
+      label: Timing
+      options:
+        - Ready to try something in the next two weeks
+        - Exploring for a later study or integration
+        - Seeking feedback only
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Public-safety confirmation
+      options:
+        - label: I have not included confidential, proprietary, credential, or export-controlled material.
+          required: true

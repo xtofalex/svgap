@@ -25,9 +25,9 @@ the reason for non-adoption becomes inspectable and actionable.
 > declared deployment intent, layered validity results, and evidence. We built
 > SV-Gap to make that mismatch executable for AI-generated RTL. The first public
 > case study starts with CDC/RDC, where functional simulation can accept designs
-> that differ on reset and crossing safety. We are looking for contributors who
-> can add intent-bearing taskpacks, independent checker backends, and real
-> research-to-production handoff cases.
+> that differ on reset and crossing safety. If you build or review AI-generated
+> RTL, share one public, non-confidential production question your current
+> functional evaluation does not answer. No code or internal RTL is required.
 
 ## Ninety-second demo script
 
@@ -41,9 +41,9 @@ the reason for non-adoption becomes inspectable and actionable.
 4. **55–75s:** Show the diagnosis/repair registry: one frontier model preserves
    uncertainty but misses the repair; another repairs the finding but overclaims
    the diagnosis. Do not call this a ranking.
-5. **75–90s:** “Contribute a taskpack, checker backend, benchmark adapter, model
-   run, or counterexample. The goal is a reviewable evidence ecosystem, not one
-   universal oracle.”
+5. **75–90s:** “Tell us one production question your functional result leaves
+   unanswered. We will turn the smallest public version into an evidence profile
+   or tell you what SV-Gap cannot yet measure.”
 
 ## Coordinated launch sequence
 
@@ -52,8 +52,9 @@ the reason for non-adoption becomes inspectable and actionable.
 2. Pin the welcome, missing-evidence, and checker-backend discussions.
 3. Publish the same visual and one-sentence claim on GitHub, LinkedIn, and the
    talk landing page; link to `svgap demo`, not to a long methodology document.
-4. Invite targeted contributors to one bounded issue each: benchmark adapter,
-   taskpack, checker backend, model replication, or disputed finding.
+4. Follow each relevant connection with one role-specific question and the
+   collaboration intake. Ask for a code contribution only after the question
+   has been scoped.
 5. After 48 hours, publish a short response note: installs, reproduced results,
    questions raised, and new unknowns. Do not substitute stars for research
    evidence.
@@ -70,6 +71,41 @@ Ask specifically for:
 
 Do not make independent human review, a model leaderboard, or agreement with the
 current oracle a condition of participation.
+
+## Connection follow-up
+
+Do not send a generic repository link after someone connects. Use one question
+that lets the recipient contribute expertise without exposing internal work.
+
+For a model or capability researcher:
+
+> Thanks for connecting. I am testing a narrow question: when generated RTL
+> passes its functional test, which production-review questions are still
+> unanswered? If you have a model harness, the smallest replication is one
+> packaged task and produces a shareable evidence profile. Would a 15-minute
+> smoke run or a short scoping conversation be more useful?
+
+For an RTL or verification practitioner:
+
+> Thanks for connecting. I am collecting public, sanitized examples of one
+> thing a passing RTL testbench does not establish for downstream review. No RTL
+> or company details are needed. What is the first question your team would
+> still ask before trusting the handoff?
+
+For a chip-design AI builder:
+
+> Thanks for connecting. SV-Gap now accepts an existing model output and
+> functional result, then reports answered, failed, and unknown production
+> questions. I would value one hard integration constraint from your workflow.
+> If it fits the public scope, I can map it to the smallest experiment within two
+> working days.
+
+Send the collaboration-intake link only after the question, so the recipient
+knows exactly why opening it is worth their time.
+
+Track conversions as: substantive reply, intake opened, smoke profile produced,
+and follow-on experiment agreed. Connections, page views, stars, and clones are
+attention signals rather than conversions.
 
 ## Maintainer demo commands
 

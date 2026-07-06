@@ -42,7 +42,8 @@ nav:
       - Adjudication scaffold: adjudication-scaffold.md
       - Scope boundary: scope-boundary.md
   - Community:
-      - Collaboration RFC: collaboration-rfc.md
+      - Collaborate: collaboration-rfc.md
+      - Design-partner workflow: design-partner-workflow.md
 
 markdown_extensions:
   - admonition

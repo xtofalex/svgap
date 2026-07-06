@@ -3,6 +3,13 @@
 SV-Gap is aimed at applied AI researchers, RTL engineers, and verification
 engineers moving generated hardware from demonstrations toward products.
 
+You do not need to start with code. If you have one public, non-confidential
+question about why a functional RTL result is insufficient for a production
+handoff, use the
+[collaboration intake](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml).
+The maintainer will map it to the smallest useful experiment or explain which
+capability is missing before you invest in a pull request.
+
 ## AI-assisted contributions
 
 AI-assisted contributions are welcome. The submitting contributor must review

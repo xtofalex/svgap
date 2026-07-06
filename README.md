@@ -23,6 +23,39 @@ It is early research software, not a replacement for commercial signoff.
 
 ![SV-Gap turns an offline pass into an evidence profile](docs/assets/svgap-demo.svg)
 
+## Start with a research question
+
+You do not need to contribute code or disclose internal RTL to collaborate.
+
+| If you have… | Spend… | Leave with… |
+|---|---:|---|
+| A capability question, model, or agent harness | One 30-minute research call | A falsifiable experiment and the smallest publishable evidence unit |
+| An applied research-to-production workflow | One 30-minute research call | A bounded design-partner plan using public or synthetic artifacts |
+| A checker, benchmark, or disputed result | One 30-minute research call | A scoped replication, adapter, or oracle-comparison study |
+
+Want to inspect the output before installing anything? Read the
+[controlled safe/unsafe result](docs/controlled-result.md) or browse the
+[public evidence profiles](docs/results.md).
+
+**The primary next step is to
+[request a research scoping call](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml).**
+No RTL, model name, installation, or commitment to contribute is required. The
+public intake can contain only a sanitized question; scheduling can be
+coordinated separately. You will receive a response within two working days
+that identifies the smallest useful public experiment, the evidence it can
+establish, and anything SV-Gap cannot currently answer.
+
+If you reached SV-Gap through a direct invitation or LinkedIn connection, you
+can reply in that same private channel with “SV-Gap research call” and one
+sentence about the question. Opening a public issue is optional.
+
+For applied teams, the call can lead to the
+[design-partner workflow](docs/design-partner-workflow.md): a bounded path from
+one handoff problem to a reproducible gap map, experiment, and evidence profile.
+
+If you already have a model endpoint, skip directly to
+[the one-task smoke run](docs/evaluate-your-model.md#path-a-one-command-over-a-whole-taskpack).
+
 ## Who this is for
 
 | You are… | Use SV-Gap to… | Opportunities to build |
@@ -155,6 +188,23 @@ The command writes a portable report, deterministic study summary, evidence
 file list, and static HTML profile. Replace `--smoke` with `--full` for the
 frozen eight-task, three-sample protocol.
 
+### Current collaboration targets
+
+The most useful next external results are deliberately small:
+
+1. one smoke or full profile from a model configuration not maintained by this
+   project;
+2. one public, sanitized production question that a functional RTL result does
+   not answer; or
+3. one independent checker result that agrees or disagrees with the reference
+   backend.
+
+Start by
+[requesting a research scoping call](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml).
+Accepted result submissions receive a stable evidence-profile URL and explicit
+credit. A useful negative result, disagreement, or “not yet measurable” outcome
+is welcome.
+
 ## Current evidence
 
 - Four controlled safe/unsafe CDC/RDC witness pairs pass the same functional
@@ -180,7 +230,10 @@ ranking.
 ## Build with us
 
 SV-Gap is shared research infrastructure. You do not need to agree with the
-reference checker to contribute.
+reference checker to contribute. If you are interested but not ready to write
+code, use the
+[collaboration intake](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml)
+before choosing one of the build paths below.
 
 ### Add a taskpack
 
@@ -215,6 +268,7 @@ Contribute a minimal false positive, false negative, competing backend result,
 or expert adjudication. Disagreement is evidence, not a project failure.
 
 [Good first issues](https://github.com/shsridhar-beep/svgap/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) ·
+[Collaboration intake](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml) ·
 [Contribution guide](CONTRIBUTING.md) ·
 [Contributors and AI assistance](CONTRIBUTORS.md) ·
 [Discussions](https://github.com/shsridhar-beep/svgap/discussions) ·

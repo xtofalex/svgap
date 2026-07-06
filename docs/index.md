@@ -7,6 +7,8 @@ chip-design team” explicit for AI-generated digital RTL.
 
 ## Start here
 
+- [Request a research scoping call — no code or RTL required](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml)
+- [Explore the design-partner workflow](design-partner-workflow.md)
 - [Run the two-minute demonstration](https://github.com/shsridhar-beep/svgap#see-the-gap-in-two-minutes)
 - [Run one packaged model-evaluation task](evaluate-your-model.md)
 - [Bring your own RTL](bring-your-own-rtl.md)
@@ -44,6 +46,7 @@ defect-rate estimate or silicon signoff.
 
 ## Build the ecosystem
 
+- [Choose a research collaboration path](collaboration-rfc.md)
 - [Write a checker backend](backend-sdk.md)
 - [Understand the architecture](architecture.md)
 - [Review the scope boundary](scope-boundary.md)
