@@ -9,6 +9,8 @@ handoff, use the
 [collaboration intake](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml).
 The maintainer will map it to the smallest useful experiment or explain which
 capability is missing before you invest in a pull request.
+If GitHub sign-in is a blocker, use the maintainer email in
+[SUPPORT.md](SUPPORT.md); do not send confidential material.
 
 ## AI-assisted contributions
 
@@ -17,6 +19,10 @@ the change, disclose substantial automation, verify tests and licensing, and
 take responsibility for the result. Unreviewed bulk-generated submissions,
 fabricated evidence, and contributions containing confidential material may be
 closed.
+
+The accountable submitting person should remain the Git commit author. Record
+material AI assistance in the pull request and contributor disclosure rather
+than presenting a tool identity as an independently accountable researcher.
 
 Contribution method is not a substitute for technical review. The same
 evidence, reproducibility, scope, and claim-boundary requirements apply to

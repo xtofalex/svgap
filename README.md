@@ -3,178 +3,111 @@
 [![CI](https://github.com/shsridhar-beep/svgap/actions/workflows/ci.yml/badge.svg)](https://github.com/shsridhar-beep/svgap/actions/workflows/ci.yml)
 [![Documentation](https://github.com/shsridhar-beep/svgap/actions/workflows/docs.yml/badge.svg)](https://shsridhar-beep.github.io/svgap/)
 [![PyPI](https://img.shields.io/pypi/v/svgap.svg)](https://pypi.org/project/svgap/)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21223430.svg)](https://doi.org/10.5281/zenodo.21223430)
-[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.21198938-blue.svg)](https://doi.org/10.5281/zenodo.21198938)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](https://github.com/shsridhar-beep/svgap/blob/main/LICENSE)
 
 **Make the gap between “passes the benchmark” and “reviewable by a chip-design
 team” explicit.**
 
 SV-Gap is an open evaluation layer for AI-generated digital RTL. It preserves
-the functional result produced by a research workflow, adds declared clock and
-reset intent plus structural evidence, and reports which configured production
-questions are answered, failed, or still unknown.
+the functional result, adds declared design intent and structural evidence, and
+reports which production questions are answered, failed, or still unknown.
 
-> Supply RTL and evaluation evidence. SV-Gap tells you what that evidence
-> establishes, what it contradicts, what remains unresolved, and what evidence
-> would reduce the uncertainty.
+> Supply RTL and evaluation evidence. Receive a reviewable account of what that
+> evidence establishes, what it contradicts, and what evidence would resolve
+> the remaining uncertainty.
 
-SV-Gap begins with clock-domain crossing (CDC) and reset-domain crossing (RDC).
-It is early research software, not a replacement for commercial signoff.
+![SV-Gap turns an offline pass into an evidence profile](https://shsridhar-beep.github.io/svgap/assets/svgap-demo.svg)
 
-![SV-Gap turns an offline pass into an evidence profile](docs/assets/svgap-demo.svg)
+## Choose your first step
 
-## Start with a research question
+| Goal | Start here | Time |
+|---|---|---:|
+| Understand the result without installing anything | [Inspect the controlled result](https://shsridhar-beep.github.io/svgap/controlled-result/) or a [public model profile](https://shsridhar-beep.github.io/svgap/result-profiles/openweights-deepseek-coder-v2-16b-reset-v02/) | 2 minutes |
+| See the gap execute | `docker run --rm ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.5 demo` | 2 minutes |
+| Evaluate one model or agent | [Run the packaged smoke study](https://shsridhar-beep.github.io/svgap/evaluate-your-model/) | 15 minutes |
+| Scope a qualification experiment | [Request a research call](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml) or [email the maintainer](mailto:shsridhar@nvidia.com?subject=SV-Gap%20research%20call) | 30 minutes |
 
-You do not need to contribute code or disclose internal RTL to collaborate.
+Do not send proprietary RTL or confidential constraints through GitHub or
+email. A public or synthetic artifact is enough for the first experiment.
 
-| If you have… | Spend… | Leave with… |
-|---|---:|---|
-| A capability question, model, or agent harness | One 30-minute research call | A falsifiable experiment and the smallest publishable evidence unit |
-| An applied research-to-production workflow | One 30-minute research call | A bounded design-partner plan using public or synthetic artifacts |
-| A checker, benchmark, or disputed result | One 30-minute research call | A scoped replication, adapter, or oracle-comparison study |
-
-Want to inspect the output before installing anything? Read the
-[controlled safe/unsafe result](docs/controlled-result.md) or browse the
-[public evidence profiles](docs/results.md).
-
-**The primary next step is to
-[request a research scoping call](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml).**
-No RTL, model name, installation, or commitment to contribute is required. The
-public intake can contain only a sanitized question; scheduling can be
-coordinated separately. You will receive a response within two working days
-that identifies the smallest useful public experiment, the evidence it can
-establish, and anything SV-Gap cannot currently answer.
-
-If you reached SV-Gap through a direct invitation or LinkedIn connection, you
-can reply in that same private channel with “SV-Gap research call” and one
-sentence about the question. Opening a public issue is optional.
-
-For applied teams, the call can lead to the
-[design-partner workflow](docs/design-partner-workflow.md): a bounded path from
-one handoff problem to a reproducible gap map, experiment, and evidence profile.
-
-If you already have a model endpoint, skip directly to
-[the one-task smoke run](docs/evaluate-your-model.md#path-a-one-command-over-a-whole-taskpack).
-
-## Who this is for
-
-| You are… | Use SV-Gap to… | Opportunities to build |
-|---|---|---|
-| A frontier-model researcher | Test whether models produce evidence-complete RTL, diagnose missing evidence, and repair structural findings without regression | Model baselines, agent policies, diagnosis methods, repair methods |
-| An RTL benchmark maintainer | Learn whether tasks carry enough clock/reset intent to evaluate production-oriented properties | Benchmark adapters, intent-bearing contracts, result submissions |
-| A chip-design AI builder | Add a structural evidence gate after generation and functional testing | Pipeline integrations, CI adapters, evidence dashboards |
-| An RTL or verification engineer | Make the reason a functionally passing candidate is blocked explicit | Minimal counterexamples, disputed findings, independent evidence |
-| An EDA researcher or tool author | Compare structural backends under a shared evidence contract | Open checker backends, differential studies, digital RTL taskpacks |
-| An evaluation researcher | Study when offline success does not identify deployment validity | Abstention semantics, construct-validity studies, cross-domain methods |
-
-## See the gap in two minutes
-
-Install Python 3.11+, Yosys, and Icarus Verilog. On macOS:
-
-```bash
-brew install yosys icarus-verilog
-python3 -m venv .venv
-.venv/bin/python -m pip install svgap==0.3.0a4
-.venv/bin/svgap demo
-```
-
-The demo produces one functional result and two different structural outcomes:
+## What the demo proves
 
 ```text
-candidate  functional  structural  findings
+candidate  functional  structural  finding
 safe       pass        pass        none
 unsafe     pass        fail        REF-RDC-001
 ```
 
-Both implementations satisfy the supplied functional test. Declared
-reset-release intent separates them structurally. Preserve the complete
-reproducer with `svgap demo --output demo-output`.
+Both implementations pass the supplied functional test. Declared reset-release
+intent and configured structural evidence distinguish them. This is an
+executable existence result: it is not a defect-rate estimate, certification,
+or silicon signoff.
 
-For a copy-pasteable machine-readable check, keep the generated artifacts out
-of Git and inspect the JSON summary:
+## Supported today
+
+| Surface | Current support | Boundary |
+|---|---|---|
+| Domain | AI-generated digital RTL | Analog and mixed-signal design are out of scope |
+| Initial properties | Documented CDC/RDC structural patterns | Not comprehensive CDC/RDC signoff |
+| Research tracks | Generation, diagnosis, and repair | Profiles remain multidimensional; no scalar leaderboard |
+| Functional evidence | Executed commands or digest-bound imported results | Evidence quality remains visible |
+| Structural backend | Narrow open Yosys reference backend | Backend `pass` means no configured finding, not a true negative |
+| Outcomes | `pass`, `fail`, `unknown`, `tool_error` | Missing intent or coverage never becomes `pass` |
+| Platforms | Python 3.11–3.13; tested on macOS and Linux | Native Windows is not tested; use Docker Desktop or WSL2 |
+
+Read the full [methodology](https://shsridhar-beep.github.io/svgap/methodology/),
+[limitations](https://shsridhar-beep.github.io/svgap/limitations/), and [scope boundary](https://shsridhar-beep.github.io/svgap/scope-boundary/)
+before making claim-bearing use of a profile.
+
+## Trust and security boundary
+
+- SV-Gap runs locally and performs no telemetry or artifact uploads. A model
+  generator command supplied by the user may contact its configured provider.
+- Generated RTL and functional commands are untrusted input. Do not evaluate
+  them on a workstation containing credentials or sensitive source trees.
+- The recommended two-stage workflow generates in the credentialed environment
+  and evaluates saved responses in a network-disabled, read-only container.
+- Only open-source runtime tools are assumed by default. Tool versions,
+  provenance, unknowns, and errors remain in the evidence record.
+- SV-Gap is evidence infrastructure, not a replacement for organizational
+  review, commercial verification, or signoff.
+- GitHub's automatic contributor graph reflects commit authors, including
+  disclosed AI assistance; it is not a roster of verified human researchers.
+  Maintainer accountability and accepted contributions are documented in
+  [CONTRIBUTORS.md](https://github.com/shsridhar-beep/svgap/blob/main/CONTRIBUTORS.md).
+
+Follow the [isolated evaluation recipe](https://shsridhar-beep.github.io/svgap/evaluate-your-model/#recommended-separate-generation-from-isolated-evaluation)
+for model or contributor outputs you have not reviewed.
+
+## Run locally
+
+The container is the shortest reproducible path and includes the open RTL
+toolchain:
 
 ```bash
-svgap demo --json --output demo-output \
-  | jq '{status, safe: .safe.structural, unsafe: .unsafe.structural, findings: .unsafe.findings}'
+docker run --rm ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.5 demo
 ```
 
-```json
-{
-  "findings": [
-    "REF-RDC-001"
-  ],
-  "safe": "pass",
-  "status": "pass",
-  "unsafe": "fail"
-}
-```
-
-Attach `demo-output/summary.json`, both `*/build/report.json` files, and the
-preserved manifests/RTL sources to an issue or CI artifact when sharing a
-reproduction. The demo is a controlled witness that the supplied functional
-oracle does not identify the structural reset-release finding; it is not a
-defect-rate estimate or silicon signoff.
-
-The same workflow is available in the open-tool container:
+For a native macOS installation:
 
 ```bash
-docker run --rm ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.4 demo
+brew install yosys icarus-verilog
+python3 -m venv .venv
+.venv/bin/python -m pip install svgap==0.3.0a5
+.venv/bin/svgap doctor
+.venv/bin/svgap demo
 ```
 
-## Use SV-Gap on your own RTL
+Ubuntu, Debian, CI, and troubleshooting instructions are in
+[Linux installation and doctor checks](https://shsridhar-beep.github.io/svgap/linux-install-and-doctor/).
+If `doctor` finds a missing prerequisite, it prints the installation command
+or container fallback rather than leaving the user at a missing-tool report.
 
-```bash
-svgap init path/to/design.sv \
-  --top top \
-  --candidate-id experiment-001 \
-  --output path/to/manifest.toml
+## Evaluate a model or existing RTL
 
-svgap validate path/to/manifest.toml
-svgap check path/to/manifest.toml
-svgap explain path/to/build/report.json
-```
-
-`init` deliberately does not guess intent. `validate` exposes missing functional,
-clock, reset, and relationship evidence before execution. `explain` translates
-the resulting report into answered, failed, and unanswered questions.
-
-Follow the complete [bring-your-own-RTL tutorial](docs/bring-your-own-rtl.md),
-including an executable manifest and imported-result path.
-
-The same evaluation is available as a library — `svgap.evaluate(manifest)`
-returns the layered report for Python harnesses and pipelines; see the
-[Python API](docs/python-api.md), including an Inspect-AI adapter sketch.
-
-## Research with SV-Gap
-
-### Generation
-
-Ask whether a model can produce RTL with passing and determinate functional and
-structural evidence—not merely code that passes a testbench.
-
-### Diagnosis
-
-Ask whether a model distinguishes evidence that establishes a property,
-evidence that contradicts it, and a question that remains unresolved.
-
-### Repair
-
-Ask whether a model removes a structural finding while preserving functional
-acceptance, checker coverage, candidate identity, and freedom from new rule
-regressions.
-
-The public [`challenges/v0.1`](challenges/v0.1/) contract defines all three
-tracks. Profiles remain multidimensional rather than hiding failure modes in a
-single score. Browse the [evidence profiles](docs/results.md), follow the
-[submission contract](docs/submitting-results.md), or join the
-[frontier RTL handoff study](docs/collaboration-rfc.md).
-
-To run any model you control — an internal checkpoint, an API endpoint, or a
-local runtime — through a full taskpack with no provider CLI, follow
-[evaluate your model](docs/evaluate-your-model.md): your generator reads a
-prompt on stdin and prints a response; the harness does the rest.
-
-Start with one packaged task and one sample; no source checkout is required:
+Any model harness can participate: read a prompt from stdin and write the model
+response to stdout.
 
 ```bash
 svgap study run reset-release-v0.2 \
@@ -184,171 +117,72 @@ svgap study run reset-release-v0.2 \
   --output my-first-svgap-study
 ```
 
-The command writes a portable report, deterministic study summary, evidence
-file list, and static HTML profile. Replace `--smoke` with `--full` for the
-frozen eight-task, three-sample protocol.
+The run produces a portable summary, evidence-file list, reports, and static
+HTML profile. Replace `--smoke` with `--full` for the frozen eight-task,
+three-sample protocol. See [Evaluate your model](https://shsridhar-beep.github.io/svgap/evaluate-your-model/).
 
-### Current collaboration targets
-
-The most useful next external results are deliberately small:
-
-1. one smoke or full profile from a model configuration not maintained by this
-   project;
-2. one public, sanitized production question that a functional RTL result does
-   not answer; or
-3. one independent checker result that agrees or disagrees with the reference
-   backend.
-
-Start by
-[requesting a research scoping call](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml).
-Accepted result submissions receive a stable evidence-profile URL and explicit
-credit. A useful negative result, disagreement, or “not yet measurable” outcome
-is welcome.
+For existing RTL, use `svgap init`, `validate`, `check`, and `explain`; the
+[bring-your-own-RTL tutorial](https://shsridhar-beep.github.io/svgap/bring-your-own-rtl/) includes an executable
+manifest and imported-result path. Python integrations can call
+`svgap.evaluate(manifest)`; see the [Python API](https://shsridhar-beep.github.io/svgap/python-api/).
 
 ## Current evidence
 
-- Four controlled safe/unsafe CDC/RDC witness pairs pass the same functional
-  tests and are separated by declared structural rules.
+- Four controlled CDC/RDC witness pairs have identical functional outcomes and
+  different configured structural outcomes.
 - A frozen 72-call reset-release study contains 57 functional passes; at least
   14 contain the declared raw-reset pattern.
 - A heuristic inventory covers 508 public RTL-generation tasks across
   VerilogEval, RTLLM, and CVDP.
-- A small exploratory frontier-model baseline exposes a crossed failure mode:
-  one configuration preserves epistemic uncertainty but misses the repair;
-  another repairs the configured finding but overstates what the diagnosis
-  evidence establishes.
+- Two reproducible open-weights profiles demonstrate the public submission
+  path; they are maintainer-produced anchors, not independent replications.
 
-These are an executable existence result, a taskpack-conditional demonstration,
-and a heuristic inventory. They are not a population defect estimate or a model
-ranking.
+[Controlled result](https://shsridhar-beep.github.io/svgap/controlled-result/) ·
+[Reset result](https://shsridhar-beep.github.io/svgap/reset-replication-result/) ·
+[Benchmark audit](https://shsridhar-beep.github.io/svgap/benchmark-audit/) ·
+[Evidence profiles](https://shsridhar-beep.github.io/svgap/results/) ·
+[Compact research note](https://shsridhar-beep.github.io/svgap/compact-research-note/)
 
-[Controlled result](docs/controlled-result.md) ·
-[Reset result](docs/reset-replication-result.md) ·
-[Benchmark audit](docs/benchmark-audit.md) ·
-[Compact research note](docs/compact-research-note.md)
+These are bounded existence, taskpack-conditional, and heuristic results. They
+are not a population defect estimate, general model ranking, or signoff claim.
 
-## Build with us
+## Collaborate
 
-SV-Gap is shared research infrastructure. You do not need to agree with the
-reference checker to contribute. If you are interested but not ready to write
-code, use the
-[collaboration intake](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml)
-before choosing one of the build paths below.
+The preferred entry point is one question a functional RTL evaluation leaves
+unanswered. A 30-minute scoping call should end with a bounded qualification
+experiment, explicit claim boundary, and go/revise/stop decision.
 
-### Add a taskpack
+- [Research-call intake](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml)
+- [Private maintainer email](mailto:shsridhar@nvidia.com?subject=SV-Gap%20research%20call)
+- [Design-partner workflow](https://shsridhar-beep.github.io/svgap/design-partner-workflow/)
+- [One-page experiment contract](https://shsridhar-beep.github.io/svgap/experiment-contract-template/)
+- [Replication and co-design discussion](https://github.com/shsridhar-beep/svgap/discussions/18)
 
-Create public digital RTL tasks with explicit clock/reset intent, executable
-functional evidence, and calibrated references.
+Joining a call is not contributor status. Named credit follows accepted,
+attributable protocol design, redistributable evidence, task design, analysis,
+validation, documentation, or code. See [Contributors](https://github.com/shsridhar-beep/svgap/blob/main/CONTRIBUTORS.md) and
+[Contributing](https://github.com/shsridhar-beep/svgap/blob/main/CONTRIBUTING.md).
 
-### Add a checker backend
+## Extend and integrate
 
-Implement one operation:
+- [Submit a result](https://shsridhar-beep.github.io/svgap/submitting-results/)
+- [Write a checker backend](https://shsridhar-beep.github.io/svgap/backend-sdk/)
+- [Integrate an existing benchmark](https://shsridhar-beep.github.io/svgap/integrating-existing-benchmarks/)
+- [Use the GitHub Action or container](https://shsridhar-beep.github.io/svgap/ci-and-container/)
+- [Good first issues](https://github.com/shsridhar-beep/svgap/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+- [Roadmap](https://github.com/shsridhar-beep/svgap/blob/main/ROADMAP.md)
 
-```python
-check(manifest) -> CheckResult
-```
+## Project status and citation
 
-Backends preserve `pass`, `fail`, `unknown`, and `tool_error`. Missing intent or
-unsupported syntax must never become a pass. See the
-[backend SDK](docs/backend-sdk.md).
-
-### Add a benchmark adapter
-
-Import an existing benchmark’s functional result while binding it
-cryptographically to the evaluated RTL.
-
-### Contribute model evidence
-
-Submit generation, diagnosis, or repair results using the public registry
-contract. Negative results, abstentions, and disagreements are welcome.
-
-### Challenge the oracle
-
-Contribute a minimal false positive, false negative, competing backend result,
-or expert adjudication. Disagreement is evidence, not a project failure.
-
-[Good first issues](https://github.com/shsridhar-beep/svgap/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) ·
-[Collaboration intake](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml) ·
-[Contribution guide](CONTRIBUTING.md) ·
-[Contributors and AI assistance](CONTRIBUTORS.md) ·
-[Discussions](https://github.com/shsridhar-beep/svgap/discussions) ·
-[Roadmap](ROADMAP.md)
-
-## High-value open research problems
-
-1. Which production-oriented properties are absent from current RTL benchmarks?
-2. Can models recognize missing intent instead of inventing it?
-3. Does structural feedback improve repair without creating functional regressions?
-4. How stable are results across independent open checker backends?
-5. What evidence package makes generated RTL reviewable downstream?
-6. How should multidimensional evidence be compared without hiding unknown states?
-
-## Scope and limitations
-
-SV-Gap covers digital RTL and digital verification. See the explicit
-[scope boundary](docs/scope-boundary.md).
-
-The built-in Yosys backend is deliberately narrow and is not signoff-grade. A
-structural pass means only that the configured backend emitted no failing
-finding within its declared coverage. It is not proof of silicon safety.
-
-The generic trace-adjudication scaffold uses prerecorded fixtures. The real
-reset-release perturbation instrumenter remains unimplemented pending patent
-and employer review.
-
-See [methodology](docs/methodology.md), [architecture](docs/architecture.md), and
-[limitations](docs/limitations.md) before interpreting claim-bearing results.
-
-## Install and integrate
-
-### From PyPI
-
-```bash
-python3 -m pip install svgap==0.3.0a4
-svgap doctor
-```
-
-### From source
-
-```bash
-git clone https://github.com/shsridhar-beep/svgap
-cd svgap
-python3 -m venv .venv
-.venv/bin/python -m pip install -e .
-.venv/bin/svgap doctor
-```
-
-### GitHub Actions
-
-Use the reusable action defined in [`action.yml`](action.yml) to
-attach normalized structural evidence to an existing RTL pipeline.
-
-### Requirements
-
-- Python 3.11–3.13
-- Yosys and Icarus Verilog for the built-in backend
-- Only open-source tools are assumed by default
-
-## Community and citation
-
-Ask integration questions and propose research directions in
-[GitHub Discussions](https://github.com/shsridhar-beep/svgap/discussions). Use
-the issue templates for reproducible bugs, taskpacks, backends, and false
-results. See [GOVERNANCE.md](GOVERNANCE.md), [SECURITY.md](SECURITY.md), and
-[SUPPORT.md](SUPPORT.md).
-
-The fastest research collaboration path is the
-[frontier RTL handoff study](docs/collaboration-rfc.md): bring one model run,
-one disputed oracle result, one intent-bearing task, or one reproducible
-research-to-production handoff problem. Scoped research proposals and result
-submissions receive an acknowledgement within two working days. Introduce the
-work in the [replication and co-design call](https://github.com/shsridhar-beep/svgap/discussions/18).
+SV-Gap is early research software maintained by
+[Shraddha S](https://github.com/shsridhar-beep), who is accountable for project
+direction, incorporated changes, research claims, and releases. Material AI
+development assistance is disclosed in [CONTRIBUTORS.md](https://github.com/shsridhar-beep/svgap/blob/main/CONTRIBUTORS.md).
 
 SV-Gap is an independent open-source research project. It is not an NVIDIA
-product or an official statement by NVIDIA.
-
-Cite the exact GitHub release used. The independently fetched and scanned
-archive for `v0.3.0-alpha.4` is available at
-[doi:10.5281/zenodo.21223430](https://doi.org/10.5281/zenodo.21223430).
+product or an official statement by NVIDIA. Cite the exact release used. The
+version-specific alpha.5 archival DOI will be recorded after Zenodo ingests the
+tag; the all-versions DOI is
+[doi:10.5281/zenodo.21198938](https://doi.org/10.5281/zenodo.21198938).
 
 Apache-2.0. External tools and imported datasets retain their own licenses.

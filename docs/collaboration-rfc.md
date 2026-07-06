@@ -21,6 +21,8 @@ not a request for code and creates no obligation to publish or continue.
 Start with the
 [structured collaboration intake](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml).
 It requires no installation and is the preferred path for new collaborators.
+If GitHub sign-in is a blocker, [email the maintainer](mailto:shsridhar@nvidia.com?subject=SV-Gap%20research%20call)
+with one public, non-confidential sentence about the question.
 Applied teams can review the complete
 [design-partner workflow](design-partner-workflow.md) before deciding whether to
 continue after the call.
@@ -73,6 +75,8 @@ the thread will state the missing evidence and next decision point.
 
 Start with the
 [collaboration intake](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml).
+The [maintainer email](mailto:shsridhar@nvidia.com?subject=SV-Gap%20research%20call)
+is the no-GitHub-account alternative.
 Use the
 [replication and co-design discussion](https://github.com/shsridhar-beep/svgap/discussions/18)
 for an open-ended research thread after the initial scope is clear.

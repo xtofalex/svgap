@@ -95,4 +95,6 @@ Use only public, non-confidential language in the intake. The maintainer will
 acknowledge a scoped request within two working days and coordinate scheduling
 separately. Researchers who received a direct invitation may instead reply in
 that private channel with “SV-Gap research call” and a one-sentence question;
-the public intake is optional.
+the public intake is optional. Researchers without a GitHub account may
+[email the maintainer](mailto:shsridhar@nvidia.com?subject=SV-Gap%20research%20call)
+without attaching artifacts or confidential details.

@@ -104,7 +104,7 @@ docker run --rm \
   --tmpfs /tmp:rw,nosuid,size=512m \
   -v "$PWD/reports/generated/my-model-study/_responses:/responses:ro" \
   -v "$PWD/reports/evaluated/my-model-study:/output:rw" \
-  ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.4 \
+  ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.5 \
   study evaluate-saved reset-release-v0.2 \
   --responses /responses \
   --output /output

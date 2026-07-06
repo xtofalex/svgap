@@ -8,7 +8,7 @@ sudo apt-get update
 sudo apt-get install -y python3 python3-venv python3-pip yosys iverilog
 python3 -m venv .venv
 . .venv/bin/activate
-python -m pip install svgap==0.3.0a4
+python -m pip install svgap==0.3.0a5
 svgap doctor
 ```
 
@@ -20,14 +20,15 @@ same open RTL packages:
   with:
     python-version: "3.12"
 - run: sudo apt-get update && sudo apt-get install -y iverilog yosys
-- run: python -m pip install svgap==0.3.0a4
+- run: python -m pip install svgap==0.3.0a5
 - run: svgap doctor
 ```
 
 ## Understanding `svgap doctor`
 
 `svgap doctor` checks whether `yosys`, `iverilog`, and `vvp` are discoverable on
-`PATH`. It exits with status 1 when any required tool is missing.
+`PATH`. It exits with status 1 when any required tool is missing and prints
+native installation recipes plus the no-host-install container fallback.
 
 - `yosys MISSING`: install the `yosys` package and verify it with
   `command -v yosys`.
@@ -36,6 +37,10 @@ same open RTL packages:
 - `vvp MISSING`: install the `iverilog` package; the simulator runtime is
   packaged with Icarus Verilog on Ubuntu and Debian. Verify it with
   `command -v vvp`.
+
+The remediation block covers Homebrew on macOS; `apt`, `dnf`, and `pacman` on
+common Linux distributions; and Docker Desktop or WSL2 for Windows. Native
+Windows execution is not currently tested.
 
 To inspect the exact paths that will be used:
 
@@ -67,7 +72,7 @@ If the host is not Ubuntu/Debian, the system package names differ, or the local
 EDA packages are too old for a reproducible run, use the open-tool container:
 
 ```bash
-docker run --rm ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.4 doctor
+docker run --rm ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.5 doctor
 ```
 
 The container bundles SV-Gap with the pinned open-source toolchain used by the

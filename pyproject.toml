@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "svgap"
-version = "0.3.0a4"
-description = "Production-readiness evaluation for AI-generated RTL"
+version = "0.3.0a5"
+description = "Production-evidence profiles for AI-generated digital RTL"
 readme = "README.md"
 requires-python = ">=3.11"
 license = "Apache-2.0"
 authors = [{ name = "Shraddha Sridhar", email = "shsridhar@nvidia.com" }]
 classifiers = [
-  "Development Status :: 2 - Pre-Alpha",
+  "Development Status :: 3 - Alpha",
   "Programming Language :: Python :: 3",
   "Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)",
 ]
@@ -20,6 +20,8 @@ classifiers = [
 Repository = "https://github.com/shsridhar-beep/svgap"
 Documentation = "https://shsridhar-beep.github.io/svgap/"
 Issues = "https://github.com/shsridhar-beep/svgap/issues"
+"Research collaboration" = "https://shsridhar-beep.github.io/svgap/design-partner-workflow/"
+Changelog = "https://github.com/shsridhar-beep/svgap/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 dev = ["jsonschema>=4.23,<5"]

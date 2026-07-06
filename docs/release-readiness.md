@@ -183,3 +183,22 @@ the PyPI wheel, discovered the frozen taskpack at canonical digest
 `sha256:b63acd8845b555ebb0b2ddd5085b70737befdee295b6e68789749494cf3e20e8`,
 and completed the one-task smoke study with functional pass and no structural
 gap member for the calibrated safe reference.
+
+## v0.3.0-alpha.5 release candidate
+
+- The README is a proof-first landing page shared safely by GitHub and PyPI,
+  with canonical links, a zero-install result, one-command container demo,
+  supported-surface matrix, platform boundary, and explicit trust guidance.
+- GitHub issue intake, maintainer email, design-partner workflow, and experiment
+  contract provide non-code, public, and no-GitHub-account collaboration paths.
+- Maintainer accountability, AI-assistance disclosure, and the distinction
+  between a call, accepted contribution, and paper authorship are explicit.
+- `svgap doctor` provides native remediation commands, container fallback, and
+  troubleshooting documentation rather than terminating at `MISSING`.
+- Package metadata describes evidence profiles rather than implying production
+  readiness or certification.
+
+The candidate must pass the complete test suite, strict documentation build,
+link check, package build, clean-wheel missing-tool test, GitHub matrix, and
+container quickstart before tagging. GitHub, PyPI, GHCR, and Zenodo artifacts
+must then be independently verified before the release is called complete.

@@ -5,6 +5,28 @@ versioning once the manifest and report contracts reach public v0.1.
 
 ## Unreleased
 
+## 0.3.0-alpha.5 — 2026-07-06
+
+### Changed
+
+- Replaced the long contributor-oriented landing page with a proof-first,
+  cross-registry README that offers a zero-install result, one-command
+  container demo, model smoke path, and public or private collaboration route.
+- Added a compact current-coverage matrix, platform support, local/no-telemetry
+  behavior, untrusted-input guidance, maintainer accountability, and explicit
+  claim boundaries to the first-time path.
+- `svgap doctor` now prints platform-specific installation recipes, the pinned
+  container fallback, and troubleshooting documentation when tools are missing.
+- Release automation selects the version-matched release-notes file instead of
+  a hard-coded prior version.
+
+### Added
+
+- Research-call intake, bounded design-partner workflow, and one-page experiment
+  contract that turn interest into attributable protocol or evidence work.
+- Doctor remediation tests for macOS, common Linux package managers, Windows,
+  the container fallback, and backend plugin errors.
+
 ## 0.3.0-alpha.4 — 2026-07-06
 
 ### Added

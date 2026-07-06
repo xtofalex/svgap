@@ -7,13 +7,23 @@ chip-design team” explicit for AI-generated digital RTL.
 
 ## Start here
 
-- [Request a research scoping call — no code or RTL required](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml)
-- [Explore the design-partner workflow](design-partner-workflow.md)
-- [Run the two-minute demonstration](https://github.com/shsridhar-beep/svgap#see-the-gap-in-two-minutes)
+- [Inspect the controlled result without installing anything](controlled-result.md)
+- [Run the two-minute container demonstration](https://github.com/shsridhar-beep/svgap#run-locally)
 - [Run one packaged model-evaluation task](evaluate-your-model.md)
 - [Bring your own RTL](bring-your-own-rtl.md)
 - [Integrate an existing benchmark](integrating-existing-benchmarks.md)
 - [Study frontier-model handoff capability](frontier-model-research.md)
+- [Request a research scoping call](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml)
+  or [email the maintainer](mailto:shsridhar@nvidia.com?subject=SV-Gap%20research%20call)
+- [Explore the design-partner workflow](design-partner-workflow.md)
+
+## Trust boundary
+
+SV-Gap runs locally and performs no telemetry or artifact uploads. Generated
+RTL and functional commands are untrusted input; use the
+[network-disabled evaluation workflow](evaluate-your-model.md#recommended-separate-generation-from-isolated-evaluation)
+for outputs you have not reviewed. Results are bounded evidence profiles, not
+certification or silicon signoff.
 
 ## Copy-paste JSON demo
 

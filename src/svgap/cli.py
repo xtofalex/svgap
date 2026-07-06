@@ -5,6 +5,7 @@ from contextlib import redirect_stdout
 from dataclasses import asdict
 import io
 import json
+import platform
 import shutil
 import subprocess
 import sys
@@ -58,7 +59,7 @@ from svgap.validation import ReportValidationError, validate_report_payload
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="svgap", description="Production-readiness evaluation for AI-generated RTL"
+        prog="svgap", description="Production-evidence profiles for AI-generated digital RTL"
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
     subparsers.add_parser("doctor", help="check local open-source tool prerequisites")
@@ -675,13 +676,13 @@ def main(argv: list[str] | None = None) -> int:
 
 
 def doctor() -> int:
-    missing = []
+    missing_tools = []
     for tool in ("yosys", "iverilog", "vvp"):
         path = shutil.which(tool)
         print(f"{tool:10} {path or 'MISSING'}")
         if path is None:
-            missing.append(tool)
-    if not missing:
+            missing_tools.append(tool)
+    if not missing_tools:
         version = subprocess.run(
             ["yosys", "-V"], capture_output=True, text=True, check=False
         ).stdout.strip()
@@ -690,8 +691,24 @@ def doctor() -> int:
     print(f"backends   {', '.join(sorted(backends))}")
     for name, error in sorted(backend_errors.items()):
         print(f"plugin     {name}: {error}")
-        missing.append(f"backend:{name}")
-    return 1 if missing else 0
+    if missing_tools:
+        print()
+        print("Install the missing open RTL prerequisites:")
+        system = platform.system()
+        if system == "Darwin":
+            print("  macOS:          brew install yosys icarus-verilog")
+        elif system == "Linux":
+            print("  Ubuntu/Debian:  sudo apt-get update && sudo apt-get install -y yosys iverilog")
+            print("  Fedora:         sudo dnf install -y yosys iverilog")
+            print("  Arch:           sudo pacman -S yosys iverilog")
+        elif system == "Windows":
+            print("  Native Windows is not currently tested; use Docker Desktop or WSL2.")
+        else:
+            print(f"  No native installation recipe is maintained for {system or 'this platform'}.")
+        print("Or use the pinned container with no host EDA installation:")
+        print("  docker run --rm ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.5 doctor")
+        print("Docs: https://shsridhar-beep.github.io/svgap/linux-install-and-doctor/")
+    return 1 if missing_tools or backend_errors else 0
 
 
 def run_demo_command(output: Path | None, print_json: bool) -> int:
