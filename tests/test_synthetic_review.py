@@ -24,7 +24,7 @@ class SyntheticReviewTests(TestCase):
     def test_normalize_provider_aliases_to_locked_schema(self) -> None:
         result = normalize_result(
             {
-                "verdict": "YES — raw reset reaches the counter",
+                "verdict": "YES - raw reset reaches the counter",
                 "key_lines": ["16-18", 22],
                 "justification": "The operational count register uses arst_n.",
                 "primary_elements": "count",

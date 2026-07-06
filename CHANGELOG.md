@@ -5,7 +5,29 @@ versioning once the manifest and report contracts reach public v0.1.
 
 ## Unreleased
 
-## 0.3.0-alpha.5 — 2026-07-06
+## 0.3.0-alpha.6 - 2026-07-06
+
+### Added
+
+- `svgap study quickstart` evaluates a clearly labelled bundled fixture and
+  creates an interpretable first evidence profile without requiring a model
+  adapter.
+- A review-before-publication 90-second onboarding-video kit with narration,
+  shot list, sanitized terminal session, captions, accessibility and safety
+  checks, and an editable SVG thumbnail.
+
+### Changed
+
+- Study profiles now expose answered, failed, and unanswered production
+  questions, next evidence, and the claim boundary directly in HTML.
+- Study commands print the exact first report to explain and put result
+  interpretation before publication or submission guidance.
+- Intermediate Yosys JSON now uses candidate-relative source locations so a
+  shared study directory does not disclose the evaluator's workspace path.
+- First-visit documentation distinguishes fast execution from the large cold
+  container pull and provides a measured path from result to model integration.
+
+## 0.3.0-alpha.5 - 2026-07-06
 
 ### Changed
 
@@ -27,7 +49,7 @@ versioning once the manifest and report contracts reach public v0.1.
 - Doctor remediation tests for macOS, common Linux package managers, Windows,
   the container fallback, and backend plugin errors.
 
-## 0.3.0-alpha.4 — 2026-07-06
+## 0.3.0-alpha.4 - 2026-07-06
 
 ### Added
 
@@ -58,7 +80,7 @@ versioning once the manifest and report contracts reach public v0.1.
   `check` command now shares the same evaluation path. Documented in
   [docs/python-api.md](docs/python-api.md) with an Inspect-AI adapter sketch.
 
-## 0.3.0-alpha.3 — 2026-07-05
+## 0.3.0-alpha.3 - 2026-07-05
 
 ### Added
 
@@ -80,7 +102,7 @@ versioning once the manifest and report contracts reach public v0.1.
 - A frontier RTL handoff collaboration RFC with explicit response, credit, and
   authorship expectations.
 
-## 0.3.0-alpha.2 — 2026-07-05
+## 0.3.0-alpha.2 - 2026-07-05
 
 ### Changed
 
@@ -89,7 +111,7 @@ versioning once the manifest and report contracts reach public v0.1.
 - Reissued package, container, and archival metadata from the sanitized source
   history.
 
-## 0.3.0-alpha.1 — 2026-07-05
+## 0.3.0-alpha.1 - 2026-07-05
 
 ### Added
 
@@ -111,7 +133,7 @@ versioning once the manifest and report contracts reach public v0.1.
   marker with no rewrite, skew injection, execution, or candidate-result code
   pending patent and employer review.
 
-## 0.2.0-alpha.1 — 2026-07-04
+## 0.2.0-alpha.1 - 2026-07-04
 
 ### Added
 
@@ -132,7 +154,7 @@ versioning once the manifest and report contracts reach public v0.1.
 - Research positioning treats the reset count as a worked mechanism
   demonstration, not a prerequisite population estimate.
 
-## 0.1.0-alpha.1 — 2026-07-02
+## 0.1.0-alpha.1 - 2026-07-02
 
 ### Added
 

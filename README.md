@@ -24,8 +24,8 @@ reports which production questions are answered, failed, or still unknown.
 | Goal | Start here | Time |
 |---|---|---:|
 | Understand the result without installing anything | [Inspect the controlled result](https://shsridhar-beep.github.io/svgap/controlled-result/) or a [public model profile](https://shsridhar-beep.github.io/svgap/result-profiles/openweights-deepseek-coder-v2-16b-reset-v02/) | 2 minutes |
-| See the gap execute | `docker run --rm ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.5 demo` | 2 minutes |
-| Evaluate one model or agent | [Run the packaged smoke study](https://shsridhar-beep.github.io/svgap/evaluate-your-model/) | 15 minutes |
+| Create and interpret a local evidence profile | `svgap study quickstart --output my-first-svgap-study` after installation | 2 minutes |
+| Evaluate one model or agent | [Run the packaged smoke study](https://shsridhar-beep.github.io/svgap/evaluate-your-model/) | about 10 minutes after prerequisites |
 | Scope a qualification experiment | [Request a research call](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml) or [email the maintainer](mailto:shsridhar@nvidia.com?subject=SV-Gap%20research%20call) | 30 minutes |
 
 Do not send proprietary RTL or confidential constraints through GitHub or
@@ -82,11 +82,13 @@ for model or contributor outputs you have not reviewed.
 
 ## Run locally
 
-The container is the shortest reproducible path and includes the open RTL
-toolchain:
+The browser result above is the fastest path from a new visit to the research
+idea. The container includes the complete open RTL toolchain, but its first
+large image pull depends on network speed; the demo itself runs in
+under two minutes once the image is cached:
 
 ```bash
-docker run --rm ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.5 demo
+docker run --rm ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.6 demo
 ```
 
 For a native macOS installation:
@@ -94,10 +96,15 @@ For a native macOS installation:
 ```bash
 brew install yosys icarus-verilog
 python3 -m venv .venv
-.venv/bin/python -m pip install svgap==0.3.0a5
+.venv/bin/python -m pip install svgap==0.3.0a6
 .venv/bin/svgap doctor
-.venv/bin/svgap demo
+.venv/bin/svgap study quickstart --output my-first-svgap-study
 ```
+
+`quickstart` evaluates a clearly labelled bundled unsafe fixture, writes a
+portable HTML evidence profile, and prints the exact report to pass to
+`svgap explain`. It teaches the workflow; it is not a model result. Run
+`.venv/bin/svgap demo` for the paired safe/unsafe executable witness.
 
 Ubuntu, Debian, CI, and troubleshooting instructions are in
 [Linux installation and doctor checks](https://shsridhar-beep.github.io/svgap/linux-install-and-doctor/).

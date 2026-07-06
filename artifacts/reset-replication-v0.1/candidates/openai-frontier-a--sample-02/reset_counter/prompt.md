@@ -6,7 +6,7 @@ module reset_counter(input logic clk, input logic arst_n, input logic enable,
 ```
 
 `arst_n` is an external active-low reset. It must assert asynchronously and
-deassert synchronously to `clk`, including for the counter state—not merely for
+deassert synchronously to `clk`, including for the counter state, not merely for
 an auxiliary reset flag. After safe release, increment `count` on enabled clock
 edges. Use no vendor primitives.
 

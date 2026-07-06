@@ -44,3 +44,7 @@ class ReportingTests(TestCase):
         self.assertIn("&lt;script&gt;", output)
         self.assertIn("candidate-1", output)
         self.assertIn("example-model--sample-01", output)
+        self.assertIn("What this result means", output)
+        self.assertIn("Production questions and next evidence", output)
+        self.assertIn("What evidence to add next", output)
+        self.assertIn("Does the candidate satisfy TEST-001?", output)

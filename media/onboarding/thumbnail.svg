@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">SV-Gap onboarding video thumbnail</title>
+  <desc id="desc">From functional pass to an explicit production question in ninety seconds.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101827"/>
+      <stop offset="1" stop-color="#1f2a44"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#000" flood-opacity=".35"/>
+    </filter>
+  </defs>
+  <rect width="1280" height="720" fill="url(#background)"/>
+  <circle cx="1128" cy="112" r="210" fill="#6d5dfc" opacity=".13"/>
+  <circle cx="112" cy="680" r="245" fill="#24c8a5" opacity=".1"/>
+
+  <g font-family="Inter, ui-sans-serif, system-ui, sans-serif">
+    <text x="80" y="92" fill="#84e1bc" font-size="28" font-weight="700" letter-spacing="3">SV-GAP · 90 SECOND TOUR</text>
+    <text x="80" y="176" fill="#f8fafc" font-size="60" font-weight="800">From functional pass</text>
+    <text x="80" y="246" fill="#f8fafc" font-size="60" font-weight="800">to production question</text>
+  </g>
+
+  <g transform="translate(80 318)" filter="url(#shadow)" font-family="Inter, ui-sans-serif, system-ui, sans-serif">
+    <rect width="1120" height="254" rx="24" fill="#f8fafc"/>
+    <g transform="translate(38 35)">
+      <rect width="290" height="184" rx="16" fill="#e8f7ef" stroke="#75c99b" stroke-width="2"/>
+      <text x="24" y="42" fill="#185a3b" font-size="21" font-weight="700">FUNCTIONAL ORACLE</text>
+      <text x="24" y="94" fill="#17202a" font-size="32" font-weight="800">PASS</text>
+      <text x="24" y="137" fill="#52606d" font-size="20">supplied test accepted</text>
+      <text x="24" y="166" fill="#52606d" font-size="20">the candidate</text>
+    </g>
+
+    <path d="M354 127h76" stroke="#677489" stroke-width="6" stroke-linecap="round"/>
+    <path d="m418 111 18 16-18 16" fill="none" stroke="#677489" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <g transform="translate(456 35)">
+      <rect width="626" height="184" rx="16" fill="#fff5f3" stroke="#ee8d7d" stroke-width="2"/>
+      <text x="24" y="42" fill="#9b2c20" font-size="21" font-weight="700">PRODUCTION QUESTION</text>
+      <text x="24" y="91" fill="#17202a" font-size="29" font-weight="800">Does the candidate satisfy</text>
+      <text x="24" y="130" fill="#17202a" font-size="29" font-weight="800">the declared reset intent?</text>
+      <rect x="470" y="121" width="124" height="40" rx="20" fill="#c24131"/>
+      <text x="532" y="149" text-anchor="middle" fill="#fff" font-size="20" font-weight="800">FAILED</text>
+    </g>
+  </g>
+
+  <g transform="translate(80 626)" font-family="Inter, ui-sans-serif, system-ui, sans-serif">
+    <circle cx="30" cy="0" r="30" fill="#6d5dfc"/>
+    <path d="m22-14 24 14-24 14z" fill="#fff"/>
+    <text x="82" y="9" fill="#dbe4f0" font-size="27" font-weight="650">See what the benchmark result does, and does not, establish.</text>
+  </g>
+</svg>

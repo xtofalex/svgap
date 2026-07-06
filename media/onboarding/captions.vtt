@@ -1,0 +1,25 @@
+WEBVTT
+
+00:00.000 --> 00:08.000
+A generated RTL design can pass its functional test and still leave an important production question unresolved. SV-Gap makes that handoff visible.
+
+00:08.000 --> 00:19.000
+It preserves the functional result, adds declared design intent and structural evidence, and reports what is answered, failed, or still unknown. This is evidence accounting, not silicon signoff.
+
+00:19.000 --> 00:31.000
+On a machine with the open RTL prerequisites already installed, one command creates a complete local evidence profile.
+
+00:31.000 --> 00:41.000
+Quickstart uses a clearly labelled, known-unsafe bundled fixture. It validates the workflow; it is not a model result.
+
+00:41.000 --> 01:02.000
+The supplied functional oracle accepted the candidate. The configured structural rule did not. The profile then names the failed production question: does this candidate satisfy the declared synchronous reset-release requirement?
+
+01:02.000 --> 01:14.000
+Unknowns remain unknown, and the profile says what evidence could resolve them: review, repair, an independent backend, or approved adjudication.
+
+01:14.000 --> 01:25.000
+To evaluate your own model or agent, wrap it as one command: prompt on standard input, RTL on standard output. Start with one smoke task, inspect the same profile, then scale to the frozen protocol.
+
+01:25.000 --> 01:30.000
+Bring one model output, or one production question your benchmark leaves unanswered.

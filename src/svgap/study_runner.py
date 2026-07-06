@@ -117,6 +117,11 @@ def run_study(
             "output": str(output),
         }
     else:
+        if not any(output.glob("*/*/report.json")):
+            raise StudyError(
+                f"study produced no evaluation reports after {len(failures)} "
+                f"failure(s); inspect {output / 'failures.json'}"
+            )
         result = write_study_profile(output)
         result.update({"mode": mode, "failures": failures})
     return result
@@ -156,6 +161,59 @@ def evaluate_saved_responses(
     return result
 
 
+def run_quickstart(*, output: Path) -> dict[str, Any]:
+    """Evaluate one bundled fixture and produce a first evidence profile.
+
+    This is an onboarding run, not a model result.  It deliberately uses the
+    taskpack's known unsafe reference so a new user can see a functional pass
+    become a structural failure before connecting a model endpoint.
+    """
+    missing = [
+        tool for tool in ("yosys", "iverilog", "vvp") if not shutil.which(tool)
+    ]
+    if missing:
+        raise StudyError(
+            "quickstart needs the open RTL prerequisites "
+            f"({', '.join(missing)} missing); run `svgap doctor` for exact install steps"
+        )
+    taskpack = "reset-release-v0.2"
+    metadata = taskpack_metadata(taskpack)
+    task = metadata["smoke_task"]
+    pack = taskpack_root(taskpack)
+    task_dir = pack / "tasks" / task
+    output = _new_output(output)
+    label = "bundled-unsafe-fixture"
+    run_id = f"{label}--sample-01"
+    response_dir = output / "_responses" / run_id
+    response_dir.mkdir(parents=True, exist_ok=True)
+    response_path = response_dir / f"{task}.txt"
+    response_path.write_text(
+        (task_dir / "reference-unsafe.sv").read_text(encoding="utf-8"),
+        encoding="utf-8",
+    )
+    generation = _generation_metadata(
+        taskpack=metadata,
+        task=task,
+        label=label,
+        interface_label="svgap-quickstart-fixture",
+        command="bundled fixture: reference-unsafe.sv",
+        sample=1,
+        mode="quickstart",
+        generation_config={"fixture": True},
+    )
+    metadata_path = response_path.with_suffix(".generation.json")
+    metadata_path.write_text(
+        json.dumps(generation, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    _evaluate_response(
+        task_dir, response_path, label, run_id, output, metadata_path
+    )
+    result = write_study_profile(output)
+    result.update({"mode": "quickstart", "fixture": True})
+    return result
+
+
 def write_study_profile(output: Path) -> dict[str, Any]:
     reports = sorted(output.glob("*/*/report.json"))
     if not reports:
@@ -183,6 +241,7 @@ def write_study_profile(output: Path) -> dict[str, Any]:
         "summary": str(summary_path),
         "profile": str(profile_path),
         "evidence": str(evidence_path),
+        "first_report": str(reports[0]),
     }
 
 
@@ -207,7 +266,10 @@ def _run_command(command: str, prompt: str, sandbox: Path) -> str:
         check=False,
     )
     if completed.returncode:
-        raise subprocess.SubprocessError(completed.stderr[-4000:])
+        diagnostic = completed.stderr[-4000:].strip() or (
+            f"generation command exited {completed.returncode} with no stderr"
+        )
+        raise subprocess.SubprocessError(diagnostic)
     if not completed.stdout.strip():
         raise subprocess.SubprocessError("generation command produced empty stdout")
     return completed.stdout

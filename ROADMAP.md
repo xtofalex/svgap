@@ -1,6 +1,6 @@
 # Roadmap
 
-## v0.1 — executable research contract
+## v0.1 - executable research contract
 
 - CDC/RDC reference oracle for controlled fixtures
 - normalized manifest and report schemas
@@ -8,7 +8,7 @@
 - JSON and terminal reports
 - reproducible functional simulation
 
-## v0.2 alpha — handoff and adoption contract
+## v0.2 alpha - handoff and adoption contract
 
 - imported, content-bound functional results
 - discoverable checker backend SDK
@@ -18,7 +18,7 @@
 - reset taskpack v0.2 with corrected intent and executable references
 - Python 3.11–3.13 CI, package assets, governance, and launch kit
 
-## v0.2 follow-ons — evaluation breadth
+## v0.2 follow-ons - evaluation breadth
 
 - generic prerecorded trace adjudication contract and calibration scaffold
   (shipped; no candidate-level empirical claim)
@@ -33,7 +33,7 @@
   CDC packs remain)
 - blinded human-adjudication import and agreement reports
 
-## v0.3 — contributor ecosystem
+## v0.3 - contributor ecosystem
 
 - immutable public result submissions and generated evidence-profile pages
 - packaged reset-release taskpack discovery plus smoke/full study commands

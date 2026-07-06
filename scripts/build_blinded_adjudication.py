@@ -153,7 +153,7 @@ functional outcome, and the automated structural verdict are hidden.
 
 For every case, answer the primary question independently:
 
-> Does any operational state element—not a reset-synchronizer stage itself—use
+> Does any operational state element, not a reset-synchronizer stage itself, use
 > the external raw asynchronous reset on its asynchronous reset input, allowing
 > reset removal to reach that state without first passing through the declared
 > synchronized-release path?

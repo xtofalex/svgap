@@ -7,12 +7,12 @@ real-world identity.
 
 ## Maintainer
 
-- [Shraddha S](https://github.com/shsridhar-beep) — project direction,
+- [Shraddha S](https://github.com/shsridhar-beep) - project direction,
   research claims, implementation review, releases, and final accountability.
 
 ## Accepted external contributions
 
-- [JSap0914](https://github.com/JSap0914) — Linux installation and diagnostic
+- [JSap0914](https://github.com/JSap0914) - Linux installation and diagnostic
   documentation ([PR #16](https://github.com/shsridhar-beep/svgap/pull/16))
   and the machine-readable demo workflow
   ([PR #17](https://github.com/shsridhar-beep/svgap/pull/17)).
@@ -40,10 +40,10 @@ venue-governed decision.
 
 ## AI-assisted development
 
-- **OpenAI Codex** — implementation, tests, documentation, repository review,
+- **OpenAI Codex** - implementation, tests, documentation, repository review,
   release engineering, and usability analysis under maintainer direction and
   review.
-- **Anthropic Claude**, including the Fable interface — implementation,
+- **Anthropic Claude**, including the Fable interface - implementation,
   documentation, review, and product analysis under maintainer direction and
   review.
 

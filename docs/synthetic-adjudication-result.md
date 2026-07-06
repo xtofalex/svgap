@@ -55,7 +55,7 @@ configurations whose vendor differs from the candidate's generator, with
 unanimity required for `yes` or `no`
 (`scripts/analyze_vendor_disjoint.py`).
 
-- All 72 targets: yes=15, no=57, unresolved=0 — identical to the full-panel
+- All 72 targets: yes=15, no=57, unresolved=0 - identical to the full-panel
   consensus and the reference oracle.
 - Among 57 functional passes: yes=14, no=43, unresolved=0.
 - By generator vendor: Anthropic-generated candidates score 9 yes / 39 no

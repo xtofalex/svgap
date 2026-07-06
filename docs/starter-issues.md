@@ -11,7 +11,7 @@ Acceptance criteria: backend capability probe, stable normalized statuses,
 paired-fixture regression tests, third-party license entry, and a limitations
 section comparing results with `reference-yosys`.
 
-## 2. [Export normalized findings as SARIF and static HTML](https://github.com/shsridhar-beep/svgap/issues/2) — delivered in v0.2
+## 2. [Export normalized findings as SARIF and static HTML](https://github.com/shsridhar-beep/svgap/issues/2) - delivered in v0.2
 
 Add deterministic SARIF output for CI annotations and a dependency-light static
 HTML summary for research artifacts. Preserve `unknown` and `tool_error` as
@@ -30,7 +30,7 @@ Acceptance criteria: schema validation, duplicate/missing-case rejection,
 pre-reconciliation Cohen/Krippendorff agreement, unresolved-case preservation,
 and tests proving that the public output contains no private mapping fields.
 
-## 4. [Build reset taskpack v0.2](https://github.com/shsridhar-beep/svgap/issues/4) — delivered in v0.2
+## 4. [Build reset taskpack v0.2](https://github.com/shsridhar-beep/svgap/issues/4) - delivered in v0.2
 
 Resolve the timer output ambiguity in a new version rather than editing v0.1,
 add executable safe/unsafe references for each task, and expand task diversity.

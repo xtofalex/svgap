@@ -69,6 +69,11 @@ class ReferenceYosysBackend:
             )
         try:
             netlist = json.loads(netlist_path.read_text(encoding="utf-8"))
+            netlist = portable_netlist(netlist, manifest.path.parent)
+            netlist_path.write_text(
+                json.dumps(netlist, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
             result = self._analyze(manifest, netlist)
             result.tool_versions = tool_versions
             return result
@@ -285,6 +290,28 @@ def yosys_quote(path: Path) -> str:
     if any(character in value for character in ("\x00", "\r", "\n")):
         raise ValueError("unsupported control character in RTL path")
     return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
+
+
+def portable_netlist(value: Any, candidate_root: Path) -> Any:
+    """Remove the candidate's absolute root from shareable Yosys JSON."""
+    root = candidate_root.resolve()
+    prefixes = {str(root), root.as_posix()}
+
+    def clean(text: str) -> str:
+        for prefix in prefixes:
+            text = text.replace(prefix + "/", "").replace(prefix + "\\", "")
+        return text
+
+    def walk(item: Any) -> Any:
+        if isinstance(item, dict):
+            return {clean(str(key)): walk(nested) for key, nested in item.items()}
+        if isinstance(item, list):
+            return [walk(nested) for nested in item]
+        if isinstance(item, str):
+            return clean(item)
+        return item
+
+    return walk(value)
 
 
 def is_sequential(cell_type: str) -> bool:

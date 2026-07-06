@@ -72,3 +72,15 @@ class LegibilityAndOnboardingTests(TestCase):
             ),
             1,
         )
+
+    def test_explain_report_only_is_non_gating_for_interactive_onboarding(self) -> None:
+        self.assertEqual(
+            main(
+                [
+                    "explain",
+                    str(ROOT / "challenges/v0.1/repair/before-report.json"),
+                    "--report-only",
+                ]
+            ),
+            0,
+        )

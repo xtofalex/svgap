@@ -29,7 +29,7 @@ peer review:
 ### The sharpest defensible thesis
 
 The gap is **in kind, not in degree**. EvalPlus-style critiques show functional
-test suites are too weak *in degree* — fixable with more tests. CDC/RDC hazards
+test suites are too weak *in degree* - fixable with more tests. CDC/RDC hazards
 are invisible *in kind* to RTL-level functional simulation: four-state digital
 simulation does not model metastability, and reset recovery/removal violations
 require timing-annotated analysis. No number of additional test vectors closes
@@ -47,8 +47,8 @@ CDC checker onto VerilogEval: the tasks do not carry clock-group, asynchrony, or
 reset-semantics declarations, so structural safety is unidentifiable from the
 benchmark artifact regardless of checker strength. The fix is therefore not
 another metric but **intent-carrying task contracts** (SV-Gap's manifest). This
-reframing — evaluation validity limited by artifact metadata, not by oracle
-effort — appears novel and is the natural standardization pitch for Si2.
+reframing - evaluation validity limited by artifact metadata, not by oracle
+effort - appears novel and is the natural standardization pitch for Si2.
 
 Secondary novel elements worth keeping explicit:
 
@@ -61,44 +61,44 @@ Secondary novel elements worth keeping explicit:
 
 ## Must-cite prior art (ranked by threat)
 
-1. **Veri-Sure** (arXiv:2601.19747, 2026) — verified in full text to state
+1. **Veri-Sure** (arXiv:2601.19747, 2026) - verified in full text to state
    "Most tasks assume a single clock domain, ignoring reset-domain reasoning and
    CDC safety" in a 9-category taxonomy of VerilogEval-v2's 156 tasks. The
    qualitative version of the audit finding, published first. Differentiate on:
    cross-benchmark breadth (508 vs 156), quantification, scorability analysis,
    and the executable oracle + witness corpus.
 2. **Rethinking LLM-Based RTL Code Optimization via Timing Logic Metamorphosis**
-   (ICCAD 2025, arXiv:2507.16808) — the only prior paper combining LLM
+   (ICCAD 2025, arXiv:2507.16808) - the only prior paper combining LLM
    evaluation with CDC structures (stress-tests LLM *optimizers* on
    clock-domain logic; does not check generated RTL for CDC safety).
-3. **[RTLBench](https://github.com/fangzhigang32/RTLBench)** (ICCD 2025) —
+3. **[RTLBench](https://github.com/fangzhigang32/RTLBench)** (ICCD 2025),
    lint/readability-scored LLM RTL with synchronizer, CDC-transfer, Gray-code,
    handshake, and asynchronous-reset/synchronous-release tasks. Its public
    evaluator invokes `verilator --lint-only -Wall`; repository inspection on
    2026-07-02 found no dedicated CDC/RDC constraints, structural oracle, or
    signoff-style rule configuration. The tasks therefore narrow the novelty
    claim to structural *scoring*, rather than CDC task presence.
-4. **CVDP** (arXiv:2506.14074) — its cid07 category scores Verilator lint +
+4. **CVDP** (arXiv:2506.14074) - its cid07 category scores Verilator lint +
    Yosys QoR. This falsifies any "benchmarks score only compilation and
    simulation" wording (see rewording below). Zero CDC/RDC content verified.
 5. **CWEval** (arXiv:2501.08200), **HardSecBench** (arXiv:2601.13864), **SecV**
-   (IJCAI 2025), Pearce et al. "Asleep at the Keyboard" (S&P 2022) — the
+   (IJCAI 2025), Pearce et al. "Asleep at the Keyboard" (S&P 2022) - the
    security-domain analog: paired functional/security oracles showing
    functionally-passing-but-unsafe code. Frame SV-Gap as extending the paired-
    oracle construction to a new property class with a different mechanism
    (semantics outside the simulator, not policy outside the spec).
-6. **Synthesis-in-the-Loop Evaluation** (GLSVLSI 2026, arXiv:2603.11287) — owns
+6. **Synthesis-in-the-Loop Evaluation** (GLSVLSI 2026, arXiv:2603.11287) - owns
    the "testbench-passing ≠ production-ready" rhetoric via synthesis QoR;
    distinguish PPA quality from silicon safety.
-7. **[RTL-BenchLS](https://arxiv.org/abs/2606.08976)** (June 2026) — more than
+7. **[RTL-BenchLS](https://arxiv.org/abs/2606.08976)** (June 2026) - more than
    10,000 designs evaluated through formal equivalence over reasoning,
    completion, and repository-issue tasks. It strengthens the distinction
    between functional equivalence and CDC/RDC structural safety; it does not
    report intent-carrying CDC/RDC scoring.
-8. **US Patent 9,990,453** — CDC-specific design mutations to measure
+8. **US Patent 9,990,453** - CDC-specific design mutations to measure
    verification robustness; nearest conceptual hardware precedent for witness
    pairs.
-9. Software-engineering oracle literature — **Barr et al., "The Oracle Problem
+9. Software-engineering oracle literature - **Barr et al., "The Oracle Problem
    in Software Testing" (IEEE TSE 2015)**; **Jia & Harman mutation-testing
    survey (TSE 2011)**; **pseudo-tested methods** (Vera-Pérez et al., EMSE
    2019); the formalized **"oracle gap"** (arXiv:2309.02395). The witness-pair
@@ -106,7 +106,7 @@ Secondary novel elements worth keeping explicit:
    reviewer will. Distinguish: SV-Gap pairs are functionally equivalent by
    construction with a labeled orthogonal safety property; surviving mutants
    change function.
-10. ML evaluation science (for the review paper) — **D'Amour et al.,
+10. ML evaluation science (for the review paper) - **D'Amour et al.,
    Underspecification (JMLR 2022)** (closest formal analogue: observational
    equivalence under the evaluation with divergent deployment behavior, at
    model level; SV-Gap is the artifact-level, mechanistically explained
@@ -174,7 +174,7 @@ bounded prior-art statement, not proof of global priority.
 
 **DAC (conversations).** Lead with the concrete artifact: paired witnesses that
 pass identical testbenches, and the 14/57 author-confirmed lower bound. The
-one-breath version: *"Functional pass is non-identifying for silicon safety —
+one-breath version: *"Functional pass is non-identifying for silicon safety,
 and 497 of 508 public benchmark tasks can't even express the question, because
 they don't carry clock/reset intent."* Since CVDP is an NVIDIA benchmark, frame
 the audit as constructive: CVDP is the only suite with any multi-clock tasks
@@ -183,10 +183,10 @@ and the natural first home for intent manifests.
 **Si2 talk (evals/benchmarking critique).** Two hooks. (1) The
 unidentifiability reframe: the missing piece is not another checker but a
 standardized intent contract (clock groups, reset semantics, crossing intent)
-attached to benchmark tasks — a standards problem, which is Si2's mandate and
+attached to benchmark tasks - a standards problem, which is Si2's mandate and
 directly relevant to its LLM Benchmarking Coalition. (2) The claim-discipline
 story: pass/fail/unknown/tool_error, lower-bound detection counts vs defect
-rates, blinded adjudication, frozen taskpacks — a worked example of what honest
+rates, blinded adjudication, frozen taskpacks - a worked example of what honest
 eval claims look like in EDA.
 
 **Nature Machine Intelligence review.** Follow `review-case-study.md`: SV-Gap
@@ -196,7 +196,7 @@ construct-validity vocabulary (Jacobs & Wallach; Raji et al.) and position
 against D'Amour underspecification as the artifact-level analogue. The
 research-to-production thesis the example serves: production signoff consumes
 declared intent that research benchmarks never carry, so offline metrics leave
-deployment-relevant properties unmeasured *and unmeasurable* — layered oracles
+deployment-relevant properties unmeasured *and unmeasurable* - layered oracles
 plus intent-carrying evaluation contracts are the remedy.
 
 ## Pre-publication checklist (novelty-specific, beyond release-readiness.md)

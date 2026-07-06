@@ -25,10 +25,36 @@ benchmarks, or production RTL. The defensible conclusion is narrower: for each
 controlled witness, the functional oracle assigns the same successful outcome
 to candidates that the declared structural oracle distinguishes.
 
-Reproduce with:
+## What a researcher can take from this
+
+The useful result is not the balanced fraction. It is the observable failure of
+a functional pass to settle a declared production question. The evidence
+profile makes that handoff explicit: what the functional oracle answered, what
+the configured structural rule rejected, and what evidence should be added
+next. A model or benchmark team can apply the same representation without
+claiming that this small controlled suite estimates real-world defect rates.
+
+Continue with one of these paths:
+
+- [Create a local evidence profile from the bundled fixture](evaluate-your-model.md#first-create-and-read-an-evidence-profile).
+- [Inspect a public model profile](result-profiles/openweights-deepseek-coder-v2-16b-reset-v02.md).
+- [Connect your own model or agent](evaluate-your-model.md#then-connect-your-model).
+
+## Reproduce the evidence
+
+The pinned container reproduces the asynchronous-reset witness. The first image
+pull is large and depends on network speed; execution is quick once
+the image is cached:
 
 ```bash
-.venv/bin/python -m unittest discover -s tests -v
+docker run --rm ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.6 demo
+```
+
+To regenerate all four controlled witness pairs from a source checkout after
+installing the documented open-source prerequisites:
+
+```bash
+python3 -m unittest discover -s tests -v
 ```
 
 Candidate-level machine-readable reports are regenerated under each example's

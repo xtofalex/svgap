@@ -86,7 +86,7 @@ def render_demo_summary(summary: dict[str, Any], output: Path | None) -> str:
     safe = summary["safe"]
     unsafe = summary["unsafe"]
     lines = [
-        "SV-Gap demo — same functional result, different production evidence",
+        "SV-Gap demo - same functional result, different production evidence",
         "",
         "candidate  functional  structural  findings",
         f"safe       {safe['functional']:<10}  {safe['structural']:<10}  "

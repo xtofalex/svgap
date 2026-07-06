@@ -43,7 +43,7 @@ no global time shift explains.
 2. Identify every `$adff`/`$adffe`/`$sr`-class cell whose ARST cone traces to
    the manifest-declared external reset (same tracing as `REF-RDC-001`).
 3. Rewrite the netlist JSON: replace each such cell's ARST input with a
-   per-flop skewed release signal — deassertion extended by one cycle of that
+   per-flop skewed release signal - deassertion extended by one cycle of that
    flop's own clock when `b_i` is set. No flop is exempt; synchronizer stages
    are injected too, because tolerating stage-level skew is exactly the safety
    property under test.
@@ -77,7 +77,7 @@ checks may not observe the divergent state.
 Per-candidate verdicts:
 
 - `hazard_demonstrated`: at least one seed diverges. Store the seed, first
-  divergent cycle, and signal — a minimal reproducer.
+  divergent cycle, and signal - a minimal reproducer.
 - `no_divergence_observed`: N seeds, no divergence. **Not** a safety claim.
 - `inconclusive`: instrumentation or simulation failure.
 
@@ -108,7 +108,7 @@ never evidence about candidates. The gate is a CI test.
   human sample audit (recommended ≥ 12 cases), replacing full-case human
   labeling.
 - Language after adjudication: "machine-demonstrated under a declared
-  perturbation model, sample-audited by independent reviewers" — not
+  perturbation model, sample-audited by independent reviewers" - not
   "validated defect rate" unless the human sample audit and cross-check agree.
 
 ## Generalization (not v0)
@@ -121,7 +121,7 @@ differs sharply by family:
   golden-trace observer as reset release. Cheapest generalization.
 - **Single-bit CDC (`REF-CDC-001`):** randomize destination capture latency by
   one cycle *at every source transition*, not once. The global-shift observer
-  is no longer sound — each transition shifts independently — so divergence
+  is no longer sound - each transition shifts independently - so divergence
   must be defined against the set of traces reachable under legitimate
   per-transition timing choices. This is the semantics used by commercial
   metastability-injection simulation; an open equivalent is design work, not

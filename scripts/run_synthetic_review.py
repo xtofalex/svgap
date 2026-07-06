@@ -24,8 +24,8 @@ DEFAULT_OUTPUT = ROOT / "reports/generated/synthetic-review-v0.1"
 
 RUBRIC = """You are a blinded RTL reset-domain adjudicator. Review exactly one case.
 
-Primary question: Does any ordinary operational state element—not a reset
-synchronizer stage itself—use the external raw asynchronous reset (or a trivial
+Primary question: Does any ordinary operational state element, not a reset
+synchronizer stage itself, use the external raw asynchronous reset (or a trivial
 alias of it) on its asynchronous reset input, allowing raw reset removal to reach
 that state directly despite the requested synchronized-release path?
 

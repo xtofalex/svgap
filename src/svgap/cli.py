@@ -6,6 +6,7 @@ from dataclasses import asdict
 import io
 import json
 import platform
+import shlex
 import shutil
 import subprocess
 import sys
@@ -47,7 +48,12 @@ from svgap.provenance import canonical_file_set_digest
 from svgap.reporting import build_html, dumps_sarif
 from svgap.resources import ResourceError, TASKPACKS, taskpack_metadata
 from svgap.study import summarize_reports
-from svgap.study_runner import StudyError, evaluate_saved_responses, run_study
+from svgap.study_runner import (
+    StudyError,
+    evaluate_saved_responses,
+    run_quickstart,
+    run_study,
+)
 from svgap.submission import (
     SubmissionError,
     bundle_submission,
@@ -78,9 +84,24 @@ def build_parser() -> argparse.ArgumentParser:
     taskpack_path = taskpack_commands.add_parser("path", help="print the installed taskpack path")
     taskpack_path.add_argument("taskpack")
     study = subparsers.add_parser(
-        "study", help="run a provider-neutral model generation study"
+        "study", help="create evidence profiles from a fixture, model, or saved responses"
     )
     study_commands = study.add_subparsers(dest="study_command", required=True)
+    study_quickstart = study_commands.add_parser(
+        "quickstart",
+        help="evaluate a bundled fixture and create a first evidence profile",
+        description=(
+            "Evaluate a labelled known-unsafe fixture with the local open toolchain, "
+            "then write an HTML profile and an explainable report."
+        ),
+        epilog="This validates the evidence workflow; it is not a model result.",
+    )
+    study_quickstart.add_argument(
+        "--output",
+        required=True,
+        type=Path,
+        help="new directory for the profile and reproducible evidence",
+    )
     study_run = study_commands.add_parser(
         "run", help="generate and evaluate a smoke or frozen full study"
     )
@@ -149,6 +170,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     explain.add_argument("report", type=Path)
     explain.add_argument("--json", action="store_true")
+    explain.add_argument(
+        "--report-only",
+        action="store_true",
+        help="print the explanation without using evidence outcomes as the exit code",
+    )
     digest = subparsers.add_parser("digest", help="print the canonical source digest for a manifest")
     digest.add_argument("manifest", type=Path)
     check = subparsers.add_parser(
@@ -320,7 +346,9 @@ def main(argv: list[str] | None = None) -> int:
             return 2
     if args.command == "study":
         try:
-            if args.study_command == "run":
+            if args.study_command == "quickstart":
+                result = run_quickstart(output=args.output)
+            elif args.study_command == "run":
                 generation_config = None
                 if args.generation_config:
                     generation_config = json.loads(
@@ -353,14 +381,25 @@ def main(argv: list[str] | None = None) -> int:
         ) as exc:
             print(f"study failed: {exc}", file=sys.stderr)
             return 2
-        for key in ("mode", "report_count", "functional_pass", "gap_members", "responses", "summary", "profile", "evidence"):
+        for key in ("mode", "report_count", "functional_pass", "gap_members", "responses", "summary", "profile", "evidence", "first_report"):
             if key in result:
                 print(f"{key:16}{result[key]}")
         if result.get("failures"):
             print(f"failures        {len(result['failures'])}", file=sys.stderr)
             return 2
-        if not args.study_command == "run" or not args.generate_only:
-            print("next            use the evidence paths with `svgap submission init`")
+        if args.study_command != "run" or not args.generate_only:
+            print(f"read            {result['profile']}")
+            print(
+                f"interpret       {shlex.quote(sys.executable)} -m svgap explain "
+                f"--report-only {shlex.quote(result['first_report'])}"
+            )
+            if args.study_command == "quickstart":
+                print(
+                    "next            connect your generator with `svgap study run`; "
+                    "this fixture is not a model result"
+                )
+            else:
+                print("next            inspect the profile before preparing a submission")
         return 0
     if args.command == "challenge":
         try:
@@ -437,6 +476,8 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(explanation, indent=2, sort_keys=True))
         else:
             print(render_explanation(explanation), end="")
+        if args.report_only:
+            return 0
         return 1 if explanation["failed"] else (3 if explanation["unanswered"] else 0)
     if args.command == "digest":
         try:
@@ -706,7 +747,7 @@ def doctor() -> int:
         else:
             print(f"  No native installation recipe is maintained for {system or 'this platform'}.")
         print("Or use the pinned container with no host EDA installation:")
-        print("  docker run --rm ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.5 doctor")
+        print("  docker run --rm ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.6 doctor")
         print("Docs: https://shsridhar-beep.github.io/svgap/linux-install-and-doctor/")
     return 1 if missing_tools or backend_errors else 0
 

@@ -2,8 +2,8 @@
 
 `import svgap` exposes the same evaluation path as the CLI, for eval
 harnesses and pipelines that live in Python. The contract is unchanged:
-setup errors raise; measurement outcomes — including `unknown` and
-`tool_error` — come back inside the report, never as exceptions; a
+setup errors raise; measurement outcomes - including `unknown` and
+`tool_error` - come back inside the report, never as exceptions; a
 structural `pass` means no configured finding, not verified safety.
 
 ## Evaluate one candidate
@@ -66,7 +66,7 @@ without notice.
 The following shows the shape of an [Inspect AI](https://inspect.aisi.org.uk)
 task over a taskpack: the dataset is the task prompts, the solver is plain
 generation, and the scorer materializes and evaluates each completion. It is
-an illustrative integration, not a CI-tested artifact — pin your Inspect
+an illustrative integration, not a CI-tested artifact - pin your Inspect
 version and validate against the calibrated taskpack references before
 relying on it.
 
@@ -132,7 +132,7 @@ def svgap_reset_release() -> Task:
 
 The score's `explanation` deliberately carries the full layered outcome:
 an Inspect accuracy number over this task is a harness convenience, not a
-replacement for the profile — report `unknown` and `tool_error` counts
+replacement for the profile - report `unknown` and `tool_error` counts
 alongside it, and treat the result as taskpack-conditional per the
 [interpretation rules](evaluate-your-model.md#interpretation-rules).
 

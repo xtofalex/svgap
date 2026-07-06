@@ -1,8 +1,8 @@
 """Library entry point for evaluating candidates programmatically.
 
 The CLI and this module share one evaluation path. Setup problems (a broken
-manifest, an unknown backend) raise; measurement outcomes — including
-``unknown`` and ``tool_error`` — are returned inside the report, never raised.
+manifest, an unknown backend) raise; measurement outcomes, including
+``unknown`` and ``tool_error``, are returned inside the report, never raised.
 """
 
 from __future__ import annotations

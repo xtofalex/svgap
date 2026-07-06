@@ -5,7 +5,7 @@
   "legacy_digest_method": "From repository root: find taskpacks/reset-replication-v0.1 -type f ! -name freeze.json -print0 | sort -z | xargs -0 shasum -a 256 | shasum -a 256",
   "legacy_digest": "e1d0fbe101a571d857a3ff6384a408a06c4dd54782c587bb2fe646055198ad30",
   "canonical_digest_method": "SV-Gap canonical relative-path, byte-length, and file-content digest; freeze.json excluded",
-  "canonical_digest": "sha256:bc250e3a033b74420347b993bbf0b8fa798e83975f2489891c3fbe170bc4bbe4",
+  "canonical_digest": "sha256:3321d45d1c636880703fac6e2a48a278fc42fecdf2e6dca3aeba98bc80d683d9",
   "canonical_digest_added_after_generation": true,
   "planned_candidates": 72,
   "tasks": 8,

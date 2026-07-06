@@ -8,7 +8,7 @@ chip-design team” explicit for AI-generated digital RTL.
 ## Start here
 
 - [Inspect the controlled result without installing anything](controlled-result.md)
-- [Run the two-minute container demonstration](https://github.com/shsridhar-beep/svgap#run-locally)
+- [Create and interpret a local evidence profile](evaluate-your-model.md#first-create-and-read-an-evidence-profile)
 - [Run one packaged model-evaluation task](evaluate-your-model.md)
 - [Bring your own RTL](bring-your-own-rtl.md)
 - [Integrate an existing benchmark](integrating-existing-benchmarks.md)

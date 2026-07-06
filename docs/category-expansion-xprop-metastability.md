@@ -17,7 +17,7 @@ oracle, for two different reasons:
   erase it.
 - **Metastability:** no digital tool models the physical phenomenon, and this
   project must not claim to. It is operationalized the way signoff practice
-  operationalizes it — declared parametric structural requirements
+  operationalizes it - declared parametric structural requirements
   (synchronizer depth) plus the perturbation semantics of
   [perturbation-adjudication.md](perturbation-adjudication.md). The physical
   phenomenon itself remains explicitly out of scope, consistent with
@@ -25,7 +25,7 @@ oracle, for two different reasons:
 
 ## New rules
 
-### REF-XPROP-001 — un-reset operational state
+### REF-XPROP-001 - un-reset operational state
 
 When the manifest declares `power_on = "reset_required"`, flag any operational
 state element with no recognized reset connection (any polarity, sync or
@@ -44,7 +44,7 @@ A second rule (X-masking control constructs: wildcard/incomplete case
 optimism) is recorded as a candidate `REF-XPROP-002` but intentionally not in
 scope until 001 has fixtures and field results.
 
-### REF-META-001 — declared synchronizer depth
+### REF-META-001 - declared synchronizer depth
 
 When the manifest declares `min_sync_stages = N` for an asynchronous crossing
 (default 2 when the crossing is declared without a depth), flag any recognized
@@ -75,7 +75,7 @@ min_sync_stages = 3                    # enables REF-META-001 above default
 ```
 
 Absent declarations mean the rules return `unknown` for the affected scope,
-never a silent pass — the same abstention contract as the existing rules.
+never a silent pass - the same abstention contract as the existing rules.
 
 ## Witness pairs
 
@@ -115,5 +115,5 @@ at the branch in question).
    injection-adjudicable (see the generalization section of the perturbation
    design).
 4. X-prop generation taskpack (prompts requiring declared power-on behavior)
-   — only after the rules are calibrated on witnesses, mirroring the
+   - only after the rules are calibrated on witnesses, mirroring the
    reset-release sequence: witnesses first, audit second, generation third.

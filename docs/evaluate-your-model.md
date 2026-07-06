@@ -1,14 +1,7 @@
 # Evaluate your model
 
-!!! danger "Generated RTL is untrusted code"
-    The local evaluator is not a security sandbox. A generated candidate is
-    processed by external EDA tools and may contain simulator system tasks.
-    Do not evaluate untrusted RTL on a workstation containing credentials or
-    sensitive source trees. Use the isolated two-stage container path below for
-    model or contributor outputs you have not inspected.
-
-This is the end-to-end recipe for running your own model — an internal
-checkpoint, an API endpoint, or any local runtime — through an SV-Gap
+This is the end-to-end recipe for running your own model - an internal
+checkpoint, an API endpoint, or any local runtime - through an SV-Gap
 taskpack and producing the same layered result the published studies use.
 No provider CLI is required.
 
@@ -17,25 +10,65 @@ Read the [research protocol](research-protocol.md) and
 output is a taskpack-conditional detection count with explicit `unknown`
 states, not a defect rate or a leaderboard entry.
 
+## First: create and read an evidence profile
+
+After [installing SV-Gap and the open RTL prerequisites](linux-install-and-doctor.md),
+run one known bundled fixture before connecting credentials or a model:
+
+```bash
+svgap doctor
+svgap study quickstart --output my-first-svgap-study
+```
+
+This should complete in under two minutes on a supported machine once the
+prerequisites are present. The CLI prints two exact paths: open
+`evidence-profile.html` in a browser, then run the printed `svgap explain ...`
+command. You should learn four things immediately:
+
+1. the supplied functional oracle accepted the candidate;
+2. the configured structural rule rejected it;
+3. the exact production question that failed; and
+4. what independent, repaired, or adjudicated evidence could resolve it.
+
+The candidate is a labelled, known-unsafe fixture packaged for onboarding. It
+proves that your installation and the evidence flow work; it is not a model
+result and must not be reported as one.
+
+## Then: connect your model
+
+!!! danger "Generated RTL is untrusted code"
+    The local evaluator is not a security sandbox. A generated candidate is
+    processed by external EDA tools and may contain simulator system tasks.
+    Do not evaluate untrusted RTL on a workstation containing credentials or
+    sensitive source trees. Use the isolated two-stage container path below for
+    model or contributor outputs you have not inspected.
+
 ## What the harness needs from you
 
 One thing: a way to turn a task prompt into a model response. The contract is
-deliberately minimal —
+deliberately minimal,
 
 - the prompt arrives on **stdin**;
 - the response (containing the RTL, fenced or bare) goes to **stdout**;
 - a nonzero exit means generation failed for that task.
 
-Everything else — response normalization, manifest construction, functional
-simulation, structural checking, provenance hashes — is the harness's job.
+Everything else - response normalization, manifest construction, functional
+simulation, structural checking, provenance hashes - is the harness's job.
 
 ## Path A: one command over a whole taskpack
 
-Wrap your model in any executable. For an OpenAI-compatible endpoint:
+Wrap your model in any executable. For an OpenAI-compatible endpoint, first
+install its client in the same environment:
+
+```bash
+python -m pip install openai
+```
+
+Then create the adapter:
 
 ```python
 #!/usr/bin/env python3
-# my_generate.py — stdin: prompt, stdout: response
+# my_generate.py - stdin: prompt, stdout: response
 import os, sys
 from openai import OpenAI
 
@@ -45,6 +78,16 @@ response = client.chat.completions.create(
     messages=[{"role": "user", "content": sys.stdin.read()}],
 )
 print(response.choices[0].message.content)
+```
+
+Set the credentials and configuration expected by that client. Keep secrets out
+of `--command` because the command string is retained in provenance:
+
+```bash
+export OPENAI_API_KEY="..."
+export MY_MODEL="your-model-or-checkpoint"
+# Optional for a compatible non-default endpoint:
+export MY_BASE_URL="https://your-endpoint.example/v1"
 ```
 
 Start with the packaged smoke protocol: one calibrated task and one sample.
@@ -60,13 +103,19 @@ svgap study run reset-release-v0.2 \
 ```
 
 The output includes `study-summary.json`, `evidence-profile.html`, and
-`evidence-files.txt`. Replace `--smoke` with `--full` to run the frozen eight
-tasks with three samples each. Use `svgap taskpack show reset-release-v0.2` to
-inspect the exact task list and canonical digest before a claim-bearing run.
+`evidence-files.txt`. The terminal prints the exact first report path for
+`svgap explain`; read those results before creating a submission. Replace
+`--smoke` with `--full` to run the frozen eight tasks with three samples each.
+Use `svgap taskpack show reset-release-v0.2` to inspect the exact task list and
+canonical digest before a claim-bearing run.
+
+If every generation or evaluation attempt fails, the command exits nonzero and
+points to `failures.json`, which contains the task-level adapter or tool
+diagnostic. It does not present an empty study as a result.
 
 Environment variables (API keys, endpoints) pass through to your command.
 The prompt is never placed on the command line, and the recorded provenance
-contains your command string and interface label — not your credentials.
+contains your command string and interface label - not your credentials.
 
 Do not place credentials directly in `--command`: the command string is
 retained as provenance. Prefer environment variables supplied to the generator.
@@ -104,7 +153,7 @@ docker run --rm \
   --tmpfs /tmp:rw,nosuid,size=512m \
   -v "$PWD/reports/generated/my-model-study/_responses:/responses:ro" \
   -v "$PWD/reports/evaluated/my-model-study:/output:rw" \
-  ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.5 \
+  ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.6 \
   study evaluate-saved reset-release-v0.2 \
   --responses /responses \
   --output /output
@@ -170,7 +219,7 @@ schema treats labels as opaque configuration names.
 ## Gate a generation pipeline in CI
 
 `svgap check` exits nonzero on failing, unknown, or tool-error outcomes by
-default. To gate only on the headline condition — functionally accepted but
+default. To gate only on the headline condition - functionally accepted but
 structurally failing RTL:
 
 ```bash

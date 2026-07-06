@@ -1,0 +1,57 @@
+SV-Gap onboarding recording terminal session
+=============================================
+
+Pre-recording setup - do not capture this section
+-------------------------------------------------
+
+Use a clean temporary directory with no username or repository path in the
+prompt. Install the reviewed release-candidate wheel into the recording
+environment and make Yosys, Icarus Verilog, and vvp available on PATH.
+
+Create `/tmp/svgap-video` only if it does not already exist. Do not reuse a
+directory containing an earlier run because SV-Gap correctly refuses to
+overwrite nonempty evidence output.
+
+Set a neutral shell prompt such as `$ ` and use a terminal font of at least
+20 px. Clear command history and notifications before capture.
+
+Captured commands
+-----------------
+
+$ svgap doctor
+
+Expected checkpoints:
+
+- yosys, iverilog, and vvp have concrete paths;
+- the reference-yosys backend is listed;
+- no missing-tool remediation block appears.
+
+$ svgap study quickstart --output first-study
+
+Expected checkpoints:
+
+- mode is `quickstart`;
+- report_count is `1`;
+- functional_pass is `1`;
+- gap_members is `1`;
+- the final line says the fixture is not a model result.
+
+The command prints an exact `interpret` command. Paste that printed command
+rather than reconstructing its report path manually.
+
+Expected interpretation:
+
+- ANSWERED: the supplied functional oracle accepted the candidate;
+- FAILED: the candidate does not satisfy REF-RDC-001;
+- UNANSWERED: none for this fixture;
+- NEXT EVIDENCE: review, repair, independent backend, or approved adjudication;
+- CLAIM BOUNDARY: not silicon signoff or evidence about unconfigured
+  properties.
+
+Browser cut
+-----------
+
+Open `/tmp/svgap-video/first-study/evidence-profile.html` in a clean browser
+profile. Hide bookmarks, extensions, account avatars, history suggestions, and
+the local file path before capture. Use 125–150% zoom and keep the claim
+boundary visible in the final profile shot.
