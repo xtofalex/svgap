@@ -1,0 +1,12 @@
+{
+  "dataset": "svgap/svgap-reset-release",
+  "evaluator_image": "ghcr.io/shsridhar-beep/svgap@sha256:d800fe08199be70963965c7a0674c5f010f4bbc9bfdc129efce7bb95218ae621",
+  "release_tag": "v0.3.0-alpha.6",
+  "schema_version": "1.0",
+  "source_taskpack": {
+    "canonical_digest": "sha256:f003462c832772881f2fca8ffcc1f8fff17a28197f0b10efe2db50f5684b5c97",
+    "id": "reset-replication",
+    "version": "0.2"
+  },
+  "svgap_version": "0.3.0a6"
+}

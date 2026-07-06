@@ -1,0 +1,32 @@
+schema_version = "1.0"
+candidate_id = "harbor-reset-status"
+
+[design]
+top = "reset_status"
+sources = ["design.sv"]
+
+[functional]
+commands = [
+  ["iverilog", "-g2012", "-o", "${SVGAP_BUILD}/sim.vvp", "design.sv", "/tests/tb.sv"],
+  ["vvp", "${SVGAP_BUILD}/sim.vvp"],
+]
+
+[structural]
+backend = "reference-yosys"
+
+[intent]
+asynchronous_groups = []
+
+[[intent.clocks]]
+name = "status"
+port = "clk"
+
+[[intent.resets]]
+name = "chip_reset"
+port = "rst_n"
+active = "low"
+assertion = "async"
+deassertion = "sync"
+
+[output]
+report = "svgap-report.json"

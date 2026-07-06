@@ -13,3 +13,4 @@ examples/**/build/
 results/**/build/
 site/
 .playwright-cli/
+.harbor-jobs/

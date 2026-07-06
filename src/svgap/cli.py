@@ -58,6 +58,7 @@ from svgap.submission import (
     SubmissionError,
     bundle_submission,
     initialize_submission,
+    initialize_submission_from_harbor,
     validate_submission,
 )
 from svgap.validation import ReportValidationError, validate_report_payload
@@ -316,6 +317,26 @@ def build_parser() -> argparse.ArgumentParser:
     submission_bundle.add_argument("directory", type=Path)
     submission_bundle.add_argument("--output", required=True, type=Path)
     submission_bundle.add_argument("--denylist", type=Path)
+    submission_harbor = submission_commands.add_parser(
+        "from-harbor",
+        help="create a validated submission directory from a complete Harbor job",
+    )
+    submission_harbor.add_argument("job", type=Path)
+    submission_harbor.add_argument("--dataset", required=True, type=Path)
+    submission_harbor.add_argument("--id", required=True, dest="submission_id")
+    submission_harbor.add_argument("--title", required=True)
+    submission_harbor.add_argument("--configuration-label")
+    submission_harbor.add_argument(
+        "--provenance-level",
+        required=True,
+        choices=("public", "attested_alias", "anonymous_case_study"),
+    )
+    submission_harbor.add_argument("--provider")
+    submission_harbor.add_argument("--model-id")
+    submission_harbor.add_argument("--attestor")
+    submission_harbor.add_argument("--attestation")
+    submission_harbor.add_argument("--contributor", required=True)
+    submission_harbor.add_argument("--output", required=True, type=Path)
     return parser
 
 
@@ -709,6 +730,25 @@ def main(argv: list[str] | None = None) -> int:
                 )
                 print(f"bundle      {args.output.resolve()}")
                 print(f"sha256      {digest}")
+                return 0
+            if args.submission_command == "from-harbor":
+                manifest = initialize_submission_from_harbor(
+                    args.job,
+                    args.dataset,
+                    args.output,
+                    submission_id=args.submission_id,
+                    title=args.title,
+                    provenance_level=args.provenance_level,
+                    contributor=args.contributor,
+                    configuration_label=args.configuration_label,
+                    provider=args.provider,
+                    model_id=args.model_id,
+                    attestor=args.attestor,
+                    attestation=args.attestation,
+                )
+                print(f"submission  {args.output.resolve()}")
+                print(f"id          {manifest['submission_id']}")
+                print(f"source      {manifest['source']['job_id']}")
                 return 0
         except SubmissionError as exc:
             print(f"submission failed: {exc}", file=sys.stderr)

@@ -1,0 +1,32 @@
+schema_version = "1.0"
+candidate_id = "harbor-reset-fsm"
+
+[design]
+top = "reset_fsm"
+sources = ["design.sv"]
+
+[functional]
+commands = [
+  ["iverilog", "-g2012", "-o", "${SVGAP_BUILD}/sim.vvp", "design.sv", "/tests/tb.sv"],
+  ["vvp", "${SVGAP_BUILD}/sim.vvp"],
+]
+
+[structural]
+backend = "reference-yosys"
+
+[intent]
+asynchronous_groups = []
+
+[[intent.clocks]]
+name = "control"
+port = "clk"
+
+[[intent.resets]]
+name = "board_reset"
+port = "reset_n"
+active = "low"
+assertion = "async"
+deassertion = "sync"
+
+[output]
+report = "svgap-report.json"

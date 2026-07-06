@@ -31,6 +31,7 @@ and provenance level.
 
 | Submission | Track | Configuration | Provenance | Contributor |
 |---|---|---|---|---|
+| [Codex gpt-5.5 reset-release generation profile](result-profiles/codex-gpt-5.5-reset-v02-01.md) | `generation` | `gpt-5.5` | `public` | Shraddha Sridhar |
 | [DeepSeek-Coder-V2-16B open-weights reset-release generation profile](result-profiles/openweights-deepseek-coder-v2-16b-reset-v02.md) | `generation` | `deepseek-coder-v2-16b` | `public` | Shraddha Sridhar |
 | [Qwen2.5-Coder-7B open-weights reset-release generation profile](result-profiles/openweights-qwen25-coder-7b-reset-v02.md) | `generation` | `qwen2.5-coder-7b` | `public` | Shraddha Sridhar |
 

@@ -271,6 +271,107 @@
       "claim_boundary": "This profile describes submitted digital RTL evidence under configured functional and structural checks. It is not silicon signoff, a population estimate, or a general model ranking.",
       "configuration": {
         "comparative_eligible": true,
+        "label": "gpt-5.5",
+        "model_id": "gpt-5.5",
+        "provenance_level": "public",
+        "provider": "openai"
+      },
+      "contributor": "Shraddha Sridhar",
+      "created_at": "2026-07-06T23:44:23.243054+00:00",
+      "source": "results/submissions/codex-gpt-5.5-reset-v02-01",
+      "submission_id": "codex-gpt-5.5-reset-v02-01",
+      "summary": {
+        "by_model": {
+          "codex-gpt-5.5-reset-v02-01": {
+            "candidates": 8,
+            "functional_pass": 7,
+            "gap_members": 2
+          }
+        },
+        "by_task": {
+          "harbor-reset-config": {
+            "candidates": 1,
+            "functional_pass": 1,
+            "gap_members": 0
+          },
+          "harbor-reset-counter": {
+            "candidates": 1,
+            "functional_pass": 1,
+            "gap_members": 1
+          },
+          "harbor-reset-credits": {
+            "candidates": 1,
+            "functional_pass": 1,
+            "gap_members": 1
+          },
+          "harbor-reset-events": {
+            "candidates": 1,
+            "functional_pass": 1,
+            "gap_members": 0
+          },
+          "harbor-reset-fsm": {
+            "candidates": 1,
+            "functional_pass": 0,
+            "gap_members": 0
+          },
+          "harbor-reset-status": {
+            "candidates": 1,
+            "functional_pass": 1,
+            "gap_members": 0
+          },
+          "harbor-reset-timer": {
+            "candidates": 1,
+            "functional_pass": 1,
+            "gap_members": 0
+          },
+          "harbor-reset-watchdog": {
+            "candidates": 1,
+            "functional_pass": 1,
+            "gap_members": 0
+          }
+        },
+        "detected_gap_fraction": 0.2857142857142857,
+        "functional_pass": 7,
+        "gap_members": 2,
+        "kind": "generation_reports",
+        "outcomes": [
+          {
+            "count": 1,
+            "functional": "compile_error",
+            "gap_member": false,
+            "structural": "pass"
+          },
+          {
+            "count": 2,
+            "functional": "pass",
+            "gap_member": true,
+            "structural": "fail"
+          },
+          {
+            "count": 5,
+            "functional": "pass",
+            "gap_member": false,
+            "structural": "pass"
+          }
+        ],
+        "report_count": 8,
+        "rules": {
+          "REF-RDC-001": 2
+        },
+        "schema_version": "1.0",
+        "structurally_determinate_functional_pass": 7
+      },
+      "taskpack": {
+        "id": "reset-replication",
+        "version": "0.2"
+      },
+      "title": "Codex gpt-5.5 reset-release generation profile",
+      "track": "generation"
+    },
+    {
+      "claim_boundary": "This profile describes submitted digital RTL evidence under configured functional and structural checks. It is not silicon signoff, a population estimate, or a general model ranking.",
+      "configuration": {
+        "comparative_eligible": true,
         "label": "deepseek-coder-v2-16b",
         "model_id": "deepseek-coder-v2:16b",
         "provenance_level": "public",

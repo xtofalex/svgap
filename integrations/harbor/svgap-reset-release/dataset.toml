@@ -1,0 +1,40 @@
+[dataset]
+name = "svgap/svgap-reset-release"
+description = "Paired functional and structural evidence for generated reset-release RTL"
+keywords = [ "systemverilog", "rtl", "eda", "reset", "structural-validity",]
+[[dataset.authors]]
+name = "Shraddha Sridhar"
+email = "shsridhar@nvidia.com"
+
+
+[[tasks]]
+name = "svgap/reset-counter"
+digest = "sha256:f38407b708cfa713a05f5b1bcfe0d2172b8b6c595af961f68a35f8155c12fb80"
+
+[[tasks]]
+name = "svgap/reset-config"
+digest = "sha256:54206c28db8e4ebd4b5ab6e1ea6dd53b7f9920d6ef8c3f44a29a1c441e5888a8"
+
+[[tasks]]
+name = "svgap/reset-credits"
+digest = "sha256:6c72933014ed6ea308cabdca8fb423ffa35c46346eb9acc60737f7098e96fd47"
+
+[[tasks]]
+name = "svgap/reset-events"
+digest = "sha256:343153f4e20df3675bd29fb94d62bf65431c19ee820412b41d045f8d4a158657"
+
+[[tasks]]
+name = "svgap/reset-fsm"
+digest = "sha256:d626633bf1030f9ec7b6965018c68b717a31e246ee95f1d95f9a7325c570749e"
+
+[[tasks]]
+name = "svgap/reset-status"
+digest = "sha256:db93be15b20b6d473ecb45f8adf29339af094c3a7c0e5577975132f73e5071c6"
+
+[[tasks]]
+name = "svgap/reset-timer"
+digest = "sha256:1af78dc5c7a139b928c085e8d268647879cdf2b6c07f58d6d764f14ed9d49cba"
+
+[[tasks]]
+name = "svgap/reset-watchdog"
+digest = "sha256:e21ca027909b19f1a965814d19f34e510ca0c86596df02195a6206b77d56cead"

@@ -27,5 +27,5 @@ SV-Gap remains early digital-RTL research software. Its configured evidence
 profiles are not certification, a population estimate, a general model
 ranking, or silicon signoff.
 
-The version-specific archival DOI and immutable container digest will be added
-after publication and independent verification.
+The immutable multi-architecture container manifest digest is
+`sha256:d800fe08199be70963965c7a0674c5f010f4bbc9bfdc129efce7bb95218ae621`.

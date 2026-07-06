@@ -1,0 +1,66 @@
+{
+  "artifacts": {
+    "evidence": [
+      "evidence/001-harbor-reset-config.json",
+      "evidence/002-harbor-reset-counter.json",
+      "evidence/003-harbor-reset-credits.json",
+      "evidence/004-harbor-reset-events.json",
+      "evidence/005-harbor-reset-fsm.json",
+      "evidence/006-harbor-reset-status.json",
+      "evidence/007-harbor-reset-timer.json",
+      "evidence/008-harbor-reset-watchdog.json"
+    ],
+    "summary": "summary.json"
+  },
+  "claim_boundary": "This profile describes submitted digital RTL evidence under configured functional and structural checks. It is not silicon signoff, a population estimate, or a general model ranking.",
+  "configuration": {
+    "comparative_eligible": true,
+    "label": "gpt-5.5",
+    "model_id": "gpt-5.5",
+    "provenance_level": "public",
+    "provider": "openai"
+  },
+  "contributor": "Shraddha Sridhar",
+  "created_at": "2026-07-06T23:44:23.243054+00:00",
+  "digests": {
+    "evidence/001-harbor-reset-config.json": "5c1600ca123f9cf44da47c2511689576f66e07774c95e968df571236b0a4357e",
+    "evidence/002-harbor-reset-counter.json": "725d21289bcf8ac6bd95a36954d146be84477a193dadcf53b0466fde234daefa",
+    "evidence/003-harbor-reset-credits.json": "051fa67fae8ef2cc2804029a5bacaa7340f323d10678e648bbc4b5fbffa8df5d",
+    "evidence/004-harbor-reset-events.json": "456d6ff9427f613271caee1f9cf98eab5d248f4edbbd503cfc86cc1d183d9d09",
+    "evidence/005-harbor-reset-fsm.json": "db02e7973e8cdda17b10e9b975d003332fd7e5228c1dba563fc0a7ff58ff8079",
+    "evidence/006-harbor-reset-status.json": "06df6f25657a20296b3ed1ebb51c8f172a6803518d3fc0adbc5154d4f484dd8d",
+    "evidence/007-harbor-reset-timer.json": "d5fb413d07ec4582ab704a81ed65307e572e6552e768aa078e9da65c77234ab9",
+    "evidence/008-harbor-reset-watchdog.json": "e8825b7cc0c8c75628a3f86cb230f638de2ea44f3f76ce1fd9f063b548463926",
+    "summary.json": "01c756b0f59b2ff0c4d8d28640cc66b6bfe8ce60fd5218b1a3fbfc0523c21368"
+  },
+  "license": "Apache-2.0",
+  "schema_version": "1.0",
+  "source": {
+    "agent": "codex",
+    "dataset": "svgap/svgap-reset-release",
+    "evaluator_image": "ghcr.io/shsridhar-beep/svgap@sha256:d800fe08199be70963965c7a0674c5f010f4bbc9bfdc129efce7bb95218ae621",
+    "job_id": "e5f806a5-4125-40d0-ab6d-791010d8718d",
+    "kind": "harbor_job",
+    "model": "gpt-5.5",
+    "release_tag": "v0.3.0-alpha.6",
+    "svgap_version": "0.3.0a6",
+    "task_digests": {
+      "svgap/reset-config": "sha256:54206c28db8e4ebd4b5ab6e1ea6dd53b7f9920d6ef8c3f44a29a1c441e5888a8",
+      "svgap/reset-counter": "sha256:f38407b708cfa713a05f5b1bcfe0d2172b8b6c595af961f68a35f8155c12fb80",
+      "svgap/reset-credits": "sha256:6c72933014ed6ea308cabdca8fb423ffa35c46346eb9acc60737f7098e96fd47",
+      "svgap/reset-events": "sha256:343153f4e20df3675bd29fb94d62bf65431c19ee820412b41d045f8d4a158657",
+      "svgap/reset-fsm": "sha256:d626633bf1030f9ec7b6965018c68b717a31e246ee95f1d95f9a7325c570749e",
+      "svgap/reset-status": "sha256:db93be15b20b6d473ecb45f8adf29339af094c3a7c0e5577975132f73e5071c6",
+      "svgap/reset-timer": "sha256:1af78dc5c7a139b928c085e8d268647879cdf2b6c07f58d6d764f14ed9d49cba",
+      "svgap/reset-watchdog": "sha256:e21ca027909b19f1a965814d19f34e510ca0c86596df02195a6206b77d56cead"
+    },
+    "taskpack_digest": "sha256:f003462c832772881f2fca8ffcc1f8fff17a28197f0b10efe2db50f5684b5c97"
+  },
+  "submission_id": "codex-gpt-5.5-reset-v02-01",
+  "taskpack": {
+    "id": "reset-replication",
+    "version": "0.2"
+  },
+  "title": "Codex gpt-5.5 reset-release generation profile",
+  "track": "generation"
+}

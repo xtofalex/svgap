@@ -58,6 +58,12 @@ class ContractSchemaTests(TestCase):
     def test_public_submission_contract_validates_initialized_submission(self) -> None:
         schema = json.loads((ROOT / "schemas/submission-v1.json").read_text())
         Draft202012Validator.check_schema(schema)
+        validator = Draft202012Validator(schema, format_checker=FormatChecker())
+        manifests = sorted(ROOT.glob("results/submissions/*/submission.json"))
+        self.assertGreaterEqual(len(manifests), 1)
+        for path in manifests:
+            with self.subTest(path=path):
+                validator.validate(json.loads(path.read_text(encoding="utf-8")))
 
     def test_adjudication_fixture_contracts_validate(self) -> None:
         trace_schema = json.loads((ROOT / "schemas/trace-v1.json").read_text())

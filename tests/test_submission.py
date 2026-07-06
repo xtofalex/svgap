@@ -7,6 +7,7 @@ from svgap.submission import (
     SubmissionError,
     bundle_submission,
     initialize_submission,
+    initialize_submission_from_harbor,
     validate_submission,
 )
 
@@ -127,3 +128,166 @@ class SubmissionTests(TestCase):
                     taskpack_version="0.1",
                     contributor="Example Researcher",
                 )
+
+    def test_from_harbor_validates_and_initializes_submission(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            job, dataset = self.harbor_fixture(root)
+            output = root / "submission"
+            manifest = initialize_submission_from_harbor(
+                job,
+                dataset,
+                output,
+                submission_id="harbor-generation-01",
+                title="Harbor generation profile",
+                provenance_level="public",
+                contributor="Example Researcher",
+                provider="openai",
+            )
+            validate_submission(output)
+            self.assertEqual(manifest["source"]["kind"], "harbor_job")
+            self.assertEqual(manifest["source"]["agent"], "codex")
+            self.assertEqual(manifest["configuration"]["model_id"], "gpt-test")
+
+    def test_from_harbor_rejects_reward_disagreement(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            job, dataset = self.harbor_fixture(root)
+            result_path = next(job.glob("trial-*/result.json"))
+            result = json.loads(result_path.read_text())
+            result["verifier_result"]["rewards"]["structural_accept"] = 0
+            result_path.write_text(json.dumps(result), encoding="utf-8")
+            with self.assertRaisesRegex(SubmissionError, "reward/report mismatch"):
+                initialize_submission_from_harbor(
+                    job,
+                    dataset,
+                    root / "submission",
+                    submission_id="harbor-generation-01",
+                    title="Harbor generation profile",
+                    provenance_level="public",
+                    contributor="Example Researcher",
+                )
+
+    def test_from_harbor_rejects_unpinned_task_image(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            job, dataset = self.harbor_fixture(root)
+            dockerfile = dataset / "example" / "environment" / "Dockerfile"
+            dockerfile.write_text("FROM example.invalid/svgap:latest\n")
+            with self.assertRaisesRegex(SubmissionError, "evaluator image mismatch"):
+                initialize_submission_from_harbor(
+                    job,
+                    dataset,
+                    root / "submission",
+                    submission_id="harbor-generation-01",
+                    title="Harbor generation profile",
+                    provenance_level="public",
+                    contributor="Example Researcher",
+                )
+
+    def test_from_harbor_rejects_oracle_as_model_submission(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            job, dataset = self.harbor_fixture(root)
+            result_path = next(job.glob("trial-*/result.json"))
+            result = json.loads(result_path.read_text())
+            result["agent_info"]["name"] = "oracle"
+            result_path.write_text(json.dumps(result), encoding="utf-8")
+            with self.assertRaisesRegex(SubmissionError, "Oracle jobs"):
+                initialize_submission_from_harbor(
+                    job,
+                    dataset,
+                    root / "submission",
+                    submission_id="harbor-generation-01",
+                    title="Harbor generation profile",
+                    provenance_level="public",
+                    contributor="Example Researcher",
+                )
+
+    def harbor_fixture(self, root: Path) -> tuple[Path, Path]:
+        digest = "sha256:" + "a" * 64
+        image = "example.invalid/svgap@sha256:" + "b" * 64
+        dataset = root / "dataset"
+        task = dataset / "example"
+        (task / "environment").mkdir(parents=True)
+        (task / "task.toml").write_text(
+            'schema_version = "1.3"\n'
+            '[task]\nname = "svgap/example"\n'
+            '[metadata]\nsource_taskpack = "reset-replication-v0.2"\n'
+            'svgap_version = "0.3.0a6"\n',
+            encoding="utf-8",
+        )
+        (task / "environment" / "Dockerfile").write_text(
+            f"FROM {image}\n", encoding="utf-8"
+        )
+        (dataset / "dataset.toml").write_text(
+            '[dataset]\nname = "svgap/test"\n'
+            f'[[tasks]]\nname = "svgap/example"\ndigest = "{digest}"\n',
+            encoding="utf-8",
+        )
+        (dataset / "provenance.json").write_text(
+            json.dumps(
+                {
+                    "schema_version": "1.0",
+                    "dataset": "svgap/test",
+                    "source_taskpack": {
+                        "id": "reset-replication",
+                        "version": "0.2",
+                        "canonical_digest": "sha256:" + "c" * 64,
+                    },
+                    "svgap_version": "0.3.0a6",
+                    "release_tag": "v0.3.0-alpha.6",
+                    "evaluator_image": image,
+                }
+            ),
+            encoding="utf-8",
+        )
+
+        job = root / "job"
+        trial = job / "trial-example"
+        artifacts = trial / "artifacts" / "logs" / "artifacts"
+        artifacts.mkdir(parents=True)
+        (job / "result.json").write_text(json.dumps({"id": "job-1"}))
+        (trial / "lock.json").write_text(
+            json.dumps({"task": {"digest": digest}}), encoding="utf-8"
+        )
+        rewards = {
+            "reward": 1,
+            "functional_accept": 1,
+            "structural_accept": 1,
+            "gap_member": 0,
+            "unknown": 0,
+            "tool_error": 0,
+        }
+        (trial / "result.json").write_text(
+            json.dumps(
+                {
+                    "task_name": "svgap/example",
+                    "exception_info": None,
+                    "agent_info": {
+                        "name": "codex",
+                        "model_info": {"name": "gpt-test"},
+                    },
+                    "verifier_result": {"rewards": rewards},
+                }
+            ),
+            encoding="utf-8",
+        )
+        report = json.loads(REPORT.read_text(encoding="utf-8"))
+        (artifacts / "svgap-report.json").write_text(
+            json.dumps(report), encoding="utf-8"
+        )
+        (artifacts / "harbor-verdict.json").write_text(
+            json.dumps(
+                {
+                    "functional_status": "pass",
+                    "structural_status": "pass",
+                    "gap_member": False,
+                    "unknown": False,
+                    "tool_error": False,
+                    "primary_reward": 1,
+                }
+            ),
+            encoding="utf-8",
+        )
+        return job, dataset

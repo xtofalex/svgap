@@ -67,6 +67,33 @@
       "type": "object",
       "minProperties": 2,
       "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind", "job_id", "agent", "model", "dataset", "task_digests",
+        "taskpack_digest", "svgap_version", "release_tag", "evaluator_image"
+      ],
+      "properties": {
+        "kind": {"const": "harbor_job"},
+        "job_id": {"type": "string", "minLength": 1},
+        "agent": {"type": "string", "minLength": 1},
+        "model": {"type": "string", "minLength": 1},
+        "dataset": {"type": "string", "minLength": 1},
+        "task_digests": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        },
+        "taskpack_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "svgap_version": {"type": "string", "minLength": 1},
+        "release_tag": {"type": "string", "minLength": 1},
+        "evaluator_image": {"type": "string", "pattern": "@sha256:[a-f0-9]{64}$"}
+      }
     }
   }
 }

@@ -1,0 +1,32 @@
+schema_version = "1.0"
+candidate_id = "harbor-reset-watchdog"
+
+[design]
+top = "reset_watchdog"
+sources = ["design.sv"]
+
+[functional]
+commands = [
+  ["iverilog", "-g2012", "-o", "${SVGAP_BUILD}/sim.vvp", "design.sv", "/tests/tb.sv"],
+  ["vvp", "${SVGAP_BUILD}/sim.vvp"],
+]
+
+[structural]
+backend = "reference-yosys"
+
+[intent]
+asynchronous_groups = []
+
+[[intent.clocks]]
+name = "watchdog"
+port = "clk"
+
+[[intent.resets]]
+name = "system_reset"
+port = "system_rst_n"
+active = "low"
+assertion = "async"
+deassertion = "sync"
+
+[output]
+report = "svgap-report.json"
