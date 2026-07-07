@@ -18,6 +18,7 @@ theme:
 nav:
   - Home: index.md
   - Get started:
+      - Harbor experiment: harbor.md
       - Evaluate your model: evaluate-your-model.md
       - Bring your own RTL: bring-your-own-rtl.md
       - Linux install and doctor: linux-install-and-doctor.md
@@ -42,6 +43,7 @@ nav:
       - Adjudication scaffold: adjudication-scaffold.md
       - Scope boundary: scope-boundary.md
   - Community:
+      - Research pulse: community-pulse.md
       - Collaborate: collaboration-rfc.md
       - Design-partner workflow: design-partner-workflow.md
       - Experiment contract: experiment-contract-template.md

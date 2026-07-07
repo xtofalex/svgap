@@ -10,6 +10,7 @@ chip-design team” explicit for AI-generated digital RTL.
 - [Inspect the controlled result without installing anything](controlled-result.md)
 - [Create and interpret a local evidence profile](evaluate-your-model.md#first-create-and-read-an-evidence-profile)
 - [Run one packaged model-evaluation task](evaluate-your-model.md)
+- [Run or report the eight-task Harbor experiment](harbor.md)
 - [Bring your own RTL](bring-your-own-rtl.md)
 - [Integrate an existing benchmark](integrating-existing-benchmarks.md)
 - [Study frontier-model handoff capability](frontier-model-research.md)
@@ -56,6 +57,7 @@ defect-rate estimate or silicon signoff.
 
 ## Build the ecosystem
 
+- [See the current research collaboration pulse](community-pulse.md)
 - [Choose a research collaboration path](collaboration-rfc.md)
 - [Write a checker backend](backend-sdk.md)
 - [Understand the architecture](architecture.md)

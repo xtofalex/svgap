@@ -26,6 +26,7 @@ reports which production questions are answered, failed, or still unknown.
 | Understand the result without installing anything | [Inspect the controlled result](https://shsridhar-beep.github.io/svgap/controlled-result/) or a [public model profile](https://shsridhar-beep.github.io/svgap/result-profiles/openweights-deepseek-coder-v2-16b-reset-v02/) | 2 minutes |
 | Create and interpret a local evidence profile | `svgap study quickstart --output my-first-svgap-study` after installation | 2 minutes |
 | Evaluate one model or agent | [Run the packaged smoke study](https://shsridhar-beep.github.io/svgap/evaluate-your-model/) | about 10 minutes after prerequisites |
+| Run or report the Harbor experiment | [Use the eight-task Harbor path](https://shsridhar-beep.github.io/svgap/harbor/) | 2 minutes to report; run time varies |
 | Scope a qualification experiment | [Request a research call](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml) or [email the maintainer](mailto:shsridhar@nvidia.com?subject=SV-Gap%20research%20call) | 30 minutes |
 
 Do not send proprietary RTL or confidential constraints through GitHub or
@@ -88,7 +89,7 @@ large image pull depends on network speed; the demo itself runs in
 under two minutes once the image is cached:
 
 ```bash
-docker run --rm ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.7 demo
+docker run --rm ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.8 demo
 ```
 
 For a native macOS installation:
@@ -96,7 +97,7 @@ For a native macOS installation:
 ```bash
 brew install yosys icarus-verilog
 python3 -m venv .venv
-.venv/bin/python -m pip install svgap==0.3.0a7
+.venv/bin/python -m pip install svgap==0.3.0a8
 .venv/bin/svgap doctor
 .venv/bin/svgap study quickstart --output my-first-svgap-study
 ```
@@ -160,6 +161,8 @@ unanswered. A 30-minute scoping call should end with a bounded qualification
 experiment, explicit claim boundary, and go/revise/stop decision.
 
 - [Research-call intake](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml)
+- [Report a Harbor run or setup blocker](https://github.com/shsridhar-beep/svgap/issues/new?template=run_report.yml)
+- [Current research collaboration pulse](https://shsridhar-beep.github.io/svgap/community-pulse/)
 - [Private maintainer email](mailto:shsridhar@nvidia.com?subject=SV-Gap%20research%20call)
 - [Design-partner workflow](https://shsridhar-beep.github.io/svgap/design-partner-workflow/)
 - [One-page experiment contract](https://shsridhar-beep.github.io/svgap/experiment-contract-template/)

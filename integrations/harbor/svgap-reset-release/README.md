@@ -111,11 +111,19 @@ cases, challenge the rule, and propose tasks where test success may conceal a
 different hardware mistake. A complete Harbor job can become a reviewable
 SV-Gap contribution without cloning this repository.
 
-Install SV-Gap 0.3.0 alpha 7 or newer, then point the importer at the job
+The smallest useful public contribution is a two-minute run report. Completed
+runs, partial runs, setup blockers, counterexamples, and disagreement with the
+rule are all useful:
+
+[Report what happened](https://github.com/shsridhar-beep/svgap/issues/new?template=run_report.yml)
+or follow the
+[researcher run guide](https://shsridhar-beep.github.io/svgap/harbor/?utm_source=harbor_hub&utm_medium=dataset&utm_campaign=reset_release_02).
+
+Install SV-Gap 0.3.0 alpha 8 or newer, then point the importer at the job
 directory Harbor created:
 
 ```bash
-pip install "svgap>=0.3.0a7"
+pip install "svgap>=0.3.0a8"
 
 svgap submission from-harbor jobs/svgap-agent/JOB_DIRECTORY \
   --dataset svgap/svgap-reset-release@0.2 \
@@ -139,6 +147,10 @@ rule, new task ideas, and reviews of the open evaluation method. See
 [how to submit results](https://shsridhar-beep.github.io/svgap/submitting-results/)
 or start a discussion in the
 [SV-Gap repository](https://github.com/shsridhar-beep/svgap/discussions).
+
+[See the current public research pulse](https://shsridhar-beep.github.io/svgap/community-pulse/?utm_source=harbor_hub&utm_medium=dataset&utm_campaign=reset_release_02),
+including the distinction between author-run evidence and independent
+replication.
 
 ## Scope
 

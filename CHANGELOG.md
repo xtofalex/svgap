@@ -5,6 +5,25 @@ versioning once the manifest and report contracts reach public v0.1.
 
 ## Unreleased
 
+## 0.3.0-alpha.8 - 2026-07-07
+
+### Added
+
+- A two-minute public Harbor run-report form for completed runs, partial runs,
+  setup blockers, counterexamples, and requests for interpretation.
+- A researcher-focused Harbor guide and a public collaboration pulse that
+  distinguishes author-run evidence from independent replication.
+
+### Changed
+
+- Successful Harbor imports now print the retained report count, test-pass
+  count, test-pass/rule-fail count, and voluntary public next steps.
+- The Harbor dataset page now offers a low-commitment reporting path before a
+  full evidence pull request.
+- Project documentation names complete independent agent runs with inspectable
+  evidence as the primary collaboration metric. No hidden usage telemetry was
+  added.
+
 ## 0.3.0-alpha.7 - 2026-07-06
 
 ### Added

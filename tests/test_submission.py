@@ -3,6 +3,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
 
+from svgap.cli import harbor_submission_receipt
 from svgap.submission import (
     SubmissionError,
     bundle_submission,
@@ -224,6 +225,14 @@ class SubmissionTests(TestCase):
             )
             self.assertEqual(len(manifest["source"]["task_digests"]), 8)
             self.assertEqual(len(manifest["artifacts"]["evidence"]), 8)
+            receipt = harbor_submission_receipt(manifest, output)
+            self.assertIn("reports     8", receipt)
+            self.assertIn("tests pass  8", receipt)
+            self.assertIn("pass/rule   0", receipt)
+            self.assertTrue(any("run_report.yml" in line for line in receipt))
+            self.assertIn(
+                "privacy     no telemetry or automatic upload", receipt
+            )
 
     def test_from_harbor_public_reference_rejects_task_drift(self) -> None:
         with TemporaryDirectory() as directory:

@@ -89,14 +89,14 @@ For a complete SV-Gap Harbor dataset run, use `submission from-harbor` instead
 of assembling evidence paths manually:
 
 ```bash
-svgap submission from-harbor .harbor-jobs/codex-reset-release/JOB_TIMESTAMP \
-  --dataset integrations/harbor/svgap-reset-release \
-  --id codex-gpt-5.5-reset-v02-01 \
-  --title "Codex gpt-5.5 reset-release generation profile" \
+svgap submission from-harbor jobs/svgap-agent/JOB_DIRECTORY \
+  --dataset svgap/svgap-reset-release@0.2 \
+  --id YOUR-SUBMISSION-ID \
+  --title "YOUR TITLE" \
   --provenance-level public \
   --provider openai \
   --contributor "YOUR NAME" \
-  --output results/submissions/codex-gpt-5.5-reset-v02-01
+  --output results/submissions/YOUR-SUBMISSION-ID
 ```
 
 The importer requires one completed trial per dataset task and checks task
@@ -104,6 +104,9 @@ digests, release and image provenance, consistent agent identity, and agreement
 among each SV-Gap report, Harbor verdict, and Harbor numeric reward record.
 Harbor Hub uploads are optional execution-sharing artifacts. The accepted
 submission under `results/submissions/` is the canonical results record.
+The command prints the retained report count, test-pass count, hidden-failure
+count, and voluntary public next steps. It performs no telemetry or automatic
+upload.
 
 Before opening the pull request, synchronize the checked-in registry and pages
 with one command from a source checkout:

@@ -64,6 +64,44 @@ from svgap.submission import (
 from svgap.validation import ReportValidationError, validate_report_payload
 
 
+RUN_REPORT_URL = (
+    "https://github.com/shsridhar-beep/svgap/issues/new?template=run_report.yml"
+)
+RESULT_CONTRIBUTION_URL = (
+    "https://shsridhar-beep.github.io/svgap/submitting-results/"
+)
+
+
+def harbor_submission_receipt(
+    manifest: dict[str, object], output: Path
+) -> list[str]:
+    summary_path = output / str(
+        (manifest.get("artifacts") or {}).get("summary", "summary.json")
+    )
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    lines = [
+        f"submission  {output.resolve()}",
+        f"id          {manifest['submission_id']}",
+        f"source      {(manifest.get('source') or {})['job_id']}",
+    ]
+    if summary.get("kind") == "generation_reports":
+        lines.extend(
+            [
+                f"reports     {summary['report_count']}",
+                f"tests pass  {summary['functional_pass']}",
+                f"pass/rule   {summary['gap_members']}",
+            ]
+        )
+    lines.extend(
+        [
+            f"report run  {RUN_REPORT_URL}",
+            f"contribute  {RESULT_CONTRIBUTION_URL}",
+            "privacy     no telemetry or automatic upload",
+        ]
+    )
+    return lines
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="svgap", description="Production-evidence profiles for AI-generated digital RTL"
@@ -750,9 +788,8 @@ def main(argv: list[str] | None = None) -> int:
                     attestor=args.attestor,
                     attestation=args.attestation,
                 )
-                print(f"submission  {args.output.resolve()}")
-                print(f"id          {manifest['submission_id']}")
-                print(f"source      {manifest['source']['job_id']}")
+                for line in harbor_submission_receipt(manifest, args.output):
+                    print(line)
                 return 0
         except SubmissionError as exc:
             print(f"submission failed: {exc}", file=sys.stderr)
@@ -791,7 +828,7 @@ def doctor() -> int:
         else:
             print(f"  No native installation recipe is maintained for {system or 'this platform'}.")
         print("Or use the pinned container with no host EDA installation:")
-        print("  docker run --rm ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.7 doctor")
+        print("  docker run --rm ghcr.io/shsridhar-beep/svgap:v0.3.0-alpha.8 doctor")
         print("Docs: https://shsridhar-beep.github.io/svgap/linux-install-and-doctor/")
     return 1 if missing_tools or backend_errors else 0
 
