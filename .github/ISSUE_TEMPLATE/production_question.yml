@@ -1,0 +1,34 @@
+name: Production question
+description: >-
+  Name one production question your functional RTL evaluation leaves
+  unanswered. 60 seconds. No install, no RTL, no call.
+title: "question: "
+labels: ["research", "question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        One sanitized sentence is enough. Please do not include proprietary
+        designs, NDA'd tool details, or confidential results; a sanitized
+        question class is exactly what we are collecting. No install, no
+        RTL, and no call required.
+  - type: textarea
+    id: question
+    attributes:
+      label: What does your functional RTL evaluation leave unanswered?
+      description: >-
+        One sentence is enough. Example: "Our generated blocks pass their
+        testbenches but nothing checks reset-domain crossings."
+      placeholder: One sentence.
+    validations:
+      required: true
+  - type: dropdown
+    id: role
+    attributes:
+      label: Your role (optional)
+      options:
+        - Design or verification engineer
+        - Evaluation or ML researcher
+        - EDA or tool developer
+        - Standards or consortium member
+        - Other

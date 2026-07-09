@@ -37,8 +37,10 @@ are not counted as runs or contributors.
 
 ## Join at the appropriate level
 
+- 60 seconds: [name one production question](https://github.com/shsridhar-beep/svgap/issues/new?template=production_question.yml)
 - Two minutes: [report a run or blocker](https://github.com/shsridhar-beep/svgap/issues/new?template=run_report.yml)
 - Ten minutes after a run: [submit complete evidence](submitting-results.md)
+- Standards-minded: [comment on the intent-contract RFC](https://github.com/shsridhar-beep/svgap/discussions/20)
 - Research question: [join the replication and co-design discussion](https://github.com/shsridhar-beep/svgap/discussions/18)
 - Scoped collaboration: [request a research call](https://github.com/shsridhar-beep/svgap/issues/new?template=collaboration.yml)
 

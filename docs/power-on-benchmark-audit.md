@@ -20,6 +20,12 @@ or compares an output against an X value as a scored condition.
 This is evidence of under-representation in these frozen benchmark artifacts,
 not a claim about all AI RTL benchmarks or all verification flows.
 
+Read the table as a gradient rather than a ranking: CVDP carries
+substantially more stated reset intent than the other audited suites and is
+currently the one suite where the comprehensive power-on question is askable
+at all. The audit measures how much further task contracts need to go, not
+which suite is deficient.
+
 ## Definitions
 
 - **Sequential:** the interface exposes a clock-like input, or the specification

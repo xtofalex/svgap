@@ -23,6 +23,7 @@ reports which production questions are answered, failed, or still unknown.
 
 | Goal | Start here | Time |
 |---|---|---:|
+| Name one unanswered production question | [Open a one-sentence issue](https://github.com/shsridhar-beep/svgap/issues/new?template=production_question.yml) | 60 seconds |
 | Understand the result without installing anything | [Inspect the controlled result](https://shsridhar-beep.github.io/svgap/controlled-result/) or a [public model profile](https://shsridhar-beep.github.io/svgap/result-profiles/openweights-deepseek-coder-v2-16b-reset-v02/) | 2 minutes |
 | Create and interpret a local evidence profile | `svgap study quickstart --output my-first-svgap-study` after installation | 2 minutes |
 | Evaluate one model or agent | [Run the packaged smoke study](https://shsridhar-beep.github.io/svgap/evaluate-your-model/) | about 10 minutes after prerequisites |

@@ -29,6 +29,11 @@ and provenance level.
 
 ## Public evidence submissions
 
+The profiles below are maintainer-produced anchors; independent submissions
+are welcome and are listed with full attribution. Start with a
+[one-sentence production question](https://github.com/shsridhar-beep/svgap/issues/new?template=production_question.yml)
+or go straight to [submitting results](submitting-results.md).
+
 | Submission | Track | Configuration | Provenance | Contributor |
 |---|---|---|---|---|
 | [Codex gpt-5.5 reset-release generation profile](result-profiles/codex-gpt-5.5-reset-v02-01.md) | `generation` | `gpt-5.5` | `public` | Shraddha Sridhar |

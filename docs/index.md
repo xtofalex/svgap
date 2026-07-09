@@ -7,6 +7,8 @@ chip-design team” explicit for AI-generated digital RTL.
 
 ## Start here
 
+- [Name one production question your functional eval leaves unanswered](https://github.com/shsridhar-beep/svgap/issues/new?template=production_question.yml)
+  (60 seconds, no install)
 - [Inspect the controlled result without installing anything](controlled-result.md)
 - [Create and interpret a local evidence profile](evaluate-your-model.md#first-create-and-read-an-evidence-profile)
 - [Run one packaged model-evaluation task](evaluate-your-model.md)
