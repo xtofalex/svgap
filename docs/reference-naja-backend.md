@@ -93,6 +93,23 @@ Missing or insufficient intent is reported as `unknown` (never `pass`), and an
 elaboration or analysis failure is reported as `tool_error` (never `pass`),
 matching the SDK contract.
 
+## Frontend warnings and working-directory hygiene
+
+Backend runs create no files in the caller's working directory. najaeda's
+incremental diagnostics report is directed to a temporary file (parsed, then
+removed), and its performance report is disabled unless `NAJA_PERF` is
+explicitly set in the environment (an opt-in that follows najaeda's own
+convention).
+
+Warning-severity frontend diagnostics are not dropped: each one surfaces on
+the `CheckResult` as a finding with `rule_id` `REF-NAJA-FRONTEND-001` and
+`severity: warning`, carrying the stage, najaeda warning code, and normalized
+`source_location` in its evidence. The most consequential is
+`case_comparison_two_state`: slang lowers the case-equality operators
+`===`/`!==` as 2-state comparisons in SNL, so the X/Z distinction is not
+preserved, which affects how X/Z-sensitive RTL should be interpreted. Warning
+findings never change the verdict; only error-severity findings do.
+
 ## Timeout behavior
 
 **Known gap: the backend has no timeout.** `check()` calls

@@ -11,6 +11,12 @@ from typing import Any, FrozenSet, Optional, Tuple
 from svgap.backends.base import BackendUnavailable
 from svgap.model import CheckResult, Finding, Manifest
 
+# naja writes naja_perf.log into the caller's working directory when NAJA_PERF
+# is set; an unset or empty value disables it. Backend runs must not create
+# files in the caller's cwd, so default it off while honoring an explicit
+# opt-in from the environment.
+os.environ.setdefault("NAJA_PERF", "")
+
 try:
     from najaeda import naja
 except ModuleNotFoundError as exc:
@@ -44,25 +50,53 @@ def _reset_universe() -> None:
         universe.destroy()
 
 
-def _load_systemverilog(files: list[str], top: str) -> None:
+def _load_systemverilog(files: list[str], top: str) -> list[dict[str, str]]:
+    """Elaborate `files` and return the frontend warnings naja reported.
+
+    The diagnostics report is directed at an explicit path inside a temporary
+    directory (never the caller's cwd) and parsed before the directory is
+    removed, so warnings survive as data while the file does not."""
     db = _get_top_db()
-    temp_flist = None
-    try:
-        with tempfile.NamedTemporaryFile(
-            "w", suffix=".f", delete=False, encoding="utf-8"
-        ) as f:
-            temp_flist = f.name
-            f.write(f"--top {top}\n")
+    with tempfile.TemporaryDirectory() as tmp:
+        flist = Path(tmp) / "svgap.f"
+        flist.write_text(f"--top {top}\n", encoding="utf-8")
+        report = Path(tmp) / "naja_sv_diagnostics.log"
         db.loadSystemVerilog(
             files,
             keep_assigns=True,
-            flist=temp_flist,
+            flist=str(flist),
             keep_ast_link=False,
-            diagnostics_report_path=None,
+            diagnostics_report_path=str(report),
         )
-    finally:
-        if temp_flist and os.path.exists(temp_flist):
-            os.remove(temp_flist)
+        return _parse_report_warnings(report)
+
+
+_REPORT_FIELD_RE = re.compile(r'(\w+)=("(?:[^"\\]|\\.)*"|\S+)')
+
+
+def _parse_report_warnings(report: Path) -> list[dict[str, str]]:
+    """Extract warning entries from najaeda's diagnostics report file.
+
+    The report (format.version=1) carries one line per diagnostic:
+    `diagnostic stage="..." severity="..." code="..." file="..." line=N
+    column=N message="..."`. Only warning-severity entries are returned;
+    errors surface through the elaboration exception path instead."""
+    try:
+        text = report.read_text(encoding="utf-8")
+    except OSError:
+        return []
+    warnings: list[dict[str, str]] = []
+    for line in text.splitlines():
+        if not line.startswith("diagnostic "):
+            continue
+        fields: dict[str, str] = {}
+        for key, raw in _REPORT_FIELD_RE.findall(line[len("diagnostic "):]):
+            if raw.startswith('"') and raw.endswith('"'):
+                raw = raw[1:-1].replace('\\"', '"')
+            fields[key] = raw
+        if fields.get("severity") == "warning":
+            warnings.append(fields)
+    return warnings
 
 
 def _najaeda_version() -> str:
@@ -138,10 +172,7 @@ def _source_loc(obj) -> Optional[str]:
     return f"{file}:{line}"
 
 
-def _source_location(inst, manifest: Manifest) -> str:
-    loc = _source_loc(inst)
-    if loc is None:
-        return ""
+def _manifest_relative(loc: str, manifest: Manifest) -> str:
     # naja/slang's source location records the file path relative to the
     # calling process's current working directory (a slang diagnostics-engine
     # convention), not relative to the manifest directory the way Yosys's
@@ -154,6 +185,45 @@ def _source_location(inst, manifest: Manifest) -> str:
     if absolute.startswith(prefix):
         file_part = absolute[len(prefix):]
     return f"{file_part}:{rest}" if rest else file_part
+
+
+def _source_location(inst, manifest: Manifest) -> str:
+    loc = _source_loc(inst)
+    if loc is None:
+        return ""
+    return _manifest_relative(loc, manifest)
+
+
+def _frontend_warning_findings(
+    warnings: list[dict[str, str]], manifest: Manifest
+) -> list[Finding]:
+    """Convert parsed frontend warnings into warning-severity findings.
+
+    Warning findings never change the verdict (only error-severity findings
+    do), but they belong in the CheckResult: in particular naja's
+    `case_comparison_two_state` warning (`===` lowered as a 2-state
+    comparison) affects how X/Z-sensitive RTL should be interpreted."""
+    findings: list[Finding] = []
+    for warning in warnings:
+        location = ""
+        if warning.get("file"):
+            loc = warning["file"]
+            if warning.get("line"):
+                loc = f"{loc}:{warning['line']}"
+            location = _manifest_relative(loc, manifest)
+        findings.append(
+            Finding(
+                rule_id="REF-NAJA-FRONTEND-001",
+                severity="warning",
+                message=warning.get("message", "frontend warning"),
+                evidence={
+                    "stage": warning.get("stage", ""),
+                    "code": warning.get("code", ""),
+                    "source_location": location,
+                },
+            )
+        )
+    return findings
 
 
 # ---------------------------------------------------------------------------
@@ -395,7 +465,9 @@ class ReferenceNajaBackend:
         tool_versions = {"najaeda": _najaeda_version()}
         _reset_universe()
         try:
-            _load_systemverilog([str(p) for p in manifest.sources], top=manifest.top)
+            frontend_warnings = _load_systemverilog(
+                [str(p) for p in manifest.sources], top=manifest.top
+            )
         except Exception as exc:
             return CheckResult(
                 status="tool_error",
@@ -410,6 +482,9 @@ class ReferenceNajaBackend:
             if design is None:
                 raise RuntimeError("no top design after elaboration")
             result = self._analyze(manifest, design)
+            result.findings.extend(
+                _frontend_warning_findings(frontend_warnings, manifest)
+            )
             result.tool_versions = tool_versions
             return result
         except (RuntimeError, ValueError, KeyError, TypeError) as exc:

@@ -11,6 +11,7 @@ module import below raises and the whole file is reported as skipped.
 from __future__ import annotations
 
 import json
+import os
 import tempfile
 from dataclasses import asdict
 from datetime import datetime, timezone
@@ -167,6 +168,90 @@ class ReferenceNajaSchemaTests(TestCase):
         self.assertTrue(structural.findings)
 
 
+# A single-clock design whose next-state logic uses the case-equality operator
+# `===`, which naja's frontend lowers as a 2-state comparison and reports as
+# the `case_comparison_two_state` elaboration warning. Structurally clean:
+# one declared clock, no resets, no crossings.
+_CASE_EQUALITY_SOURCE = """module case_eq (
+    input  logic       clk,
+    input  logic [1:0] sel,
+    input  logic       a,
+    output logic       y
+);
+    always_ff @(posedge clk) begin
+        if (sel === 2'b01) y <= a;
+    end
+endmodule
+"""
+
+
+def _clock_only_manifest(directory: Path, *, top: str, sources: list[Path]) -> Manifest:
+    from svgap.model import ClockIntent
+
+    return Manifest(
+        path=directory / "manifest.toml",
+        schema_version="1.0",
+        candidate_id=top,
+        top=top,
+        sources=sources,
+        functional_commands=[],
+        functional_import=None,
+        clocks=[ClockIntent(name="core", port="clk")],
+        asynchronous_groups=[],
+        resets=[],
+        crossings=[],
+        power_on="unspecified",
+        init_attributes_are_power_on=False,
+        backend="reference-naja",
+        report_path=directory / "report.json",
+    )
+
+
+class ReferenceNajaSideEffectTests(TestCase):
+    """Backend runs must not create files in the caller's working directory,
+    and relevant frontend warnings must reach the CheckResult as
+    warning-severity findings (which never change the verdict)."""
+
+    def test_no_files_created_in_working_directory(self) -> None:
+        # Previously each run left naja_sv_diagnostics.log (and, under some
+        # najaeda versions, naja_perf.log) in the caller's cwd.
+        with (
+            tempfile.TemporaryDirectory() as tmp,
+            tempfile.TemporaryDirectory() as scratch_cwd,
+        ):
+            source = Path(tmp) / "case_eq.sv"
+            source.write_text(_CASE_EQUALITY_SOURCE)
+            manifest = _clock_only_manifest(Path(tmp), top="case_eq", sources=[source])
+            original_cwd = os.getcwd()
+            os.chdir(scratch_cwd)
+            try:
+                result = ReferenceNajaBackend().check(manifest)
+                self.assertEqual(os.listdir(scratch_cwd), [])
+            finally:
+                os.chdir(original_cwd)
+        self.assertEqual(result.status, "pass", result)
+
+    def test_frontend_warnings_reach_the_check_result(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            source = Path(tmp) / "case_eq.sv"
+            source.write_text(_CASE_EQUALITY_SOURCE)
+            manifest = _clock_only_manifest(Path(tmp), top="case_eq", sources=[source])
+            result = ReferenceNajaBackend().check(manifest)
+        warning_findings = [f for f in result.findings if f.severity == "warning"]
+        self.assertTrue(warning_findings, result)
+        finding = warning_findings[0]
+        self.assertEqual(finding.rule_id, "REF-NAJA-FRONTEND-001")
+        self.assertEqual(finding.evidence["code"], "case_comparison_two_state")
+        self.assertIn("2-state", finding.message)
+        # Normalized like every other source_location: relative to the
+        # manifest directory, in file:line form.
+        self.assertRegex(finding.evidence["source_location"], r"^case_eq\.sv:\d+$")
+        # Warning findings are informational: the verdict stays pass, and no
+        # error finding is fabricated.
+        self.assertEqual(result.status, "pass", result)
+        self.assertEqual([f for f in result.findings if f.severity == "error"], [])
+
+
 # A packed-vector reset synchronizer, self-contained and mirroring the shape of
 # the artifact's openai-frontier-a candidates: a `logic [1:0]` first stage that
 # shifts a constant `1` up under an async-assert reset, feeding a downstream
@@ -259,7 +344,11 @@ class ReferenceNajaWideVectorResetTests(TestCase):
         )
         result = ReferenceNajaBackend().check(load_manifest(directory / "manifest.toml"))
         self.assertEqual(result.status, "pass", result)
-        self.assertEqual(result.findings, [])
+        # Frontend warnings may surface as warning-severity findings on real
+        # artifact candidates; the verdict contract is about error findings.
+        self.assertEqual(
+            [f for f in result.findings if f.severity == "error"], []
+        )
 
     def test_wide_vector_synchronizer_safe_witness_passes(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -310,7 +399,12 @@ class ReferenceNajaCrossOracleTests(TestCase):
             frozen_rules = sorted({f["rule_id"] for f in frozen["findings"]})
 
             result = ReferenceNajaBackend().check(load_manifest(directory / "manifest.toml"))
-            naja_rules = sorted({f.rule_id for f in result.findings})
+            # The frozen verdicts carry only error-severity findings; naja's
+            # warning-severity frontend findings (REF-NAJA-FRONTEND-001) are
+            # informational and excluded from the agreement comparison.
+            naja_rules = sorted(
+                {f.rule_id for f in result.findings if f.severity == "error"}
+            )
             # The frozen verdict is reference-yosys, never reference-naja: a
             # fresh check must bypass manifest.backend, which we do by calling
             # the backend directly rather than through load_backend.
