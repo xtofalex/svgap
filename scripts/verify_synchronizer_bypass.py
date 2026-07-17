@@ -36,7 +36,18 @@ from svgap.manifest import load_manifest  # noqa: E402
 ARTIFACT = Path(__file__).resolve().parents[1] / "artifacts" / "reset-replication-v0.1"
 
 
-def contains_recognized_synchronizer(manifest_path: Path) -> bool:
+def analyze_synchronizer(manifest_path: Path) -> tuple[bool, list[str]]:
+    """Return (recognized synchronizer present, its external consumers).
+
+    Consumers are `cell_type:port` entries for every non-synchronizer cell
+    input (or module output port) fed by a recognized synchronizer bit.
+    An `:ARST`/`:SRST` entry would mean the output actually drives a reset
+    pin somewhere; a `$procmux:S` entry is a synchronous data-path
+    qualifier (a mux select such as a synchronous clear)."""
+    return _analyze(manifest_path)
+
+
+def _analyze(manifest_path: Path) -> tuple[bool, list[str]]:
     manifest = load_manifest(manifest_path)
     with tempfile.TemporaryDirectory() as tmp:
         netlist_path = Path(tmp) / "structural.json"
@@ -95,7 +106,22 @@ def contains_recognized_synchronizer(manifest_path: Path) -> bool:
                 srst_bits=tuple(connections.get("SRST", ())),
             )
         )
-    return bool(reset_synchronizer_bits(seq, reset_by_bit))
+    recognized = reset_synchronizer_bits(seq, reset_by_bit)
+    sync_cells = {c.name for c in seq if set(c.q_bits) & recognized}
+    consumers: set[str] = set()
+    for name, cell in module.get("cells", {}).items():
+        if name in sync_cells:
+            continue
+        directions = cell.get("port_directions", {})
+        for port, bits in cell.get("connections", {}).items():
+            if directions.get(port) != "input":
+                continue
+            if set(bits) & recognized:
+                consumers.add(f"{cell.get('type', '?')}:{port}")
+    for pname, pdata in module.get("ports", {}).items():
+        if pdata.get("direction") == "output" and set(pdata.get("bits", ())) & recognized:
+            consumers.add(f"output:{pname}")
+    return bool(recognized), sorted(consumers)
 
 
 def main() -> int:
@@ -104,6 +130,8 @@ def main() -> int:
         lambda: {"gap": 0, "with_synchronizer": 0}
     )
     missing: list[str] = []
+    role_counts: dict[str, int] = defaultdict(int)
+    reset_pin_consumers: list[str] = []
 
     for item in index["candidates"]:
         directory = ARTIFACT / "candidates" / item["run_id"] / item["task_id"]
@@ -116,8 +144,12 @@ def main() -> int:
             continue
         config = item["run_id"].rsplit("--", 1)[0]
         per_config[config]["gap"] += 1
-        if contains_recognized_synchronizer(directory / "manifest.toml"):
+        present, consumers = analyze_synchronizer(directory / "manifest.toml")
+        if present:
             per_config[config]["with_synchronizer"] += 1
+            role_counts[", ".join(consumers) if consumers else "(none)"] += 1
+            if any(c.endswith(":ARST") or c.endswith(":SRST") for c in consumers):
+                reset_pin_consumers.append(f"{item['run_id']}/{item['task_id']}")
         else:
             missing.append(f"{item['run_id']}/{item['task_id']}")
 
@@ -129,6 +161,15 @@ def main() -> int:
             f"with recognized synchronizer {counts['with_synchronizer']:2}"
         )
     print(f"{'total':24} gap cases {total_gap:2}  with recognized synchronizer {total_with:2}")
+
+    print("synchronizer output consumers (external to the synchronizer pair):")
+    for role, count in sorted(role_counts.items()):
+        print(f"  {count:2} case(s): {role}")
+    if reset_pin_consumers:
+        print("cases where the output drives a reset pin:", ", ".join(reset_pin_consumers))
+    else:
+        print("in no case does the output drive an async or sync reset pin;")
+        print("the flagged registers' async pins stay on the raw net")
 
     if missing:
         print("gap cases without a recognized synchronizer:", file=sys.stderr)

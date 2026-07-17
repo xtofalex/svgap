@@ -11,7 +11,10 @@ versioning once the manifest and report contracts reach public v0.1.
   doc: every one of the 14 detected gap cases in the frozen reset artifact also
   contains a two-flop reset synchronizer recognized by the reference oracle in
   the same design, across all three configurations. The script recomputes the
-  per-configuration counts from the frozen artifact without modifying it.
+  per-configuration counts from the frozen artifact without modifying it, and
+  reports where each synchronizer output is consumed: in all 14 cases only
+  synchronous data-path logic (a mux select), never a reset pin, while the
+  flagged registers' asynchronous reset pins stay on the raw net.
 
 ## 0.3.0-alpha.8 - 2026-07-07
 

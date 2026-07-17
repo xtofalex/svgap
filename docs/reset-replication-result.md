@@ -97,5 +97,11 @@ directly checkable: every one of the 14 detected cases also contains a
 two-flop reset synchronizer that the reference oracle recognizes in the same
 design, so the raw asynchronous reset reaches operational state past a
 synchronizer the model itself built. Cases from all three configurations show
-the pattern. `python scripts/verify_synchronizer_bypass.py` recomputes this
-from the frozen artifact.
+the pattern. The synchronizer output is not left dangling either: in all 14
+cases it feeds only synchronous data-path logic (a mux select, typically a
+synchronous clear or qualifier on D), and in no case does it drive the
+asynchronous reset pin of a flagged register, which stays on the raw net.
+Recovery and removal timing constrain the asynchronous pin, so the
+synchronous use does not change the hazard.
+`python scripts/verify_synchronizer_bypass.py` recomputes both the
+per-configuration counts and the consumer roles from the frozen artifact.
