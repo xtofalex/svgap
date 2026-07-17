@@ -91,3 +91,11 @@ samples share tasks, and only two model vendors are represented.
 This is a taskpack-conditional lower-bound detection count. It is not an estimate
 of all generated RTL, proof of silicon failure, a validated 24.6% defect rate,
 or evidence that the reference oracle is signoff-grade.
+
+One qualitative pattern in the detected cases is worth stating because it is
+directly checkable: every one of the 14 detected cases also contains a
+two-flop reset synchronizer that the reference oracle recognizes in the same
+design, so the raw asynchronous reset reaches operational state past a
+synchronizer the model itself built. Cases from all three configurations show
+the pattern. `python scripts/verify_synchronizer_bypass.py` recomputes this
+from the frozen artifact.

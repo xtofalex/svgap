@@ -5,6 +5,14 @@ versioning once the manifest and report contracts reach public v0.1.
 
 ## Unreleased
 
+### Added
+
+- `scripts/verify_synchronizer_bypass.py` and one paragraph in the reset study
+  doc: every one of the 14 detected gap cases in the frozen reset artifact also
+  contains a two-flop reset synchronizer recognized by the reference oracle in
+  the same design, across all three configurations. The script recomputes the
+  per-configuration counts from the frozen artifact without modifying it.
+
 ## 0.3.0-alpha.8 - 2026-07-07
 
 ### Added
