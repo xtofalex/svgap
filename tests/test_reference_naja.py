@@ -89,6 +89,22 @@ class ReferenceNajaDiagnosticTests(TestCase):
         self.assertEqual(result.status, "unknown")
         self.assertIn("no clock or reset intent", " ".join(result.diagnostics))
 
+    def test_declared_power_on_intent_is_unknown(self) -> None:
+        # REF-XPROP-001 is not implemented by this backend, so a manifest that
+        # declares power-on intent must abstain (``unknown``) rather than
+        # silently ``pass`` (or ``fail``) a property it cannot evaluate. Both
+        # power_on_x witnesses are checked: the unsafe one is the case that
+        # previously passed silently.
+        for variant in ("unsafe", "safe"):
+            with self.subTest(variant=variant):
+                manifest = load_manifest(
+                    ROOT / f"examples/power_on_x/{variant}/manifest.toml"
+                )
+                result = ReferenceNajaBackend().check(manifest)
+                self.assertEqual(result.status, "unknown", result)
+                self.assertEqual(result.findings, [])
+                self.assertIn("REF-XPROP-001", " ".join(result.diagnostics))
+
     def test_undeclared_async_group_names_are_inconclusive(self) -> None:
         manifest = load_manifest(ROOT / "examples/level_crossing/unsafe/manifest.toml")
         manifest.asynchronous_groups = [["typo_source"], ["typo_destination"]]

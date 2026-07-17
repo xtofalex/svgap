@@ -430,6 +430,11 @@ class ReferenceNajaBackend:
             )
         if len(manifest.clocks) > 1 and not manifest.asynchronous_groups:
             diagnostics.append("multiple clocks were declared without asynchronous groups")
+        if manifest.power_on != "unspecified":
+            diagnostics.append(
+                f"power-on intent (power_on = {manifest.power_on!r}) is declared "
+                "but REF-XPROP-001 is not implemented by this backend"
+            )
 
         clock_by_net: dict = {}
         for clock in manifest.clocks:

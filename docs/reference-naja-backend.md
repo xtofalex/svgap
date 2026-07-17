@@ -66,8 +66,11 @@ field is an empty string rather than a fabricated location.
 
 REF-XPROP-001 is explicitly out of scope for `reference-naja`. A manifest that
 depends on power-on X analysis should use `reference-yosys`. The backend does
-not silently pass power-on intent; it simply does not model that rule, and the
-`power_on_x` witness family is therefore excluded from its test matrix.
+not silently pass power-on intent: a manifest that declares
+`power_on = "reset_required"` is reported as `unknown`, with a diagnostic
+naming the unimplemented rule. The `power_on_x` witness family is therefore
+excluded from this backend's pass/fail test matrix; its abstention on both
+witnesses is tested instead.
 
 Missing or insufficient intent is reported as `unknown` (never `pass`), and an
 elaboration or analysis failure is reported as `tool_error` (never `pass`),
