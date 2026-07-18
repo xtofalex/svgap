@@ -9,9 +9,14 @@
 **Make the gap between “passes the benchmark” and “reviewable by a chip-design
 team” explicit.**
 
-SV-Gap is an open evaluation layer for AI-generated digital RTL. It preserves
-the functional result, adds declared design intent and structural evidence, and
-reports which production questions are answered, failed, or still unknown.
+![Terminal demo: a functional pass becomes a structural fail once reset intent is declared](https://raw.githubusercontent.com/shsridhar-beep/svgap/main/docs/assets/svgap-demo.gif)
+
+SV-Gap is an open evaluation layer for AI-generated digital RTL: LLM-written
+Verilog and SystemVerilog scored today by functional benchmarks. It preserves
+the functional result, adds declared design intent for clock-domain crossing
+(CDC), reset-domain crossing (RDC), and power-on state, and reports the
+structural evidence a hardware verification or signoff team can review: which
+production questions are answered, failed, or still unknown.
 
 > Supply RTL and evaluation evidence. Receive a reviewable account of what that
 > evidence establishes, what it contradicts, and what evidence would resolve

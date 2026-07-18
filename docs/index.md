@@ -1,7 +1,9 @@
 # SV-Gap documentation
 
 SV-Gap makes the gap between “passes the benchmark” and “reviewable by a
-chip-design team” explicit for AI-generated digital RTL.
+chip-design team” explicit for AI-generated digital RTL: LLM-written Verilog
+and SystemVerilog, evaluated against declared design intent for clock-domain
+crossing (CDC), reset-domain crossing (RDC), and power-on state.
 
 ![SV-Gap turns an offline pass into an evidence profile](assets/svgap-demo.svg)
 
