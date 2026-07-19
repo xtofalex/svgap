@@ -16,6 +16,10 @@ real-world identity.
   documentation ([PR #16](https://github.com/shsridhar-beep/svgap/pull/16))
   and the machine-readable demo workflow
   ([PR #17](https://github.com/shsridhar-beep/svgap/pull/17)).
+- [Christophe Alexandre](https://github.com/xtofalex) - the `reference-naja`
+  structural backend ([PR #21](https://github.com/shsridhar-beep/svgap/pull/21)).
+  Christophe is a maintainer of [najaeda/naja](https://github.com/najaeda/naja),
+  the upstream project this backend depends on.
 
 GitHub handles in this section identify the accounts credited by the accepted
 commit history. Unless separately stated, the project does not claim to have
@@ -46,6 +50,9 @@ venue-governed decision.
 - **Anthropic Claude**, including the Fable interface - implementation,
   documentation, review, and product analysis under maintainer direction and
   review.
+- **Anthropic Claude** (Sonnet 5 and the Fable interface) - implementation and
+  review for [PR #21](https://github.com/shsridhar-beep/svgap/pull/21), under
+  contributor direction.
 
 AI systems are development tools, not human contributors, copyright holders,
 maintainers, accountable authors, or candidates for research-paper authorship.
