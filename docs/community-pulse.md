@@ -3,7 +3,7 @@
 The project measures collaboration through inspectable research activity, not
 social-media reactions or package-download counts.
 
-Last reviewed: July 7, 2026.
+Last reviewed: July 20, 2026.
 
 ## Primary success metric
 
@@ -16,6 +16,7 @@ A complete, independently produced agent run with inspectable evidence.
 | Published Harbor taskset | 1 dataset, 8 tasks | The experiment is independently runnable. |
 | Complete non-Oracle Harbor runs in the registry | 1 author-run profile | The public path has been exercised end to end. |
 | Independent Harbor runs submitted | 0 | No outside replication has been received yet. |
+| External evidence contributions | [1 merged backend](https://github.com/shsridhar-beep/svgap/pull/21) and [1 independent RTL review](independent-review-result.md) | Outside participation is established; independent tool adoption remains a separate metric. |
 | Public run reports | [Live issue list](https://github.com/shsridhar-beep/svgap/issues?q=is%3Aissue+label%3Arun-report) | Includes completed runs, partial runs, and blockers. |
 | Open research contributions | [Live research queue](https://github.com/shsridhar-beep/svgap/issues?q=is%3Aissue+is%3Aopen+label%3Aresearch) | Tasks, adapters, review, and replication work. |
 
@@ -46,4 +47,3 @@ are not counted as runs or contributors.
 
 SV-Gap does not collect hidden usage telemetry. Public counts are therefore
 lower bounds based on voluntary, inspectable activity.
-

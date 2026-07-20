@@ -5,8 +5,15 @@ versioning once the manifest and report contracts reach public v0.1.
 
 ## Unreleased
 
+## 0.3.0-alpha.11 - 2026-07-20
+
 ### Added
 
+- Frozen, preregistered power-on prevalence protocol with balanced sampling,
+  pre-scoring output locks, dual-backend confirmation, task-clustered
+  uncertainty, duplicate-output sensitivity analysis, and explicit boundaries
+  against universal prevalence or model-ranking claims. The protocol is a
+  community-runnable instrument; confirmatory data are not included.
 - `REF-XPROP-001` implemented in the `reference-naja` backend, mirroring
   `reference-yosys`'s forward output-reachability walk over un-reset
   sequential state; a manifest that sets `init_attributes_are_power_on`
@@ -40,6 +47,13 @@ versioning once the manifest and report contracts reach public v0.1.
   chain, over `assign`-resolved D nets). This closes the packed-vector
   REF-RDC-001 false-positive class, raising cross-oracle agreement from 54/72 to
   72/72; an ordinary wide async-reset data register is still flagged.
+
+### Changed
+
+- Community pulse refreshed after the merged external backend contribution and
+  completed independent RTL review. Those establish outside participation;
+  the primary independent-run adoption metric remains at zero until a public
+  replication is submitted.
 
 ## 0.3.0-alpha.10 - 2026-07-20
 
