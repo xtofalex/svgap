@@ -5,6 +5,42 @@ versioning once the manifest and report contracts reach public v0.1.
 
 ## Unreleased
 
+### Added
+
+- `REF-XPROP-001` implemented in the `reference-naja` backend, mirroring
+  `reference-yosys`'s forward output-reachability walk over un-reset
+  sequential state; a manifest that sets `init_attributes_are_power_on`
+  abstains as `unknown` rather than guessing.
+
+- Acceptance-test suite for the `reference-naja` structural backend: the four
+  CDC/RDC witness pairs and their rule IDs, gray-declaration and wildcard-gray
+  cases, missing-intent (`unknown`), unparseable/missing-source (`tool_error`),
+  report-schema validation, and a registry capability probe.
+- Cross-oracle differential of `reference-naja` against the frozen 72-candidate
+  reset-replication artifact: 72/72 rule-for-rule agreement with
+  `reference-yosys`. Recorded in
+  [docs/cross-oracle-naja-result.md](docs/cross-oracle-naja-result.md), including
+  a najaeda-accepts / Yosys-rejects result for SystemVerilog function `return`.
+- najaeda added to [THIRD_PARTY.md](THIRD_PARTY.md) (Apache-2.0), and a
+  `reference-naja` backend doc covering license, the opt-in install, source
+  locations, supported rules, the no-timeout gap, and known
+  false-positive/false-negative classes.
+- The `reference-naja` backend is packaged as the optional `naja` extra
+  (`pip install "svgap[naja]"`, supported range `najaeda>=0.7.16,<0.8`); the
+  default install is unchanged. `svgap doctor` reports an uninstalled optional
+  backend with its install command without failing, and `load_backend` raises
+  the same actionable hint.
+
+### Fixed
+
+- `reference-naja` now recognizes the wide packed-vector reset synchronizer
+  (`logic [1:0] reset_sync; ...`, lowered by naja as one multi-bit `..._dffrn__wN`
+  instance) by porting Yosys's wide vector-shift `$adff` fallback into
+  `_reset_synchronizer_regs` (bit-0 inactive-constant load plus a strict shift
+  chain, over `assign`-resolved D nets). This closes the packed-vector
+  REF-RDC-001 false-positive class, raising cross-oracle agreement from 54/72 to
+  72/72; an ordinary wide async-reset data register is still flagged.
+
 ## 0.3.0-alpha.10 - 2026-07-20
 
 ### Added
