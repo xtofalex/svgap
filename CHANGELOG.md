@@ -7,6 +7,11 @@ versioning once the manifest and report contracts reach public v0.1.
 
 ### Added
 
+- `REF-XPROP-001` implemented in the `reference-naja` backend, mirroring
+  `reference-yosys`'s forward output-reachability walk over un-reset
+  sequential state; a manifest that sets `init_attributes_are_power_on`
+  abstains as `unknown` rather than guessing.
+
 - Acceptance-test suite for the `reference-naja` structural backend: the four
   CDC/RDC witness pairs and their rule IDs, gray-declaration and wildcard-gray
   cases, missing-intent (`unknown`), unparseable/missing-source (`tool_error`),
@@ -18,8 +23,8 @@ versioning once the manifest and report contracts reach public v0.1.
   a najaeda-accepts / Yosys-rejects result for SystemVerilog function `return`.
 - najaeda added to [THIRD_PARTY.md](THIRD_PARTY.md) (Apache-2.0), and a
   `reference-naja` backend doc covering license, the opt-in install, source
-  locations, supported rules (REF-XPROP-001 abstains as `unknown`), the
-  no-timeout gap, and known false-positive/false-negative classes.
+  locations, supported rules, the no-timeout gap, and known
+  false-positive/false-negative classes.
 - The `reference-naja` backend is packaged as the optional `naja` extra
   (`pip install "svgap[naja]"`, supported range `najaeda>=0.7.16,<0.8`); the
   default install is unchanged. `svgap doctor` reports an uninstalled optional
@@ -35,6 +40,35 @@ versioning once the manifest and report contracts reach public v0.1.
   chain, over `assign`-resolved D nets). This closes the packed-vector
   REF-RDC-001 false-positive class, raising cross-oracle agreement from 54/72 to
   72/72; an ordinary wide async-reset data register is still flagged.
+
+## 0.3.0-alpha.10 - 2026-07-20
+
+### Added
+
+- Independent RTL designer review imported: five of five controlled witness
+  pairs supported and three of three blinded candidates concordant with the
+  frozen structural verdicts, at high confidence, with root-cause agreement
+  on two. Returned files ship verbatim under
+  `artifacts/independent-review-v0.1/` (hash-locked in issue #3 before
+  import); summary, reviewer attestation, disclosed mid-review
+  clarification, and claim boundaries in `docs/independent-review-result.md`.
+- `scripts/verify_synchronizer_bypass.py` and one paragraph in the reset study
+  doc: every one of the 14 detected gap cases in the frozen reset artifact also
+  contains a two-flop reset synchronizer recognized by the reference oracle in
+  the same design, across all three configurations. The script recomputes the
+  per-configuration counts from the frozen artifact without modifying it, and
+  reports where each synchronizer output is consumed: in all 14 cases only
+  synchronous data-path logic (a mux select), never a reset pin, while the
+  flagged registers' asynchronous reset pins stay on the raw net.
+- Animated terminal demo above the README fold, generated from recorded runs
+  by `scripts/gen_readme_demo_gif.py`.
+- `examples/README.md` with the scenario-to-rule mapping table, after two
+  independent reports of folder-to-rule confusion.
+
+### Changed
+
+- README and docs index openers rewritten with searchable terms; a stale
+  project-status disclaimer removed; demo SVG redrawn.
 
 ## 0.3.0-alpha.8 - 2026-07-07
 

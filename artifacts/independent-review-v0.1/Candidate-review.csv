@@ -1,0 +1,4 @@
+﻿case_id,decision,confidence,evidence,notes
+CASE-08A8E9EB56145B23,Voilation,High,A reset synchroniser is used but the async reset is directly used to reset the credits register,
+OW-8B0DA7653386D13F,Voilation,High,"The spec said that the data flops should not be connected to the reset, but the RTL shows that they are",
+OW-079EE4E9AFA41AD6,Voilation,High,The valid_bits have multiple drivers (assign and always block) ,This design should be raised by a liniting tool or even the simulator
