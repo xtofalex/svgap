@@ -8,9 +8,13 @@ Run date: 2026-07-14
 [docs/backend-sdk.md](backend-sdk.md) and
 [docs/reference-naja-backend.md](reference-naja-backend.md)) that reproduces the
 `reference-yosys` CDC/RDC rule set on a different toolchain: najaeda's bundled
-slang frontend and SNL netlist, with no Yosys or Icarus binary. It implements
-REF-CDC-001/002/003 and REF-RDC-001. It does **not** implement REF-XPROP-001
-(power-on X), which is out of scope for this comparison.
+slang frontend and SNL netlist, with no Yosys or Icarus binary. At the time of
+this comparison it implemented REF-CDC-001/002/003 and REF-RDC-001;
+REF-XPROP-001 (power-on X) was not yet implemented and is out of scope for
+this comparison. (The backend has since gained REF-XPROP-001 support, see
+[docs/reference-naja-backend.md](reference-naja-backend.md); the 72/72 result
+below predates it and is unaffected, since this artifact's candidates can
+trigger only REF-RDC-001.)
 
 To test agreement where the two scopes overlap, we ran `reference-naja` fresh
 against every candidate in the frozen 72-candidate artifact at
