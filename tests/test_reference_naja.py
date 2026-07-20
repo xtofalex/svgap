@@ -32,13 +32,12 @@ from svgap.validation import validate_report_payload
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACT = ROOT / "artifacts/reset-replication-v0.1"
 
-# The four controlled witness families the naja oracle implements. It does NOT
-# implement REF-XPROP-001 (power_on_x), so that family is intentionally absent.
 EXPECTED_RULES = {
     "level_crossing": "REF-CDC-001",
     "comb_crossing": "REF-CDC-002",
     "gray_counter": "REF-CDC-003",
     "reset_release": "REF-RDC-001",
+    "power_on_x": "REF-XPROP-001",
 }
 
 
@@ -97,21 +96,34 @@ class ReferenceNajaDiagnosticTests(TestCase):
         self.assertEqual(result.status, "unknown")
         self.assertIn("no clock or reset intent", " ".join(result.diagnostics))
 
-    def test_declared_power_on_intent_is_unknown(self) -> None:
-        # REF-XPROP-001 is not implemented by this backend, so a manifest that
-        # declares power-on intent must abstain (``unknown``) rather than
-        # silently ``pass`` (or ``fail``) a property it cannot evaluate. Both
-        # power_on_x witnesses are checked: the unsafe one is the case that
-        # previously passed silently.
-        for variant in ("unsafe", "safe"):
-            with self.subTest(variant=variant):
-                manifest = load_manifest(
-                    ROOT / f"examples/power_on_x/{variant}/manifest.toml"
-                )
-                result = ReferenceNajaBackend().check(manifest)
-                self.assertEqual(result.status, "unknown", result)
-                self.assertEqual(result.findings, [])
-                self.assertIn("REF-XPROP-001", " ".join(result.diagnostics))
+    def test_power_on_rule_reports_output_evidence(self) -> None:
+        manifest = load_manifest(ROOT / "examples/power_on_x/unsafe/manifest.toml")
+        result = ReferenceNajaBackend().check(manifest)
+        finding = next(item for item in result.findings if item.rule_id == "REF-XPROP-001")
+        self.assertIn("data_out", finding.evidence["output_signals"])
+
+    def test_power_on_rule_abstains_without_declared_reset(self) -> None:
+        manifest = load_manifest(ROOT / "examples/power_on_x/unsafe/manifest.toml")
+        manifest.resets.clear()
+        result = ReferenceNajaBackend().check(manifest)
+        self.assertEqual(result.status, "unknown")
+        self.assertIn("no reset was declared", " ".join(result.diagnostics))
+
+    def test_power_on_rule_is_disabled_when_intent_is_unspecified(self) -> None:
+        manifest = load_manifest(ROOT / "examples/power_on_x/unsafe/manifest.toml")
+        manifest.power_on = "unspecified"
+        result = ReferenceNajaBackend().check(manifest)
+        self.assertEqual(result.status, "pass", result)
+
+    def test_power_on_intent_with_init_attributes_is_unknown(self) -> None:
+        # init_attributes_are_power_on relies on netlist "init" attributes this
+        # backend does not model; it must abstain rather than guess.
+        manifest = load_manifest(ROOT / "examples/power_on_x/unsafe/manifest.toml")
+        manifest.init_attributes_are_power_on = True
+        result = ReferenceNajaBackend().check(manifest)
+        self.assertEqual(result.status, "unknown", result)
+        self.assertEqual(result.findings, [])
+        self.assertIn("init_attributes_are_power_on", " ".join(result.diagnostics))
 
     def test_undeclared_async_group_names_are_inconclusive(self) -> None:
         manifest = load_manifest(ROOT / "examples/level_crossing/unsafe/manifest.toml")

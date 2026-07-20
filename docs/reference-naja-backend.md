@@ -79,15 +79,14 @@ field is an empty string rather than a fabricated location.
 | REF-CDC-002 (combinational logic before synchronizer) | yes |
 | REF-CDC-003 (multi-bit crossing without coherence protocol) | yes |
 | REF-RDC-001 (raw async reset into a sync-deassertion element) | yes |
-| REF-XPROP-001 (power-on X) | **no — not implemented** |
+| REF-XPROP-001 (power-on X) | yes, except `init_attributes_are_power_on` |
 
-REF-XPROP-001 is explicitly out of scope for `reference-naja`. A manifest that
-depends on power-on X analysis should use `reference-yosys`. The backend does
-not silently pass power-on intent: a manifest that declares
-`power_on = "reset_required"` is reported as `unknown`, with a diagnostic
-naming the unimplemented rule. The `power_on_x` witness family is therefore
-excluded from this backend's pass/fail test matrix; its abstention on both
-witnesses is tested instead.
+REF-XPROP-001 flags un-reset sequential state (no async or sync reset pin, not
+a recognized reset synchronizer) whose Q nets reach a module output through
+combinational logic, mirroring `reference-yosys`'s forward reachability walk.
+It does not model netlist "init" attributes: a manifest that sets
+`init_attributes_are_power_on = true` is reported as `unknown`, with a
+diagnostic naming the unsupported option, rather than guessing.
 
 Missing or insufficient intent is reported as `unknown` (never `pass`), and an
 elaboration or analysis failure is reported as `tool_error` (never `pass`),

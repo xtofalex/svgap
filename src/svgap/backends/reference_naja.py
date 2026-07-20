@@ -242,6 +242,7 @@ class SeqReg:
     d_nets: Tuple[Any, ...]
     q_nets: Tuple[Any, ...]
     reset_net: Optional[Any]
+    has_sync_reset: bool = False
 
 
 def _bit_terms_by_role(inst, role: str):
@@ -272,6 +273,7 @@ def _build_seq_regs(design, clock_by_net_id: dict) -> list[SeqReg]:
         q_pairs = _bit_terms_by_role(inst, "DataOutput")
         clock_nets = [n for _bit, n in _bit_terms_by_role(inst, "Clock")]
         reset_nets = [n for _bit, n in _bit_terms_by_role(inst, "AsyncReset")]
+        sync_reset_nets = [n for _bit, n in _bit_terms_by_role(inst, "SyncReset")]
         clock_name = "<undeclared>"
         if clock_nets and clock_nets[0] is not None:
             clock_name = clock_by_net_id.get(clock_nets[0], "<undeclared>")
@@ -283,6 +285,7 @@ def _build_seq_regs(design, clock_by_net_id: dict) -> list[SeqReg]:
                 d_nets=tuple(n for _bit, n in d_pairs),
                 q_nets=tuple(n for _bit, n in q_pairs),
                 reset_net=reset_nets[0] if reset_nets else None,
+                has_sync_reset=bool(sync_reset_nets),
             )
         )
     return seq_regs
@@ -390,6 +393,48 @@ def _same_domain_successors(
                         if out_net is not None:
                             frontier.append(out_net)
     return list(found.values())
+
+
+def _output_nets(design) -> set:
+    """Nets driven by the top design's own output ports, bit by bit."""
+    nets = set()
+    for term in design.getBitTerms():
+        if term.getDirection() != DIR_OUTPUT:
+            continue
+        net = term.getNet()
+        if net is not None:
+            nets.add(net)
+    return nets
+
+
+def _reaches_output(start_nets, output_nets: set) -> set:
+    """Forward BFS from `start_nets` through combinational instances only,
+    mirroring reference_yosys.py's reachable_outputs(): a sequential
+    instance's D pin is a dead end here (feeding another register isn't
+    "reaching an output"), everything else is crossed. Returns the subset of
+    `output_nets` actually reached."""
+    reached: set = set()
+    visited: set = set()
+    frontier = list(start_nets)
+    while frontier:
+        net = frontier.pop()
+        if net is None or net in visited:
+            continue
+        visited.add(net)
+        if net in output_nets:
+            reached.add(net)
+        for it in net.getInstTerms():
+            if it.getDirection() != DIR_INPUT:
+                continue
+            inst = it.getInstance()
+            if inst.getModel().isSequential():
+                continue
+            for out_it in inst.getInstTerms():
+                if out_it.getDirection() == DIR_OUTPUT:
+                    out_net = out_it.getNet()
+                    if out_net is not None:
+                        frontier.append(out_net)
+    return reached
 
 
 def _cone_types(net, visited: FrozenSet[Any]) -> set:
@@ -514,10 +559,10 @@ class ReferenceNajaBackend:
             )
         if len(manifest.clocks) > 1 and not manifest.asynchronous_groups:
             diagnostics.append("multiple clocks were declared without asynchronous groups")
-        if manifest.power_on != "unspecified":
+        if manifest.power_on == "reset_required" and manifest.init_attributes_are_power_on:
             diagnostics.append(
-                f"power-on intent (power_on = {manifest.power_on!r}) is declared "
-                "but REF-XPROP-001 is not implemented by this backend"
+                "power-on intent uses init_attributes_are_power_on, which "
+                "REF-XPROP-001 does not implement in this backend"
             )
 
         clock_by_net: dict = {}
@@ -543,6 +588,40 @@ class ReferenceNajaBackend:
         seq_by_qnet = {q: reg for reg in seq_regs for q in reg.q_nets}
         seq_by_dnet = {d: reg for reg in seq_regs for d in reg.d_nets}
         recognized_reset_sync = _reset_synchronizer_regs(seq_regs, reset_by_net)
+
+        if manifest.power_on == "reset_required" and not manifest.init_attributes_are_power_on:
+            if not manifest.resets:
+                diagnostics.append(
+                    "power-on intent requires reset coverage but no reset was declared"
+                )
+            output_nets = _output_nets(design)
+            for reg in seq_regs:
+                if reg.reset_net is not None or reg.has_sync_reset:
+                    continue
+                if reg.inst in recognized_reset_sync:
+                    continue
+                reached = _reaches_output(reg.q_nets, output_nets)
+                if not reached:
+                    continue
+                findings.append(
+                    Finding(
+                        rule_id="REF-XPROP-001",
+                        severity="error",
+                        message=(
+                            "un-reset operational state reaches a module output "
+                            "although declared power-on intent requires reset coverage"
+                        ),
+                        evidence={
+                            "cell": reg.label,
+                            "label": _friendly_label(reg.inst),
+                            "clock": reg.clock_name,
+                            "output_signals": sorted(
+                                name for net in reached if (name := net.getName())
+                            ),
+                            "source_location": _source_location(reg.inst, manifest),
+                        },
+                    )
+                )
 
         crossings: dict[Tuple[str, str], dict[str, Any]] = {}
         for dst in seq_regs:
