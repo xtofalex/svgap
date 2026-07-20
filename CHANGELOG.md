@@ -5,8 +5,17 @@ versioning once the manifest and report contracts reach public v0.1.
 
 ## Unreleased
 
+## 0.3.0-alpha.10 - 2026-07-20
+
 ### Added
 
+- Independent RTL designer review imported: five of five controlled witness
+  pairs supported and three of three blinded candidates concordant with the
+  frozen structural verdicts, at high confidence, with root-cause agreement
+  on two. Returned files ship verbatim under
+  `artifacts/independent-review-v0.1/` (hash-locked in issue #3 before
+  import); summary, reviewer attestation, disclosed mid-review
+  clarification, and claim boundaries in `docs/independent-review-result.md`.
 - `scripts/verify_synchronizer_bypass.py` and one paragraph in the reset study
   doc: every one of the 14 detected gap cases in the frozen reset artifact also
   contains a two-flop reset synchronizer recognized by the reference oracle in
@@ -15,6 +24,15 @@ versioning once the manifest and report contracts reach public v0.1.
   reports where each synchronizer output is consumed: in all 14 cases only
   synchronous data-path logic (a mux select), never a reset pin, while the
   flagged registers' asynchronous reset pins stay on the raw net.
+- Animated terminal demo above the README fold, generated from recorded runs
+  by `scripts/gen_readme_demo_gif.py`.
+- `examples/README.md` with the scenario-to-rule mapping table, after two
+  independent reports of folder-to-rule confusion.
+
+### Changed
+
+- README and docs index openers rewritten with searchable terms; a stale
+  project-status disclaimer removed; demo SVG redrawn.
 
 ## 0.3.0-alpha.8 - 2026-07-07
 
